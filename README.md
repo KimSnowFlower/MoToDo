@@ -1,70 +1,37 @@
-# Getting Started with Create React App
+MoToDo <br>
+directed by 김평화, 노성민, 이준서
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Web : React/Node.js - To Do List<br><hr>
 
-## Available Scripts
+코드 스타일 <br>
+- 파일명은 대문자 시작 ex) Header.js / Header.css
+- 변수명은 소문자 및 단어 여러 조합은 두번째 단어부터 대문자 ex) useState, useEffect
+- 변수명은 최대한 간략이 아닌 확고하게 표현 ex) rep(x), response(o)
+- 추후 코드는 여러 수정을 거칠 예정<br>
+<hr>
 
-In the project directory, you can run:
+README.md 작성법 <br>
+- commit마다 올라간 파일명 모두 기입
+- 변수 연결을 쉽게하기 위해 각 파일마다 변수 작성 및 간단 설명
+- 항상 commit한 날짜 기입 및 작성자 기입<br>
+<h3>EX)</h3>
+2024.07.10 - 김평화 <br><br>
 
-### `npm start`
+Index.js <br>
+- const app // express 사용 변수<br><br>
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+Header.css <br>
+- headerFont // 헤더 폰트<br>
+- headerSize // 헤더 사이즈 <br>
+<hr>
+<h3>2024.07.10 - 김평화</h3> <br><br>
+다들 필요한 설치 파일 <br>
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
-
-### `npm test`
-
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+# dependency 설치
+npm install [dependency 이름]
+- express : 백엔드 프레임워크
+- cors : cors 설정
+- json : json 파싱
+- body-parser : 요청 body 받기
+- nodemon : index.js 저장시 서버 새로고침<br>
+<hr>
