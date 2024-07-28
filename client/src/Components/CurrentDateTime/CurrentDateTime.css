@@ -1,0 +1,11 @@
+.current-date-time {
+    transition: margin-left 0.3s ease;
+}
+  
+.current-date-time.expanded {
+    margin-left: 200px; /* 사이드바가 확장되었을 때의 마진 */
+}
+  
+.current-date-time.collapsed {
+    margin-left: 50px; /* 사이드바가 축소되었을 때의 마진 */
+}

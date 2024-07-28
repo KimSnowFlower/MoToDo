@@ -1,0 +1,308 @@
+* {
+	border: 0;
+	box-sizing: border-box;
+	margin: 0;
+	padding: 0;
+}
+
+:root {
+	--hue: 223;
+	--hue2: 13;
+	--bg: hsl(var(--hue),10%,90%);
+	--fg: hsl(var(--hue),10%,10%);
+	--primary: hsl(var(--hue),90%,55%);
+	--red: hsl(var(--hue2),90%,55%);
+	--trans-dur: 0.3s;
+	font-size: calc(16px + (20 - 16) * (100vw - 320px) / (1280 - 320));
+}
+
+body,
+button,
+input {
+	font: 1em/1.5 "DM Sans", sans-serif;
+}
+
+body {
+	background-color: var(--bg);
+	color: var(--fg);
+	height: 100vh;
+	transition:
+		background-color var(--trans-dur),
+		color var(--trans-dur);
+}
+
+button {
+	-webkit-appearance: none;
+	appearance: none;
+}
+
+.nav {
+	background-color: hsl(0,0%,100%);
+	display: flex;
+	flex-direction: column;
+	position: fixed; /* 화면에 고정 */
+	top: 0; /* 화면의 상단에 위치 */
+	left: 0; /* 화면의 왼쪽에 위치 */
+	height: 100%;
+	width: 16em;
+	transition:
+		background-color var(--trans-dur),
+		width var(--trans-dur) ease-in-out;
+}
+
+.nav__main {
+	overflow-x: hidden;
+	overflow-y: auto;
+	padding: 2.5em 1.75em;
+	width: inherit;
+	-webkit-overflow-scrolling: touch;
+	scrollbar-width: 8px;
+	scrollbar-color: transparent transparent;
+}
+
+.nav__main::-webkit-scrollbar {
+	width: 8px;
+}
+
+.nav__main::-webkit-scrollbar-track {
+	background: transparent;
+}
+
+.nav__main::-webkit-scrollbar-thumb {
+	background-color: transparent;
+	border-radius: 4px;
+}
+
+.nav__main:hover {
+	scrollbar-color: hsla(0,0%,0%,0.2) transparent;
+}
+
+.nav__main:hover::-webkit-scrollbar-thumb {
+	background-color: hsla(0,0%,0%,0.2);
+}
+
+.nav__bottom {
+	background-color: inherit;
+	box-shadow: 0 1px 0 hsl(var(--hue),10%,80%) inset;
+	padding: 1em 1.75em;
+	transition: box-shadow var(--trans-dur);
+}
+
+.nav__heading {
+	color: hsl(var(--hue),10%,45%);
+	font-size: 0.75em;
+	line-height: 1;
+	margin-bottom: 0.75rem;
+	text-transform: uppercase;
+	transition: color var(--trans-dur);
+	display: flex; /* Flexbox 사용 */
+	align-items: center; /* 아이템들을 가운데 정렬 */
+  }
+  
+  .nav__heading .icon {
+	display: block;
+	width: 1.5em;
+	height: 1.5em;
+	margin-right: 0.25em; /* 아이콘과 텍스트 사이의 간격 조정 */
+  }
+
+.nav__heading-text {
+	display: inline-block;
+  transform: translateX(0); /* 간격 제거 */
+  transition: transform var(--trans-dur) ease-in-out;
+  margin-left: 0.25em; /* margin을 이용하여 간격 조정 */
+}
+
+.nav__items {
+	list-style: none;
+	margin: 0 0 3em 0;
+}
+
+.nav__items:last-child {
+	margin-bottom: 0;
+}
+
+.nav__item-box {
+	background-color: hsla(var(--hue),90%,55%,0);
+	border-radius: 0.75em;
+	color: hsl(var(--hue),20%,55%);
+	display: flex;
+	align-items: center;
+	padding: 0.75em;
+	text-align: left;
+	text-decoration: none;
+	transition:
+		background-color var(--trans-dur) ease-in-out,
+		color var(--trans-dur),
+		width var(--trans-dur) ease-in-out;
+	width: 12.5em;
+	min-width: 3em;
+}
+
+.nav__item-box:focus,
+.nav__item-box:hover {
+	background-color: hsla(var(--hue),90%,55%,0.1);
+	color: var(--primary);
+}
+
+.nav__item-box:focus {
+	outline: transparent;
+}
+
+.nav__item .icon{
+	display: block;
+	width: 1.5em;
+	height: 1.5em;
+	min-width: 1.5em;
+  	min-height: 1.5em;
+	  transition: transform var(--trans-dur);
+}
+
+.nav
+.nav__item-text {
+	margin-left: 0.75em;
+	display: inline-block;
+	overflow: hidden;
+	white-space: nowrap;
+	width: 100%;
+	transition:
+		opacity var(--trans-dur) ease-in-out,
+		width var(--trans-dur) ease-in-out;
+}
+
+.nav__item-badge {
+	background-color: hsla(var(--hue),90%,55%,0.1);
+	border-radius: 0.75rem;
+	color: var(--primary);
+	font-size: 0.75em;
+	line-height: 1;
+	margin-left: 0.75rem;
+	padding: 0.125rem 0.5rem;
+	transition:
+		background-color var(--trans-dur),
+		color var(--trans-dur);
+}
+
+.nav__item-box--red .nav__item-badge {
+	background-color: hsla(var(--hue2),90%,55%,0.1);
+	color: var(--red);
+}
+
+.nav__item-box--red .nav__item-icon--badge:before {
+	background-color: var(--red);
+}
+
+.nav__logo {
+	background-color: var(--primary);
+	border-radius: 0.75em;
+	color: hsl(0,0%,100%);
+	display: flex;
+	margin-bottom: 2.5em;
+	width: 3em;
+	height: 3em;
+	transform: translateX(0.75em);
+	transition:
+		background-color var(--trans-dur),
+		color var(--trans-dur),
+		transform var(--trans-dur) ease-in-out;
+}
+
+.nav__logo svg {
+	display: block;
+	margin: auto;
+	width: 2em;
+	height: 2em;
+}
+
+.nav[data-expanded="false"] {
+	width: 6em;
+}
+
+.nav[data-expanded="false"] .nav__heading-text {
+	transform: translateX(calc(2em - 50%));
+}
+
+.nav[data-expanded="false"] .nav__item-box {
+	width: 3em;
+	justify-content: center;
+}
+
+.nav[data-expanded="false"] .nav__item .icon {
+	width: 1.5em;
+	height: 1.5em;
+}
+
+.nav[data-expanded="false"] .nav__item-text {
+	opacity: 0;
+	width: 0;
+	margin-left: 0;
+}
+
+.nav[data-expanded="false"] .nav__logo {
+	transform: translateX(0);
+}
+
+.nav[data-expanded="false"] [data-expand] .nav__item .icon {
+	transform: rotate(180deg);
+}
+
+/* 새로운 규칙 추가 */
+.nav[data-expanded="false"] [data-expand] {
+	padding: 0.75em;
+  }
+  
+  .nav[data-expanded="false"] [data-expand] .icon {
+	margin-right: 0;
+  }
+  
+  /* collapse 버튼의 아이콘 회전 제거 */
+  .nav[data-expanded="false"] [data-expand] .icon {
+	transform: none;
+  }
+
+/* Dark theme */
+@media (prefers-color-scheme: dark) {
+	:root {
+		--bg: hsl(var(--hue),10%,20%);
+		--fg: hsl(var(--hue),10%,90%);
+	}
+	.nav {
+		background-color: hsl(var(--hue),10%,10%);
+	}
+	.nav__main:hover {
+		scrollbar-color: hsla(0,0%,100%,0.2) transparent;
+	}
+	.nav__main:hover::-webkit-scrollbar-thumb {
+		background-color: hsla(0,0%,100%,0.2);
+	}
+	.nav__bottom {
+		box-shadow: 0 1px 0 hsl(var(--hue),10%,30%) inset;
+	}
+	.nav__heading {
+		color: hsl(var(--hue),10%,65%);
+	}
+	.nav__item-box {
+		background-color: hsla(0,0%,100%,0);
+		color: hsl(var(--hue),20%,75%);
+	}
+	.nav__item-box:focus,
+	.nav__item-box:hover {
+		background-color: hsla(0,0%,100%,0.1);
+		color: hsl(0,0%,100%);
+	}
+	.nav__item-icon--badge:before {
+		box-shadow: 0 0 0 0.1em hsl(var(--hue),10%,10%);
+	}
+	.nav__item-badge {
+		background-color: hsl(var(--hue),90%,55%);
+		color: hsl(0,0%,100%);
+	}
+	.nav__item-box--red .nav__item-badge {
+		background-color: hsl(var(--hue2),90%,55%);
+		color: hsl(0,0%,100%);
+	}
+	.nav__logo {
+		background-color: hsl(0,0%,100%);
+		color: var(--primary);
+	}
+}

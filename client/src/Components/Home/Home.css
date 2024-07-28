@@ -1,0 +1,16 @@
+body {
+    background: none;
+}
+
+.home {
+    display: flex;
+    transition: margin-left 0.3s ease;
+}
+  
+.home.expanded {
+    margin-left: 200px; /* 사이드바가 확장되었을 때의 마진 */
+}
+  
+.home.collapsed {
+    margin-left: 50px; /* 사이드바가 축소되었을 때의 마진 */
+}  
