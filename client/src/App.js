@@ -13,6 +13,7 @@ function App() {
         <Route path="/" element={<LoginForm />} /> {/* path와 element로 수정 */}
         <Route path="/register" element={<Register />} /> { }
         <Route path="/home" element={<Home/>} /> { }
+        <Route path="/Calender" element={<Home/>} /> {/* Calender와 연결되는 라우팅 설정*/}
       </Routes>
     </Router>
   );

@@ -63,9 +63,9 @@ const MenuBar = () => {
             </Link>
           </li>
           <li className="nav__item">
-            <Link className="nav__item-box" to="#" title="Performance">
-            <FaCalendarCheck className="icon"/>
-            <span className="nav__item-text">Calendar</span>
+            <Link className="nav__item-box" to="/calendar" title="Calendar">
+              <FaCalendarCheck className="icon"/>
+              <span className="nav__item-text">Calendar</span>
             </Link>
           </li>
           <li className="nav__item">
