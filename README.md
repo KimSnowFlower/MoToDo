@@ -122,3 +122,17 @@ CurrentDateTime은 MoToDo에 필요한 시간을 표시하는 UI <br>
 3. (무조건 2개의 cmd 활성화 후) 실행할 때 motodo/server에서는 node server.js 먼저 실행하고 motodo/client에서 npm start 해야 정상적으로 서버에 데이터를 전달합니다.
 4. 단, github에 올릴 때는 다시 motodo (프로젝트 파일 기준 폴더 위치)에서 git add . 진행 해야 함!!
 <hr>
+
+<h3>2024.07.30 - 이준서</h3> <br><br>
+
+# Components
+- Calender <br>
+1. Calender.css : 캘린더 css <br>
+2. Calender.jsx : 캘린더 jsx <br>
+
+Calender은 MoToDo에 필요한 캘린더를 표시하는 UI <br>
+
+# 나머지 수정 사항
+1. App.js 수정 : Calender와 연결되는 라우팅 설정
+2. MenuBar.jsx : Calender링크가 라우터의 경로로 이동하도록 수정 - 아직은 미완성
+<hr>
