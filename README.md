@@ -136,3 +136,9 @@ Calender은 MoToDo에 필요한 캘린더를 표시하는 UI <br>
 1. App.js 수정 : Calender와 연결되는 라우팅 설정
 2. MenuBar.jsx : Calender링크가 라우터의 경로로 이동하도록 수정 - 아직은 미완성
 <hr>
+
+<h3>2024.07.31 - 김평화</h3> <br><br>
+
+# Components
+- App.js : Calednar 라우팅 수정
+- MenuBar.jsx : import useNvaigate 추가, HandleHomeClick, HandleCalendarClick 추가

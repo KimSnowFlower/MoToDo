@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import './MenuBar.css';
 import { IoHome, IoMenu } from "react-icons/io5";
 import { FaCalendarCheck, FaStickyNote } from "react-icons/fa";
@@ -10,6 +10,7 @@ const MenuBar = () => {
   const navRef = useRef(null);
   const expandBtnRef = useRef(null);
   const timeoutRef = useRef(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const handleClick = () => {
@@ -43,6 +44,14 @@ const MenuBar = () => {
     };
   }, [expanded]);
 
+  const HandleHomeClick = () => {
+    navigate('/home');
+  };
+
+  const HandleCalendarClick = () => {
+    navigate('/calender');
+  };
+
   return (
     <nav ref={navRef} className="nav" data-expanded={expanded}>
       <div className="nav__main">
@@ -57,16 +66,16 @@ const MenuBar = () => {
         </span>
         <ul className="nav__items">
           <li className="nav__item">
-            <Link className="nav__item-box" to="#" title="Dashboard">
+            <button className="nav__item-box" onClick={HandleHomeClick} title="Home">
             <IoHome className="icon"/>
             <span className="nav__item-text">Home</span>
-            </Link>
+            </button>
           </li>
           <li className="nav__item">
-            <Link className="nav__item-box" to="/calendar" title="Calendar">
+            <button className="nav__item-box" onClick={HandleCalendarClick} title="Calendar">
               <FaCalendarCheck className="icon"/>
               <span className="nav__item-text">Calendar</span>
-            </Link>
+            </button>
           </li>
           <li className="nav__item">
             <Link className="nav__item-box" to="#" title="Performance">
