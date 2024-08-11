@@ -1,5 +1,5 @@
 MoToDo <br>
-directed by 김평화, 노성민, 이준서
+directed by 김평화, 이준서, 최정인 (R.I.P 노성민)
 
 Web : React/Node.js - To Do List<br><hr>
 
@@ -142,3 +142,32 @@ Calender은 MoToDo에 필요한 캘린더를 표시하는 UI <br>
 # Components
 - App.js : Calednar 라우팅 수정
 - MenuBar.jsx : import useNvaigate 추가, HandleHomeClick, HandleCalendarClick 추가
+
+<h3>2024.08.12 - 김평화</h3> <br><br>
+
+봉사와 힘든 시간을 견디고 오랜만에 돌아왔다... <br>
+
+# Main
+- App.js : 모든 Routes에 동일 된 css 적용을 위한 className 적용
+- App.css : index.css에 있던 내용을 합치고 모든 페이지 구성에 대한 기초적인 코드 구성
+- index.js : index.css 삭제 후 import 삭제
+
+# Components
+- CurrentDateTime.css : 화면에 위치에 고정 시키고 css 수정 (글자는 뒷 배경 결정되면 수정해야 할듯)
+- CurrentDateTime.jsx : 시간 흘러가는 기능 구현 (초 단위는 삭제할지 고려 중)
+- Home.css : 미리 화면 구성할 .home 생성 (추후 지울 예정)
+- Home.jsx : 불필요한 Collapse 코드 정리
+- LoginForm.css : App.js 화면 구성 변경으로 인한 기본 body 수정
+- MenuBar.css : 가로 폭과 폰트를 수식을 통해 정해진 사이즈에 맞추어 조절 수정
+- MenuBar.jsx : 필요 없는 span, ul, li 삭제 및 MO/Friends/Gruop 생성 (추후 기능 업데이트 예정)
+
+# 업데이트 예정 기능
+- HOME 화면 새롭게 구성 예정
+- friends 테이블, group 관련 컬럼 혹은 테이블 추가
+- Notice 기능은 연기
+- 소켓을 이용한 친구와 채팅 기능
+
+# 기획 중
+- 친구 리스트를 따로 페이지로 뺄지 고민 중
+- 친구 리스트 페이지를 따로 만들면 채팅에 대한 화면 구상 필요
+- 그룹 페이지에 대한 화면 구성 및 이용 목적 기획
