@@ -236,3 +236,14 @@ button {
 		color: var(--red);
 	}
 }
+
+.currentDateTime {
+    text-align: center; /* 중앙 정렬 */
+    margin-bottom: 1em; /* 메뉴 항목과의 간격 조절 */
+    padding: 10px; /* 패딩 추가 */
+    border-radius: 5px; /* 모서리를 둥글게 */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* 그림자 추가 */
+    color: #333;
+	font-size: calc(20px + (30 - 20) * (100vw - 854px) / (1920 - 854));
+    white-space: pre-wrap; /* 줄바꿈을 유지 */
+}

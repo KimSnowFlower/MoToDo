@@ -1,17 +1,16 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import './MenuBar.css';
 import { IoHome } from "react-icons/io5";
 import { FaCalendarCheck, FaStickyNote } from "react-icons/fa";
+import './MenuBar.css';
+import CurrentDateTime from '../CurrentDateTime/CurrentDateTime';
 
 const MenuBar = () => {
   return (
     <nav className="nav">
       <div className="nav__main">
-        <div className="nav__logo">
-          <svg role="img" aria-label="Logo" width="24px" height="24px">
-            <use xlinkHref="#app" />
-          </svg>
+        <div className="currentDateTime">
+          <CurrentDateTime/>
         </div>
         <span className="nav__heading">
           <span className="nav__heading-text">Menu</span>

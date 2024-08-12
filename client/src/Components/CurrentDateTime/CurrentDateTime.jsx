@@ -29,8 +29,9 @@ const CurrentDateTime = () => {
       m = (m < 10) ? '0' + m : m;
       s = (s < 10) ? '0' + s : s;
 
-      const currentTime = `${year}-${month}-${day} ${h}:${m}:${s} ${session}`;
-      setTime(currentTime);
+      const currentDate = `${year}-${month}-${day}`;
+      const currentTime = `${h}:${m}:${s} ${session}`;
+      setTime({ date: currentDate, time: currentTime });
     };
 
     showTime();
@@ -41,8 +42,8 @@ const CurrentDateTime = () => {
 
   return (
     <div id="parent">
-      <div id="timeDisplay" style={{ fontSize: '30px' }}>
-        {time}
+      <div id="timeDisplay">
+        <>{time.date}<br />{time.time}</>
       </div>
     </div>
   );

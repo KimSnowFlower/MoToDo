@@ -1,8 +1,6 @@
-/* Home.css */
 .home {
     display: flex;
-    position: relative; /* 자식 요소의 절대 위치를 기준으로 설정 */
-    height: 100vh; /* 화면 전체 높이 사용 */
-    width: 100vw; /* 화면 전체 너비 사용 */
+    position: relative;
+    height: 100vh;
+    width: 100vw;
 }
-  
