@@ -156,10 +156,12 @@ Calender은 MoToDo에 필요한 캘린더를 표시하는 UI <br>
 - CurrentDateTime.css : 화면에 위치에 고정 시키고 css 수정 (글자는 뒷 배경 결정되면 수정해야 할듯)
 - CurrentDateTime.jsx : 시간 흘러가는 기능 구현 (초 단위는 삭제할지 고려 중)
 - Home.css : 미리 화면 구성할 .home 생성 (추후 지울 예정)
-- Home.jsx : 불필요한 Collapse 코드 정리
+- Home.jsx : 불필요한 Collapse 코드 정리 + MenuBar와 OptionBar로 화면 구성 변경
 - LoginForm.css : App.js 화면 구성 변경으로 인한 기본 body 수정
-- MenuBar.css : 가로 폭과 폰트를 수식을 통해 정해진 사이즈에 맞추어 조절 수정
+- MenuBar.css : 가로 폭과 폰트를 수식을 통해 정해진 사이즈에 맞추어 조절 수정 + MenuBar에 CurrentDateTime을 삽입하여 하나로 합침
 - MenuBar.jsx : 필요 없는 span, ul, li 삭제 및 MO/Friends/Gruop 생성 (추후 기능 업데이트 예정)
+- OptionBar.css : 테스트용 화면 구성
+- OptionBar.jsx : 테스트용 화면 구성
 
 # 업데이트 예정 기능
 - HOME 화면 새롭게 구성 예정
