@@ -178,21 +178,6 @@ button {
 	background-color: var(--red);
 }
 
-.nav__logo {
-	background-color: var(--primary);
-	border-radius: 0.75em;
-	color: hsl(0,0%,100%);
-	display: flex;
-	margin-bottom: 2.5em;
-	width: 3em;
-	height: 3em;
-	transform: translateX(0.75em);
-	transition:
-		background-color var(--trans-dur),
-		color var(--trans-dur),
-		transform var(--trans-dur) ease-in-out;
-}
-
 .nav__logo svg {
 	display: block;
 	margin: auto;
@@ -238,12 +223,10 @@ button {
 }
 
 .currentDateTime {
-    text-align: center; /* 중앙 정렬 */
-    margin-bottom: 1em; /* 메뉴 항목과의 간격 조절 */
-    padding: 10px; /* 패딩 추가 */
-    border-radius: 5px; /* 모서리를 둥글게 */
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* 그림자 추가 */
+    text-align: center;
+    margin-bottom: 1em;
+    padding: 10px;
     color: #333;
 	font-size: calc(20px + (30 - 20) * (100vw - 854px) / (1920 - 854));
-    white-space: pre-wrap; /* 줄바꿈을 유지 */
+    white-space: pre-wrap;
 }
