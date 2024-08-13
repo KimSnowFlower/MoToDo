@@ -6,17 +6,26 @@ import OptionBar from '../OptionBar/OptionBar';
 
 const Home = () => {
   const [data, setData] = useState({ calendar: [], sticky: [] });
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get('http://localhost:5000/api/home');
+        const token = localStorage.getItem('jwtToken');
+        console.log('JWT Token:', token); // 토큰 확인
+        const response = await axios.get('http://localhost:5000/api/home', {
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }
+        });
+        console.log('Fetched Data:', response.data); // 데이터 확인
         setData(response.data);
       } catch (error) {
         console.error('Error fetching data:', error);
+        setError(error.message);
       }
     };
-
+  
     fetchData();
   }, []);
 
@@ -30,7 +39,9 @@ const Home = () => {
       </div>
       <div className="homeMain">
         <div className="homeCalendarList">
-          {data.calendar.length === 0 ? (
+          {error ? (
+            <span className="emptyMessage">Error: {error}</span>
+          ) : data.calendar.length === 0 ? (
             <span className="emptyMessage">No Data</span>
           ) : (
             <ul className="homeLists">
@@ -44,7 +55,9 @@ const Home = () => {
           )}
         </div>
         <div className="homeStickyList">
-          {data.sticky.length === 0 ? (
+          {error ? (
+            <span className="emptyMessage">Error: {error}</span>
+          ) : data.sticky.length === 0 ? (
             <span className="emptyMessage">No Data</span>
           ) : (
             <ul className="homeLists">

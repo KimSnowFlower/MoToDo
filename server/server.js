@@ -34,14 +34,12 @@ const authenticateToken = (req, res, next) => {
   const authHeader = req.headers['authorization'];
   const token = authHeader && authHeader.split(' ')[1];
 
-  if(token == null)
-    return res.sendStatus(401);
+  if (token == null) return res.sendStatus(401);
 
-  jwt.verify(toekn, JWT_SECRET, (err, user) => {
-    if (err)
-      return res.sendStatus(403);
+  jwt.verify(token, JWT_SECRET, (err, user) => {
+    if (err) return res.sendStatus(403);
 
-    req.user = user;
+    req.user = user; // req.user에 사용자 정보 설정
     next();
   });
 };
@@ -124,17 +122,14 @@ app.post('/api/login', [
   });
 });
 
-app.post('api/home', async (req, res) => {
-  const userId = req.user.userid;
+app.get('/api/home', authenticateToken, async (req, res) => {
+  const userId = req.user.id; // 'id'로 수정 필요
 
   const calendarSql = 'SELECT * FROM calendar WHERE user_id = ?';
   const stickySql = 'SELECT * FROM sticky WHERE user_id = ?';
 
   try {
-    // Fetch calendar data
     const [calendarResults] = await db.promise().query(calendarSql, [userId]);
-
-    // Fetch sticky data
     const [stickyResults] = await db.promise().query(stickySql, [userId]);
 
     res.json({
@@ -142,9 +137,11 @@ app.post('api/home', async (req, res) => {
       sticky: stickyResults
     });
   } catch (error) {
+    console.error('Error fetching data:', error);
     res.status(500).json({ error: 'Error fetching data', details: error.message });
   }
 });
+
 
 const PORT = 5000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));

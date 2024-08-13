@@ -177,7 +177,7 @@ Calender은 MoToDo에 필요한 캘린더를 표시하는 UI <br>
 # 삭제 내용
 - 일부 필요없는 파일들 삭제
 
-<h2>2024.08.12 - 김평화</h2>
+<h2>2024.08.13 - 김평화</h2>
 
 <h5> Main </h5>
 - App.js : Route에 Friends 추가 (아마 DirectMessage 창으로 바꿀듯?)
@@ -193,3 +193,14 @@ Calender은 MoToDo에 필요한 캘린더를 표시하는 UI <br>
 
 <h5> Sever </h5>
 - server.js : app.pst(/api/home) 기본 틀 생성
+
+<h2>2024.08.14 - 김평화</h2>
+
+Database - motodo bug
+
+<h5> Components </h5>
+- Home.jsx : Calendar와 Sticky 정보를 못 가져오는 버그 있음.
+
+
+<h5> Sever </h5>
+- server.js : app.post(/api/home) -> 버그

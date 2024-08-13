@@ -25,7 +25,7 @@ const LoginForm = () => {
     try {
       const response = await axios.post('http://localhost:5000/api/login', credentials);
       if (response.data.message === 'Login successful') {
-        localStorage.setItem('token', response.data.token); // 토큰 저장
+        localStorage.setItem('jwtToken', response.data.token); // 토큰 저장
         axios.defaults.headers.common['Authorization'] = `Bearer ${response.data.token}`; // 기본 헤더에 토큰 설정
         navigate('/home');
       } else {
