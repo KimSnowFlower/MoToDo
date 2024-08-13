@@ -191,5 +191,5 @@ Calender은 MoToDo에 필요한 캘린더를 표시하는 UI <br>
 - MenuBar.jsx : Link로 /friends 추가 <br>
 - OptionBar.css : 크기 관련된 코드 일부 수정 <br>
 
-<h5> sever </h5>
+<h5> Sever </h5>
 - server.js : app.pst(/api/home) 기본 틀 생성
