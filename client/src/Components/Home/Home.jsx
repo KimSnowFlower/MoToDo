@@ -28,6 +28,7 @@ const Home = () => {
   
     fetchData();
   }, []);
+  
 
   return (
     <div className="totalPage">

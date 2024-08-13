@@ -201,6 +201,5 @@ Database - motodo bug
 <h5> Components </h5>
 - Home.jsx : Calendar와 Sticky 정보를 못 가져오는 버그 있음.
 
-
 <h5> Sever </h5>
-- server.js : app.post(/api/home) -> 버그
+- server.js : app.post(/api/home) -> 버그 (20240814 / 01:14:38 am 버그 해결)

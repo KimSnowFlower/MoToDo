@@ -16,14 +16,16 @@ const LoginForm = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
-
+  
     if (!credentials.username || !credentials.password) {
       setError('Please enter both username and password');
       return;
     }
-
+  
     try {
       const response = await axios.post('http://localhost:5000/api/login', credentials);
+      console.log('Login Response:', response.data); // 응답 데이터 확인
+  
       if (response.data.message === 'Login successful') {
         localStorage.setItem('jwtToken', response.data.token); // 토큰 저장
         axios.defaults.headers.common['Authorization'] = `Bearer ${response.data.token}`; // 기본 헤더에 토큰 설정
@@ -44,6 +46,8 @@ const LoginForm = () => {
       }
     }
   };
+  
+  
 
   return (
     <div className='wrapper'>
