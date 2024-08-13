@@ -177,7 +177,7 @@ Calender은 MoToDo에 필요한 캘린더를 표시하는 UI <br>
 # 삭제 내용
 - 일부 필요없는 파일들 삭제
 
-<h3>2024.08.12 - 김평화</h3> <br>
+<h3>2024.08.12 - 김평화</h3>
 
 <h5> # Main </h5>
 - App.js : Route에 Friends 추가 (아마 DirectMessage 창으로 바꿀듯?)
