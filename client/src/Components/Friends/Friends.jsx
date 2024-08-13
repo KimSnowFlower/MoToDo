@@ -13,7 +13,7 @@ const Friends = () => {
                 <OptionBar/>
             </div>
             <div className="friendsMain">
-
+                                                                                                                                                                                                                                                                                                               
             </div>
         </div>
     );

@@ -180,13 +180,16 @@ Calender은 MoToDo에 필요한 캘린더를 표시하는 UI <br>
 <h3>2024.08.12 - 김평화</h3> <br><br>
 
 # Main
-App.js : Route에 Friends 추가 (아마 DirectMessage 창으로 바꿀듯?)
+- App.js : Route에 Friends 추가 (아마 DirectMessage 창으로 바꿀듯?)
 
 # Components
-Friends.css : 기본 배경만 만듬
-Friends.jsx : 기본적인 화면 구성만 제작
-Home.jsx : 빈 여백에 화면 구성
-HOME.css : background 연동 해제 및 homeMain 구성
-MenuBar.css : 코드 일부 수정
-MenuBar.jsx : Link로 /friends 추가
-OptionBar.css : 크기 관련된 코드 일부 수정
+- Friends.css : 기본 배경만 만듬
+- Friends.jsx : 기본적인 화면 구성만 제작
+- Home.jsx : 빈 여백에 화면 구성
+- HOME.css : background 연동 해제 및 homeMain 구성
+- MenuBar.css : 코드 일부 수정
+- MenuBar.jsx : Link로 /friends 추가
+- OptionBar.css : 크기 관련된 코드 일부 수정
+
+# sever
+- server.js : app.pst(/api/home) 기본 틀 생성
