@@ -1,6 +1,7 @@
 body {
-    background: url('../Assets/LoginForm_background.png') no-repeat center center;
+    background: url('../Assets/LoginForm_background.png') center center;
     background-size: cover; /* 이미지가 요소의 전체 영역을 덮도록 조정 */
+    background-color: rgba(255,255,255,0);
     margin: 0; /* 기본 마진 제거 */
     height: 100%; /* 전체 화면 높이 사용 */
     display: flex; /* Flexbox 사용 */

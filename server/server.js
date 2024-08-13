@@ -93,7 +93,7 @@ app.post('/api/login', async (req, res) => {
       const match = await bcrypt.compare(password, user.password);
       if (match) {
         // 로그인 성공 시 JWT 토큰 생성 및 반환
-        const token = jwt.sign({ id: user.id, username: user.username }, JWT_SECRET, { expiresIn: '1h' });
+        const token = jwt.sign({ id: user.id, username: user.username }, JWT_SECRET, { expiresIn: '5h' });
         return res.json({ message: 'Login successful', token }); // 토큰을 함께 반환
       }
     }

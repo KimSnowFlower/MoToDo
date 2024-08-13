@@ -1,19 +1,18 @@
 import React from 'react';
-import './Friends.css';
+import styles from './Friends.module.css'; // CSS 모듈로 변경
 import MenuBar from '../MenuBar/MenuBar';
 import OptionBar from '../OptionBar/OptionBar';
 
 const Friends = () => {
     return (
-        <div className="totalPage">
-            <div className="menuBar">
-                <MenuBar/>
+        <div className={styles.totalPage}>
+            <div className={styles.menuBar}>
+                <MenuBar />
             </div>
-            <div className="optionBar">
-                <OptionBar/>
+            <div className={styles.optionBar}>
+                <OptionBar />
             </div>
-            <div className="friendsMain">
-                                                                                                                                                                                                                                                                                                               
+            <div className={styles.friendsMain}>
             </div>
         </div>
     );

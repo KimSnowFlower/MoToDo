@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import './LoginForm.css';
+import styles from './LoginForm.module.css'; // CSS 모듈로 변경
 import { FaUser, FaLock } from "react-icons/fa";
 
 const LoginForm = () => {
@@ -16,19 +16,17 @@ const LoginForm = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
-  
+
     if (!credentials.username || !credentials.password) {
       setError('Please enter both username and password');
       return;
     }
-  
+
     try {
       const response = await axios.post('http://localhost:5000/api/login', credentials);
-      console.log('Login Response:', response.data); // 응답 데이터 확인
-  
       if (response.data.message === 'Login successful') {
-        localStorage.setItem('jwtToken', response.data.token); // 토큰 저장
-        axios.defaults.headers.common['Authorization'] = `Bearer ${response.data.token}`; // 기본 헤더에 토큰 설정
+        localStorage.setItem('jwtToken', response.data.token);
+        axios.defaults.headers.common['Authorization'] = `Bearer ${response.data.token}`;
         navigate('/home');
       } else {
         setError('Login failed: ' + response.data.error);
@@ -36,34 +34,29 @@ const LoginForm = () => {
     } catch (error) {
       if (error.response) {
         setError('Login error: ' + error.response.data.error);
-        console.error('Status code:', error.response.status);
       } else if (error.request) {
         setError('No response received from server');
-        console.error('No response received:', error.request);
       } else {
         setError('Error setting up request');
-        console.error('Error setting up request:', error.message);
       }
     }
   };
-  
-  
 
   return (
-    <div className='wrapper'>
+    <div className={styles.wrapper}> {/* CSS 모듈 클래스 사용 */}
       <form onSubmit={handleSubmit}>
         <h1>Mo To Do</h1>
-        {error && <p className="error-message">{error}</p>}
-        <div className="input-box">
+        {error && <p className={styles['error-message']}>{error}</p>} {/* CSS 모듈 클래스 사용 */}
+        <div className={styles['input-box']}>
           <input type="text" name="username" placeholder='Username' onChange={handleChange} required/>
-          <FaUser className='icon'/>
+          <FaUser className={styles.icon}/> {/* CSS 모듈 클래스 사용 */}
         </div>
-        <div className="input-box">
+        <div className={styles['input-box']}>
           <input type="password" name="password" placeholder='Password' onChange={handleChange} required/>
-          <FaLock className='icon'/>
+          <FaLock className={styles.icon}/> {/* CSS 모듈 클래스 사용 */}
         </div>
         <button type="submit">Login</button>
-        <div className="register-link">
+        <div className={styles['register-link']}>
           <p>Don't have an account? <a href="/register">Register</a></p>
         </div>
       </form>

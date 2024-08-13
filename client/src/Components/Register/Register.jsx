@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import './Register.css';
+import styles from './Register.module.css'; // CSS 모듈로 변경
 
 const Register = () => {
   const [formData, setFormData] = useState({
@@ -23,7 +23,6 @@ const Register = () => {
     const { name, value } = e.target;
 
     if (name === 'username') {
-      // 정규 표현식: 영어 대소문자, 숫자, 특수기호(@, _, -, ~) 허용
       const regex = /^[A-Za-z0-9@_\-~]*$/;
       if (regex.test(value)) {
         setFormData({ ...formData, [name]: value });
@@ -39,29 +38,38 @@ const Register = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // 유효성 검사
     if (errors.username) {
-      return; // 유효성 오류가 있으면 제출하지 않음
+      return;
     }
 
     try {
-      const response = await axios.post('http://localhost:5000/api/register', formData);
-      console.log(response.data);
-      navigate('/');  // 등록 성공 후 로그인 페이지로 리다이렉트
+      // 사용자 등록 요청
+      await axios.post('http://localhost:5000/api/register', formData);
+
+      // 자동 로그인 요청
+      const loginResponse = await axios.post('http://localhost:5000/api/login', {
+        username: formData.username,
+        password: formData.password
+      });
+
+      // JWT 저장 및 리다이렉트
+      localStorage.setItem('jwtToken', loginResponse.data.token);
+      axios.defaults.headers.common['Authorization'] = `Bearer ${loginResponse.data.token}`;
+      navigate('/home');
     } catch (error) {
-      console.error('Registration error:', error);
+      console.error('Registration or login error:', error);
     }
   };
 
   return (
-    <div className="register-form">
+    <div className={styles.registerForm}>
       <form onSubmit={handleSubmit}>
         <input name="name" placeholder="이름" onChange={handleChange} value={formData.name} required />
         <input name="age" type="number" placeholder="나이" onChange={handleChange} value={formData.age} required />
         <input name="studentId" placeholder="학번" onChange={handleChange} value={formData.studentId} required />
         <input name="department" placeholder="학과" onChange={handleChange} value={formData.department} required />
         <input name="username" placeholder="아이디" onChange={handleChange} value={formData.username} required />
-        {errors.username && <p style={{ color: 'red' }}>{errors.username}</p>}
+        {errors.username && <p className={styles.error}>{errors.username}</p>}
         <input name="password" type="password" placeholder="비밀번호" onChange={handleChange} value={formData.password} required />
         <button type="submit">회원가입</button>
       </form>
