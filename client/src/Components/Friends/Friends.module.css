@@ -1,7 +1,3 @@
-body {
-    background: none;
-}
-
 .totalPage {
     display: flex;
     flex-direction: column;
@@ -25,7 +21,7 @@ body {
     width: calc(100% - (200px + (275 - 200) * (100vw - 854px) / (1920 - 854)));
 }
 
-.main {
+.friendsMain {
     margin-left: calc(200px + (275 - 200) * (100vw - 854px) / (1920 - 854));
     background-color: rgba(255,255,255,1);
     height: 100%;

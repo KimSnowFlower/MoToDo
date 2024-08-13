@@ -187,10 +187,10 @@ button {
 
 /* 다크 테마 */
 @media (prefers-color-scheme: dark) {
-	:root {
+	/*:root {
 		--bg: hsl(var(--hue),10%,20%);
 		--fg: hsl(var(--hue),10%,90%);
-	}
+	}*/
 	.nav {
 		background-color: hsl(var(--hue),10%,10%);
 	}

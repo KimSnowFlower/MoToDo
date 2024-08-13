@@ -2,51 +2,51 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { IoHome } from "react-icons/io5";
 import { FaCalendarCheck, FaStickyNote } from "react-icons/fa";
-import './MenuBar.css';
+import styles from './MenuBar.module.css';  // CSS 모듈을 가져옵니다.
 import CurrentDateTime from '../CurrentDateTime/CurrentDateTime';
 
 const MenuBar = () => {
   return (
-    <nav className="nav">
-      <div className="nav__main">
-        <div className="currentDateTime">
-          <CurrentDateTime/>
+    <nav className={styles.nav}>
+      <div className={styles.nav__main}>
+        <div className={styles.currentDateTime}>
+          <CurrentDateTime />
         </div>
-        <span className="nav__heading">
-          <span className="nav__heading-text">Menu</span>
+        <span className={styles.nav__heading}>
+          <span className={styles.nav__headingText}>Menu</span>
         </span>
-        <ul className="nav__items">
-          <li className="nav__item">
-            <Link className="nav__item-box" to="/home" title="Home">
-              <IoHome className="icon"/>
-              <span className="nav__item-text">Home</span>
+        <ul className={styles.nav__items}>
+          <li className={styles.nav__item}>
+            <Link className={styles.nav__itemBox} to="/home" title="Home">
+              <IoHome className={styles.icon} />
+              <span className={styles.nav__itemText}>Home</span>
             </Link>
           </li>
-          <li className="nav__item">
-            <Link className="nav__item-box" to="/calendar" title="Calendar">
-              <FaCalendarCheck className="icon"/>
-              <span className="nav__item-text">Calendar</span>
+          <li className={styles.nav__item}>
+            <Link className={styles.nav__itemBox} to="/calendar" title="Calendar">
+              <FaCalendarCheck className={styles.icon} />
+              <span className={styles.nav__itemText}>Calendar</span>
             </Link>
           </li>
-          <li className="nav__item">
-            <Link className="nav__item-box" to="#" title="Sticky">
-              <FaStickyNote className="icon"/>
-              <span className="nav__item-text">Sticky</span>
+          <li className={styles.nav__item}>
+            <Link className={styles.nav__itemBox} to="#" title="Sticky">
+              <FaStickyNote className={styles.icon} />
+              <span className={styles.nav__itemText}>Sticky</span>
             </Link>
           </li>
         </ul>
-        <span className="nav__heading">
-          <span className="nav__heading-text">Mo</span>
+        <span className={styles.nav__heading}>
+          <span className={styles.nav__headingText}>Mo</span>
         </span>
-        <ul className="nav__items">
-          <li className="nav__item">
-            <Link className="nav__item-box" to="/friends" title="Freinds">
-              <span className="nav__item-text">Friends</span>
+        <ul className={styles.nav__items}>
+          <li className={styles.nav__item}>
+            <Link className={styles.nav__itemBox} to="/friends" title="Friends">
+              <span className={styles.nav__itemText}>Friends</span>
             </Link>
           </li>
-          <li className="nav__item">
-            <Link className="nav__item-box" to="#" title="Group">
-              <span className="nav__item-text">Gruop</span>
+          <li className={styles.nav__item}>
+            <Link className={styles.nav__itemBox} to="#" title="Group">
+              <span className={styles.nav__itemText}>Group</span>
             </Link>
           </li>
         </ul>
