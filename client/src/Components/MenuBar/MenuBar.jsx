@@ -40,7 +40,7 @@ const MenuBar = () => {
         </span>
         <ul className="nav__items">
           <li className="nav__item">
-            <Link className="nav__item-box" to="#" title="Freinds">
+            <Link className="nav__item-box" to="/friends" title="Freinds">
               <span className="nav__item-text">Friends</span>
             </Link>
           </li>

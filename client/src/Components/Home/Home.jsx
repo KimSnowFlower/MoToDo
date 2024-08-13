@@ -5,12 +5,15 @@ import OptionBar from '../OptionBar/OptionBar';
 
 const Home = () => {
   return (
-    <div className="">
-      <div className="MenuBar">
+    <div className="totalPage">
+      <div className="menuBar">
         <MenuBar/>
       </div>
-      <div className="OptionBar">
+      <div className="optionBar">
         <OptionBar/>
+      </div>
+      <div className="homeMain">
+
       </div>
     </div>
   );

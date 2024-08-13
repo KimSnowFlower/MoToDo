@@ -25,9 +25,9 @@ body {
     width: calc(100% - (200px + (275 - 200) * (100vw - 854px) / (1920 - 854)));
 }
 
-.homeMain {
+.main {
     margin-left: calc(200px + (275 - 200) * (100vw - 854px) / (1920 - 854));
-    background-color: rgb(0,0,0);
+    background-color: rgba(255,255,255,1);
     height: 100%;
     width: calc(100% - (200px + (275 - 200) * (100vw - 854px) / (1920 - 854)));
     overflow-y: auto;
