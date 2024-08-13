@@ -26,6 +26,26 @@ db.connect((err) => {
   console.log('Connected to the database');
 });
 
+// JWT 비밀키 생성
+const JWT_SECRET = 'motodo-JWT-SECRET';
+
+// JWT 검증 미들우에어
+const authenticateToken = (req, res, next) => {
+  const authHeader = req.headers['authorization'];
+  const token = authHeader && authHeader.split(' ')[1];
+
+  if(token == null)
+    return res.sendStatus(401);
+
+  jwt.verify(toekn, JWT_SECRET, (err, user) => {
+    if (err)
+      return res.sendStatus(403);
+
+    req.user = user;
+    next();
+  });
+};
+
 // 사용자 등록
 app.post('/api/register', [
   // 입력 검증
@@ -105,7 +125,25 @@ app.post('/api/login', [
 });
 
 app.post('api/home', async (req, res) => {
+  const userId = req.user.userid;
 
+  const calendarSql = 'SELECT * FROM calendar WHERE user_id = ?';
+  const stickySql = 'SELECT * FROM sticky WHERE user_id = ?';
+
+  db.query(calendarSql, [userId], (calendarErr, calendarResults) => {
+    if(calendarErr)
+      return res.status(500).json({error: 'Error fetching calendar data', details: calendarErr.message});
+
+    db.query(stickySql, [userId], (stickyErr, stickyResults) => {
+      if(stickyErr)
+        return res.status(500).json({error:'Error fetching sticky data', details: stickyErr.message});
+    });
+
+    res.json({
+        calendar: calendarResults,
+        sticky: stickyRe
+    });
+  });
 });
 
 const PORT = 5000;

@@ -26,9 +26,39 @@ body {
 }
 
 .homeMain {
+    position: absolute;
+    bottom: 0;
     margin-left: calc(200px + (275 - 200) * (100vw - 854px) / (1920 - 854));
     background-color: rgb(0,0,0);
-    height: 100%;
+    height: 90%;
     width: calc(100% - (200px + (275 - 200) * (100vw - 854px) / (1920 - 854)));
     overflow-y: auto;
+}
+
+.homeLists {
+    list-style: none;
+	margin: 0;
+    padding: 0;
+}
+
+.homeCalendarList {
+    position: absolute;
+    top: 50%;
+    left: 20px;
+    transform: translateY(-50%);
+    background-color: rgb(255,255,255);
+    height: 80%;
+    width: 45%;
+    border-radius: 30px;
+}
+
+.homeStickyList {
+    position: absolute;
+    top: 50%;
+    right: 20px;
+    transform: translateY(-50%);
+    background-color: rgb(255,255,255);
+    height: 80%;
+    width: 45%;
+    border-radius: 30px;
 }
