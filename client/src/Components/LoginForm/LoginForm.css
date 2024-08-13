@@ -93,7 +93,7 @@ body {
 .wrapper .register-link {
     font-size: 14.5px;
     text-align: center;
-    margin: 20px 0 15px; /* Fixed typo: changed "15ox" to "15px" */
+    margin: 20px 0 15px;
 }
 
 .register-link p a {

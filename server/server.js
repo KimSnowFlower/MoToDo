@@ -29,7 +29,7 @@ db.connect((err) => {
 // JWT 비밀키 생성
 const JWT_SECRET = 'motodo-JWT-SECRET';
 
-// JWT 검증 미들우에어
+// JWT 검증 미들웨어
 const authenticateToken = (req, res, next) => {
   const authHeader = req.headers['authorization'];
   const token = authHeader && authHeader.split(' ')[1];
@@ -130,20 +130,20 @@ app.post('api/home', async (req, res) => {
   const calendarSql = 'SELECT * FROM calendar WHERE user_id = ?';
   const stickySql = 'SELECT * FROM sticky WHERE user_id = ?';
 
-  db.query(calendarSql, [userId], (calendarErr, calendarResults) => {
-    if(calendarErr)
-      return res.status(500).json({error: 'Error fetching calendar data', details: calendarErr.message});
+  try {
+    // Fetch calendar data
+    const [calendarResults] = await db.promise().query(calendarSql, [userId]);
 
-    db.query(stickySql, [userId], (stickyErr, stickyResults) => {
-      if(stickyErr)
-        return res.status(500).json({error:'Error fetching sticky data', details: stickyErr.message});
-    });
+    // Fetch sticky data
+    const [stickyResults] = await db.promise().query(stickySql, [userId]);
 
     res.json({
-        calendar: calendarResults,
-        sticky: stickyRe
+      calendar: calendarResults,
+      sticky: stickyResults
     });
-  });
+  } catch (error) {
+    res.status(500).json({ error: 'Error fetching data', details: error.message });
+  }
 });
 
 const PORT = 5000;

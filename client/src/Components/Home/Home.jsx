@@ -1,4 +1,4 @@
-import React, { useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import './Home.css';
 import MenuBar from '../MenuBar/MenuBar';
@@ -23,20 +23,39 @@ const Home = () => {
   return (
     <div className="totalPage">
       <div className="menuBar">
-        <MenuBar/>
+        <MenuBar />
       </div>
       <div className="optionBar">
-        <OptionBar/>
+        <OptionBar />
       </div>
       <div className="homeMain">
-        <ul className="homeLists">
-          <li className="homeCalendarList">
-
-          </li>
-          <li className="homeStickyList">
-
-          </li>
-        </ul>
+        <div className="homeCalendarList">
+          {data.calendar.length === 0 ? (
+            <span className="emptyMessage">No Data</span>
+          ) : (
+            <ul className="homeLists">
+              {data.calendar.map((event, index) => (
+                <li key={index}>
+                  <h3>{event.title}</h3>
+                  <p>{event.description}</p>
+                </li>
+              ))}
+            </ul>
+          )}
+        </div>
+        <div className="homeStickyList">
+          {data.sticky.length === 0 ? (
+            <span className="emptyMessage">No Data</span>
+          ) : (
+            <ul className="homeLists">
+              {data.sticky.map((note, index) => (
+                <li key={index}>
+                  <p>{note.content}</p>
+                </li>
+              ))}
+            </ul>
+          )}
+        </div>
       </div>
     </div>
   );

@@ -33,12 +33,11 @@ body {
     height: 90%;
     width: calc(100% - (200px + (275 - 200) * (100vw - 854px) / (1920 - 854)));
     overflow-y: auto;
-}
-
-.homeLists {
-    list-style: none;
-	margin: 0;
-    padding: 0;
+    align-items: center;
+    justify-content: space-between;
+    text-align: center;
+    padding: 1em;
+    box-sizing: border-box;
 }
 
 .homeCalendarList {
@@ -50,6 +49,10 @@ body {
     height: 80%;
     width: 45%;
     border-radius: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
 }
 
 .homeStickyList {
@@ -61,4 +64,15 @@ body {
     height: 80%;
     width: 45%;
     border-radius: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.emptyMessage {
+    color: #999;
+    font-size: 1.2em;
+    text-align: center;
+    margin: 0;
 }
