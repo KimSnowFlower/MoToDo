@@ -41,16 +41,15 @@ npm install [dependency 이름] <br>
 - nodemon : index.js 저장시 서버 새로고침<br>
 <hr>
 
-<h3>2024.07.16 - 김평화</h3> <br><br>
-다들 필요한 설치 파일 <br>
+<h2>2024.07.16 - 김평화</h2>
 
-# npm install
-npm install react-icons --save <br>
-npm install react-router-dom <br>
-npm install axios <br>
-npm install express mysql2 bcrypt cors <br><br>
+<h5> npm install </h5>
+- npm install react-icons --save <br>
+- npm install react-router-dom <br>
+- npm install axios <br>
+- npm install express mysql2 bcrypt cors <br><br>
 
-# Components
+<h5> Components </h5>
 - Assets <br>
  1. LoginForm_background.png : 로그인 화면 배경화면 <br>
 - LoginForm <br>
@@ -60,10 +59,10 @@ npm install express mysql2 bcrypt cors <br><br>
  1. Register.css : 회원가입 css <br>
  2. Register.jsx : 회원가입 jsx<br>
 
-# server
+<h5> server </h5>
 - server.js : 서버 관련 js 파일 <br>
 
-# 추가 정보
+<h5> 추가 정보 </h5>
 - 테스트 시 node server.js를 실행하고 npm start
 - 만일 테스트 시 필요하면 App.js에 Router 부분을 주석 후 필요한 화면을 호출하여 실행할 것!
 <hr>
