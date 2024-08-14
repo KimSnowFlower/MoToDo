@@ -1,5 +1,5 @@
-<h1>MoToDo</h1> <br>
-<h4>directed by 김평화, 이준서, 최정인 </h4>(R.I.P 노성민)
+<h1>MoToDo</h1>
+<h4>directed by 김평화, 이준서, 최정인 (R.I.P 노성민) </h4>
 
 Web : React/Node.js - To Do List<br><hr>
 
