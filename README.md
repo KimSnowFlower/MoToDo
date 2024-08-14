@@ -30,6 +30,7 @@ LoginForm/Register - css 버그 (버그 수정 완료) <br>
 - server.js : app.post(/api/home) -> 버그 해결 (20240814 / 01:14:38 am) 
 <hr>
 
+<h2> Project-Start </h2>
 <h2>2024.07.10 - 김평화</h2>
 
 <h5> dependency 설치 </h5>
