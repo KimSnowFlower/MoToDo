@@ -27,17 +27,17 @@ LoginForm/Register - css 버그 (버그 수정 완료) <br>
 - Page(Home,LoginForm,Register, Friends) : css 모듈화 <br>
 
 <h5> Sever </h5>
-- server.js : app.post(/api/home) -> 버그 해결 (20240814 / 01:14:38 am) <br>
+- server.js : app.post(/api/home) -> 버그 해결 (20240814 / 01:14:38 am) 
+<hr>
 
-<h3>2024.07.10 - 김평화</h3> <br><br>
-다들 필요한 설치 파일 <br>
+<h2>2024.07.10 - 김평화</h2>
 
-# dependency 설치
-npm install [dependency 이름]
-- express : 백엔드 프레임워크
-- cors : cors 설정
-- json : json 파싱
-- body-parser : 요청 body 받기
+<h5> dependency 설치 </h5>
+npm install [dependency 이름] <br>
+- express : 백엔드 프레임워크 <br>
+- cors : cors 설정 <br>
+- json : json 파싱 <br>
+- body-parser : 요청 body 받기 <br>
 - nodemon : index.js 저장시 서버 새로고침<br>
 <hr>
 
