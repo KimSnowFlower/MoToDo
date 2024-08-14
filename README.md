@@ -15,15 +15,20 @@ README.md 작성법 <br>
 - 변수 연결을 쉽게하기 위해 각 파일마다 변수 작성 및 간단 설명
 - 항상 commit한 날짜 기입 및 작성자 기입<br>
 <h3>EX)</h3>
-2024.07.10 - 김평화 <br><br>
+<h2>2024.07.10 - 김평화</h2> 
 
-Index.js <br>
-- const app // express 사용 변수<br><br>
+Database - motodo bug (버그 수정 완료) <br>
+LoginForm/Register - css 버그 (버그 수정 완료) <br>
 
-Header.css <br>
-- headerFont // 헤더 폰트<br>
-- headerSize // 헤더 사이즈 <br>
-<hr>
+<h5> Components </h5>
+- LoginForm : 뒷배경 버그 -> 버그 해결 (20240814 / 10:57 am) <br>
+- Register : 뒷배경 버그 -> 버그 해결 (20240814 / 10:57 am) <br>
+- Home.jsx : Calendar와 Sticky 정보를 못 가져오는 버그 있음. <br>
+- Page(Home,LoginForm,Register, Friends) : css 모듈화 <br>
+
+<h5> Sever </h5>
+- server.js : app.post(/api/home) -> 버그 해결 (20240814 / 01:14:38 am) <br>
+
 <h3>2024.07.10 - 김평화</h3> <br><br>
 다들 필요한 설치 파일 <br>
 
