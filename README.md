@@ -214,3 +214,4 @@ LoginForm/Register - css 버그 (버그 수정 완료) <br>
 
 <h3> Sever </h3>
 - server.js : app.post(/api/home) -> 버그 해결 (20240814 / 01:14:38 am) <br>
+<hr>
