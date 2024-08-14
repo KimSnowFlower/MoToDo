@@ -3,6 +3,7 @@ html, body {
   padding: 0;
   height: 100%;
   width: 100%;
+  overflow: hidden;
 }
 
 .app-container {
@@ -12,22 +13,8 @@ html, body {
   width: 100vw;
   justify-content: center;
   align-items: center;
-}
-
-.ratio-box {
-  position: relative;
-  width: 100%;
-  padding-top: 56.25%; /* 16:9 비율 */
-  background: #f5f5f5;
-}
-
-.ratio-box > .content {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
   overflow: hidden;
+  position: relative;
 }
 
 .full-screen-wrapper {
@@ -36,6 +23,7 @@ html, body {
   height: 100vh;
   overflow: hidden;
   background: #f5f5f5;
+  z-index: 1;
 }
 
 .centered-content {
@@ -45,14 +33,19 @@ html, body {
   transform: translate(-50%, -50%);
 }
 
-@media (min-aspect-ratio: 854/480) {
-  .app-container {
-    /* 최소 비율 설정에 따라 스타일 조정 */
-  }
+.ratio-box {
+  position: relative;
+  width: 100%;
+  padding-top: 56.25%;
+  background: #f5f5f5;
+  overflow: hidden;
 }
 
-@media (max-aspect-ratio: 1920/1080) {
-  .app-container {
-    /* 최대 비율 설정에 따라 스타일 조정 */
-  }
+.ratio-box > .content {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
 }

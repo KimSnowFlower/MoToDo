@@ -92,14 +92,7 @@ button {
 	align-items: center;
 }
 
-.nav__heading .icon {
-	display: block;
-	width: 1.5em;
-	height: 1.5em;
-	margin-right: 0.25em;
-}
-
-.nav__heading-text {
+.nav__headingText {
 	display: inline-block;
 	margin-left: 0.25em;
 }
@@ -113,7 +106,7 @@ button {
 	margin-bottom: 0;
 }
 
-.nav__item-box {
+.nav__itemBox {
 	background-color: hsla(var(--hue),90%,55%,0);
 	border-radius: 0.75em;
 	color: hsl(var(--hue),20%,55%);
@@ -129,17 +122,17 @@ button {
 	min-width: 3em;
 }
 
-.nav__item-box:focus,
-.nav__item-box:hover {
+.nav__itemBox:focus,
+.nav__itemBox:hover {
 	background-color: hsla(var(--hue),90%,55%,0.1);
 	color: var(--primary);
 }
 
-.nav__item-box:focus {
+.nav__itemBox:focus {
 	outline: transparent;
 }
 
-.nav__item .icon{
+.nav__item .icon {
 	display: block;
 	width: 1.5em;
 	height: 1.5em;
@@ -148,7 +141,7 @@ button {
 	transition: transform var(--trans-dur);
 }
 
-.nav__item-text {
+.nav__itemText {
 	margin-left: 0.75em;
 	display: inline-block;
 	overflow: hidden;
@@ -156,7 +149,7 @@ button {
 	width: 100%;
 }
 
-.nav__item-badge {
+.nav__itemBadge {
 	background-color: hsla(var(--hue),90%,55%,0.1);
 	border-radius: 0.75rem;
 	color: var(--primary);
@@ -169,12 +162,12 @@ button {
 		color var(--trans-dur);
 }
 
-.nav__item-box--red .nav__item-badge {
+.nav__itemBox--red .nav__itemBadge {
 	background-color: hsla(var(--hue2),90%,55%,0.1);
 	color: var(--red);
 }
 
-.nav__item-box--red .nav__item-icon--badge:before {
+.nav__itemBox--red .nav__itemIcon--badge:before {
 	background-color: var(--red);
 }
 
@@ -185,12 +178,20 @@ button {
 	height: 2em;
 }
 
-/* 다크 테마 */
+.currentDateTime {
+    text-align: center;
+    margin-bottom: 1em;
+    padding: 10px;
+    color: #333;
+	font-size: calc(20px + (30 - 20) * (100vw - 854px) / (1920 - 854));
+    white-space: pre-wrap;
+}
+
 @media (prefers-color-scheme: dark) {
-	/*:root {
+	:root {
 		--bg: hsl(var(--hue),10%,20%);
 		--fg: hsl(var(--hue),10%,90%);
-	}*/
+	}
 	.nav {
 		background-color: hsl(var(--hue),10%,10%);
 	}
@@ -220,13 +221,4 @@ button {
 		background-color: hsla(var(--hue2),90%,55%,0.1);
 		color: var(--red);
 	}
-}
-
-.currentDateTime {
-    text-align: center;
-    margin-bottom: 1em;
-    padding: 10px;
-    color: #333;
-	font-size: calc(20px + (30 - 20) * (100vw - 854px) / (1920 - 854));
-    white-space: pre-wrap;
 }

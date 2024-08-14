@@ -43,6 +43,7 @@ const LoginForm = () => {
   };
 
   return (
+    <div className={styles.background}>
     <div className={styles.wrapper}> {/* CSS 모듈 클래스 사용 */}
       <form onSubmit={handleSubmit}>
         <h1>Mo To Do</h1>
@@ -60,6 +61,7 @@ const LoginForm = () => {
           <p>Don't have an account? <a href="/register">Register</a></p>
         </div>
       </form>
+    </div>
     </div>
   );
 };

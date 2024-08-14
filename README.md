@@ -197,9 +197,11 @@ Calender은 MoToDo에 필요한 캘린더를 표시하는 UI <br>
 <h2>2024.08.14 - 김평화</h2>
 
 Database - motodo bug
+LoginForm/Register - css 버그
 
 <h5> Components </h5>
-- LoginForm.jsx/module.css : 뒷배경 버그
+- LoginForm : 뒷배경 버그
+- Register : 뒷배경 버그
 - Home.jsx : Calendar와 Sticky 정보를 못 가져오는 버그 있음.
 - Page(Home,LoginForm,Register, Friends) : css 모듈화
 

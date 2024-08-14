@@ -1,14 +1,12 @@
-body {
-    background: none;
-}
-
 .totalPage {
     display: flex;
     flex-direction: column;
     height: 100vh;
     width: 100vw;
+    overflow: hidden;
+    position: relative;
 }
-
+  
 .menuBar {
     position: fixed;
     top: 0;
@@ -16,7 +14,7 @@ body {
     height: 100%;
     width: calc(200px + (275 - 200) * (100vw - 854px) / (1920 - 854));
 }
-
+  
 .optionBar {
     position: fixed;
     top: 0;
@@ -24,7 +22,7 @@ body {
     height: 10%;
     width: calc(100% - (200px + (275 - 200) * (100vw - 854px) / (1920 - 854)));
 }
-
+  
 .homeMain {
     position: absolute;
     bottom: 0;
@@ -39,36 +37,26 @@ body {
     padding: 1em;
     box-sizing: border-box;
 }
-
+  
+.homeCalendarList, .homeStickyList {
+    position: absolute;
+    background-color: rgb(255, 255, 255);
+    height: 90%;
+    width: 45%;
+    border-radius: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+  
 .homeCalendarList {
-    position: absolute;
-    top: 50%;
     left: 20px;
-    transform: translateY(-50%);
-    background-color: rgb(255,255,255);
-    height: 80%;
-    width: 45%;
-    border-radius: 30px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
 }
-
+  
 .homeStickyList {
-    position: absolute;
-    top: 50%;
     right: 20px;
-    transform: translateY(-50%);
-    background-color: rgb(255,255,255);
-    height: 80%;
-    width: 45%;
-    border-radius: 30px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-}
+}  
 
 .emptyMessage {
     color: #999;

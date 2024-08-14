@@ -4,7 +4,7 @@
   right: 0;
   height: 10%;
   width: calc(100% - (200px + (275 - 200) * (100vw - 854px) / (1920 - 854)));
-  background-color: #f0f0f0;
+  background-color: rgba(255,255,255,1);
   display: flex;
   justify-content: flex-end;
   align-items: center;
@@ -14,8 +14,9 @@
 }
   
 .optionButton {
-  width : 50px;
-  height : 50px;
+  top: 50%;
+  width: 50px;
+  height: 50px;
   background-color: hsl(var(--hue),10%,65%);
   border: none;
   color: white;
@@ -31,8 +32,12 @@
 .optionButton:hover {
   background-color: hsl(var(--hue),10%,75%);
 }
-  
+
 @media (prefers-color-scheme: dark) {
+  :root {
+		--bg: hsl(var(--hue),10%,20%);
+		--fg: hsl(var(--hue),10%,90%);
+	}
 	.optionBar {
 		background-color: hsl(var(--hue),10%,10%);
 	}

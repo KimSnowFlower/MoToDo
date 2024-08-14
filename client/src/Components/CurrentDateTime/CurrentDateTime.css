@@ -1,12 +1,13 @@
 #parent {
-    width: 100%; /* 부모 요소의 가로폭에 맞추기 */
-    text-align: center; /* 중앙 정렬 */
+    width: 100%;
+    text-align: center;
     padding: 10px 0;
     box-sizing: border-box;
-}
-
-#timeDisplay {
+  }
+  
+  #timeDisplay {
     display: inline-block;
     color: rgb(255, 255, 255);
-    font-size: 16px; /* 폰트 크기 조정 */
-}
+    font-size: 16px;
+  }
+  
