@@ -1,5 +1,5 @@
-MoToDo <br>
-directed by 김평화, 이준서, 최정인 (R.I.P 노성민)
+<h1>MoToDo</h1> <br>
+<h4>directed by 김평화, 이준서, 최정인 </h4>(R.I.P 노성민)
 
 Web : React/Node.js - To Do List<br><hr>
 
@@ -100,7 +100,7 @@ MySQL - MariaDB -> Cloudtype 연동 완료 <br>
 근데 나중에 다른 사람들도 가능한지는 테스트 해야 할듯 ㅠㅠ
 <hr>
 
-<h2>2024.07.28 - 김평화</h2> <br><br>
+<h2>2024.07.28 - 김평화</h2>
 
 <h5> npm install </h5>
 npm install express-validator <br>
