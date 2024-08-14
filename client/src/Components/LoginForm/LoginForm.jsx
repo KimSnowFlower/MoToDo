@@ -43,25 +43,23 @@ const LoginForm = () => {
   };
 
   return (
-    <div className={styles.background}>
-    <div className={styles.wrapper}> {/* CSS 모듈 클래스 사용 */}
+    <div className={styles.wrapper}> 
       <form onSubmit={handleSubmit}>
         <h1>Mo To Do</h1>
-        {error && <p className={styles['error-message']}>{error}</p>} {/* CSS 모듈 클래스 사용 */}
+        {error && <p className={styles['error-message']}>{error}</p>}
         <div className={styles['input-box']}>
           <input type="text" name="username" placeholder='Username' onChange={handleChange} required/>
-          <FaUser className={styles.icon}/> {/* CSS 모듈 클래스 사용 */}
+          <FaUser className={styles.icon}/> 
         </div>
         <div className={styles['input-box']}>
           <input type="password" name="password" placeholder='Password' onChange={handleChange} required/>
-          <FaLock className={styles.icon}/> {/* CSS 모듈 클래스 사용 */}
+          <FaLock className={styles.icon}/>
         </div>
         <button type="submit">Login</button>
         <div className={styles['register-link']}>
           <p>Don't have an account? <a href="/register">Register</a></p>
         </div>
       </form>
-    </div>
     </div>
   );
 };
