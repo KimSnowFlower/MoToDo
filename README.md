@@ -229,8 +229,5 @@ LoginForm/Register - css 버그 (버그 수정 완료) <br>
 <h3>Context</h3>
 - darkmode context 디렉토리
 
-<h3>Style</h3>
-- Styled-Components Style
-
 <h3>Theme</h3>
 - 다크모드 테마 관리 디렉토리
