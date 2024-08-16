@@ -114,14 +114,14 @@ npm install date-fns <br>
 
 CurrentDateTime은 MoToDo에 필요한 시간을 표시하는 UI <br>
 
-<h3> 나머지 수정 사항 <h3>
+<h3> 나머지 수정 사항 </h3>
 1. MenuBar.jsx 수정
 2. Register.jsx : Maria DB를 사용하게 수정 및 아이디 영어와 특수기호만 입력하게 수정 <br>
 3. Home.css / Home.jsx : CurrentDateTime 추가 <br>
 4. index.css : background 이미지 제거 <br>
 5. server.js : Maria DB를 사용하게 수정 및 Register 관련 조금 더 디테일하게 수정 <br>
 
-<h3> 추가 변경사항 <h3>
+<h3> 추가 변경사항 </h3>
 1. client와 server 파일로 나누어 만듬. 나머지 프로젝트에 필요한 파일은 client/src/Components에 만들면 됩니다! <br>
 2. 그리고 pull 받고 cmd 창에서 motodo/server에서 npm install 하고 motodo/client에서 npm install 한번 해주시고 웹 실행 부탁드립니당. <br>
 3. (무조건 2개의 cmd 활성화 후) 실행할 때 motodo/server에서는 node server.js 먼저 실행하고 motodo/client에서 npm start 해야 정상적으로 서버에 데이터를 전달합니다. <br>
@@ -220,5 +220,17 @@ LoginForm/Register - css 버그 (버그 수정 완료) <br>
 <h3> Components </h3>
 - Calender.jsx 텍스트필드 추가 및 캘린더 크기 소폭 조절, 뒷배경 버그 및 전체적인 스크롤부여 버그 미해결 <br>
 - Calender.module.css : 모듈화 및 스타일 소폭 조정, 캘린더 스타일 직관성부여 및 기능추가에 따른 스타일 변화 미적용 <br>
-- 크롬 다크모드 아니면 메뉴바에 시간이 하얀색이라 그런지 안보이는데 색깔 바꿔도 될까요?
+- 크롬 다크모드 아니면 메뉴바에 시간이 하얀색이라 그런지 안보이는데 색깔 바꿔도 될까요? -> 그래서 준비중인 다크모드 두둥
 <hr>
+
+<h2>2024.08.16 - 김평화</h2>
+
+준서를 위한 다크모드 만들기
+<h3>Context</h3>
+- darkmode context 디렉토리
+
+<h3>Style</h3>
+- Styled-Components Style
+
+<h3>Theme</h3>
+- 다크모드 테마 관리 디렉토리

@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { IoHome } from "react-icons/io5";
 import { FaCalendarCheck, FaStickyNote } from "react-icons/fa";
-import styles from './MenuBar.module.css';  // CSS 모듈을 가져옵니다.
+import styles from './MenuBar.module.css';
 import CurrentDateTime from '../CurrentDateTime/CurrentDateTime';
 
 const MenuBar = () => {
@@ -25,7 +25,7 @@ const MenuBar = () => {
           <li className={styles.nav__item}>
             <Link className={styles.nav__itemBox} to="/calendar" title="Calendar">
               <FaCalendarCheck className={styles.icon} />
-              <span className={styles.nav__itemText}>Calendar</span>
+              <span className={styles.nav__itemText}>Calendar</span> 
             </Link>
           </li>
           <li className={styles.nav__item}>
