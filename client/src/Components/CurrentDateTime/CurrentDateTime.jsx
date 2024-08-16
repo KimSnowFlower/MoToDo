@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import './CurrentDateTime.css';
+import styled from 'styled-components';
 
 const CurrentDateTime = () => {
-  const [time, setTime] = useState('');
+  const [time, setTime] = useState({ date: '', time: '' });
 
   useEffect(() => {
     const showTime = () => {
@@ -41,12 +41,26 @@ const CurrentDateTime = () => {
   }, []);
 
   return (
-    <div id="parent">
-      <div id="timeDisplay">
-        <>{time.date}<br />{time.time}</>
-      </div>
-    </div>
+    <DateTimeWrapper>
+      <TimeDisplay>
+        {time.date}<br />
+        {time.time}
+      </TimeDisplay>
+    </DateTimeWrapper>
   );
 };
+
+const DateTimeWrapper = styled.div`
+  width: 100%;
+  text-align: center;
+  padding: 10px 0;
+  box-sizing: border-box;
+`;
+
+const TimeDisplay = styled.div`
+  display: inline-block;
+  color: ${({ theme }) => theme.textColor}; /* 테마에 맞춰 색상 변경 */
+  font-size: 16px;
+`;
 
 export default CurrentDateTime;

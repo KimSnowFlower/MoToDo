@@ -226,8 +226,27 @@ LoginForm/Register - css 버그 (버그 수정 완료) <br>
 <h2>2024.08.16 - 김평화</h2>
 
 준서를 위한 다크모드 만들기
-<h3>Context</h3>
-- darkmode context 디렉토리
 
-<h3>Theme</h3>
-- 다크모드 테마 관리 디렉토리
+<h3>Components</h3>
+<h4>Context</h4>
+- darkmode context 디렉토리 <br>
+
+<h4>Theme</h4>
+- 다크모드 테마 관리 디렉토리 <br>
+
+<h4>MenuBar와 OptionBar</h4>
+- 편의성을 위해 OptionBar의 기능을 MenuBar로 합침
+- 대신 아직 동시 색상 변환 버그가 있음 (기존 MenuBar 부분이 조금 늦게 바뀜)
+- css 대신 styled-components로 코드 변경
+- 하지만 혹시 몰라서 css 살려둠
+- 오른쪽 상단 젤 끝 버튼 누르면 모드 전환 가능 (라이트모드 밝음 주의!!)
+
+<h4>Calendar, Friends, Home</h4>
+- OptionBar 관련 코드를 모두 삭제
+
+<h4>GlobalStyle, Theme</h4>
+- 라이트모드와 다크모드에 통상적인 모습을 위한 코드 수정
+
+<h4>CurrentDateTime</h4>
+- MenuBar와 OptionBar와 동일하게 css 대신 styled-components 사용
+- 하지만 css 살려둠

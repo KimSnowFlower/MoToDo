@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import MenuBar from '../MenuBar/MenuBar';
-import OptionBar from '../OptionBar/OptionBar';
 import styles from './Calender.module.css'; // CSS 모듈로 변경
 
 const Calendar = () => {
@@ -60,7 +59,6 @@ const Calendar = () => {
   return (
     <div className={`${styles.calendarPage} ${isMenuExpanded ? styles.expanded : styles.collapsed}`}>
       <MenuBar isExpanded={isMenuExpanded} onToggleMenu={toggleMenu} />
-      <OptionBar />
       <div className={styles.calendarContainer}>
         <div className={styles.calendarHeader}>
           <button onClick={handlePrevMonth}>&lt;</button>

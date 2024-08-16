@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import styles from './Home.module.css'; // CSS 모듈로 변경
 import MenuBar from '../MenuBar/MenuBar';
-import OptionBar from '../OptionBar/OptionBar';
 
 const Home = () => {
   const [data, setData] = useState({ calendar: [], sticky: [] });
@@ -30,9 +29,6 @@ const Home = () => {
     <div className={styles.totalPage}>
       <div className={styles.menuBar}>
         <MenuBar />
-      </div>
-      <div className={styles.optionBar}>
-        <OptionBar />
       </div>
       <div className={styles.homeMain}>
         <div className={styles.homeCalendarList}>
