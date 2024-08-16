@@ -1,0 +1,99 @@
+.calendarPage {
+    display: flex;
+    height: 100vh;
+    background-color: #add8e6;
+  }
+  
+  .calendarContainer {
+    flex: 2;
+    background-color: white;
+    padding: 20px;
+    border: 1px solid #ddd;
+    margin-right: 10px;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .textField {
+    flex: 1;
+    padding: 20px;
+    border: 1px solid #ddd;
+    background-color: white;
+    overflow-x: scroll;
+  }
+  
+  .textFieldTitle {
+    width: 100%;
+    margin-bottom: 10px;
+    padding: 5px;
+    font-size: 16px;
+    border: 1px solid #ddd;
+  }
+  
+  .textFieldTime {
+    width: 100%;
+    margin-bottom: 10px;
+    padding: 5px;
+    font-size: 16px;
+    border: 1px solid #ddd;
+  }
+  
+  .textArea {
+    width: 100%;
+    height: 300px;
+    resize: none;
+    padding: 10px;
+    font-size: 16px;
+    border: none;
+    outline: none;
+    box-sizing: border-box;
+  }
+  
+  .calendarHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+  
+  .calendarHeader button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 18px;
+  }
+  
+  .selectedDate {
+    font-size: 14px;
+    color: #333;
+  }
+  
+  .calendarGrid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 5px;
+    flex-grow: 1;
+  }
+  
+  .calendarDayName,
+  .calendarDay {
+    padding: 5px;
+    text-align: center;
+    font-size: 12px;
+  }
+  
+  .calendarDay.selected {
+    background-color: #007bff;
+    color: white;
+  }
+  
+  .calendarDayEmpty {
+    background-color: transparent;
+  }
+  
+  .calendarDay {
+    background-color: white;
+    border: 1px solid #ddd;
+    cursor: pointer;
+  }
+  
