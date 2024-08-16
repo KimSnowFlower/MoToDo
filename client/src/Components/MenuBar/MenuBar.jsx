@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { useTheme } from '../Context/themeProvider';
 import styled from 'styled-components';
 import { IoHome } from "react-icons/io5";
@@ -67,7 +68,7 @@ const OptionBar = styled.div`
   align-items: center;
   padding-right: 20px;
   box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
-  transition: width 0.3s ease-in-out;
+  transition: background-color 0.3s ease, border-color 0.3s ease;
 `;
 
 const Button = styled.button`
@@ -90,8 +91,11 @@ const Button = styled.button`
 `;
 
 const Menu = styled.nav`
-  background-color: ${({ theme }) => theme.bgColor};
-  color: ${({ theme }) => theme.textColor};
+  --bg-color: ${({ theme }) => theme.bgColor};
+  --text-color: ${({ theme }) => theme.textColor};
+
+  background-color: var(--bg-color);
+  color: var(--text-color);
   width: 200px;
   height: 100%;
   position: fixed;
@@ -120,20 +124,21 @@ const NavList = styled.ul`
   margin: 0;
 `;
 
-const NavItem = styled.li`
-  background-color: ${({ theme }) => theme.bgColor};
+const NavItem = styled(Link)`
+  background-color: var(--bg-color);
   border-radius: 0.75em;
-  color: ${({ theme }) => theme.textColor};
+  color: var(--text-color);
   display: flex;
   align-items: center;
   padding: 0.75em;
   text-align: left;
   transition: background-color 0.3s ease, color 0.3s ease;
   margin-bottom: 0.5em;  // Optional: add spacing between items
+  text-decoration: none;
 
   &:hover {
     background-color: hsla(0, 0%, 100%, 0.1);
-    color: ${({ theme }) => theme.textColor};
+    color: var(--text-color);
   }
 
   .icon {
