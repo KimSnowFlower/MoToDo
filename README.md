@@ -234,6 +234,9 @@ LoginForm/Register - css 버그 (버그 수정 완료) <br>
 <h4>Theme</h4>
 - 다크모드 테마 관리 디렉토리 <br>
 
+<h4>LoginForm</h4>
+- GlobalStyle 변경 후 로그인 폼 깨짐 현상 발생 (버그 이해좀...) <br>
+
 <h4>MenuBar와 OptionBar</h4>
 - 편의성을 위해 OptionBar의 기능을 MenuBar로 합침 <br>
 - 대신 아직 동시 색상 변환 버그가 있음 -> 버그 해결 (20240817 / 12:56:10 am) <br>
