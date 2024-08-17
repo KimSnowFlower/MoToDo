@@ -1,0 +1,73 @@
+.calendarPage {
+    display: flex;
+    flex-direction: row;
+    width: calc(100% - 200px); 
+    height: 100%;
+    margin-left: 200px; 
+    padding-top: 10em; 
+}
+  
+  .calendarContainer {
+    flex: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 100px;
+  }
+  
+  .textField {
+    flex: 1; 
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-left: 1px solid #ddd;
+  }
+  
+  .textFieldTitle,
+  .textFieldTime,
+  .textArea {
+    width: 100%;
+    margin-bottom: 10px;
+    padding: 10px;
+  }
+  
+  .calendarHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+  }
+  
+  .calendarGrid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 10px;
+    width: 100%;
+  }
+  
+  .calendarDay {
+    padding: 10px;
+    border: 1px solid #ddd;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100px;
+    cursor: pointer;
+  }
+  
+  .calendarDayEmpty {
+    border: none;
+    background: transparent;
+  }
+  
+  .calendarDayName {
+    font-weight: bold;
+    text-align: center;
+  }
+  
+  .selected {
+    background-color: #f0f0f0;
+  }
+  
