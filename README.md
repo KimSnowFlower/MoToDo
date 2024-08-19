@@ -248,6 +248,15 @@ LoginForm/Register - css 버그 (버그 수정 완료) <br>
 - OptionBar 관련 코드를 모두 삭제 <br>
 
 <h4>GlobalStyle, Theme</h4>
+<hr>
+
+<h2>2024.08.17 - 이준서</h2>
+
+<h3> Components </h3>
+- Calendar.jsx : 캘린더랑 텍스트필드 비율을 맞춰봤는데 창크기 줄였을때 비율 일정하게끔 하는것도 해볼께용, 밑에 스크롤 넣는건 해봤는데 먼가 지금은 불편한거 같아서 나주에 옆에 공간이 더 필요하다 싶으면 넣을께용. 아마 스크롤보단 위에 1, 2 있는걸로 화면 전환하는걸로 할거같음
+- Calendar.module.css : 비율수정
+
+<hr>
 - 라이트모드와 다크모드에 통상적인 모습을 위한 코드 수정 <br>
 
 <h4>CurrentDateTime</h4>
@@ -255,4 +264,4 @@ LoginForm/Register - css 버그 (버그 수정 완료) <br>
 - 하지만 css 살려둠 <br>
 <hr>
 
-<h3>Test 1</h3>
+<h2>2024.08.19 - 이준서</h2>
