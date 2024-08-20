@@ -96,7 +96,7 @@ const Menu = styled.nav`
 
   background-color: var(--bg-color);
   color: var(--text-color);
-  width: calc(200px + (275 - 200) * (100vw - 854px) / (1920 - 854));
+  width: 15%;
   height: 100%;
   position: fixed;
   top: 0;

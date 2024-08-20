@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import styles from './Home.module.css'; // CSS 모듈로 변경
+import './Home.css'; // CSS 모듈로 변경
 import MenuBar from '../MenuBar/MenuBar';
 
 const Home = () => {
@@ -26,18 +26,18 @@ const Home = () => {
   }, []);
 
   return (
-    <div className={styles.totalPage}>
-      <div className={styles.menuBar}>
+    <div className="totalPage">
+      <div className="menuBar">
         <MenuBar />
       </div>
-      <div className={styles.homeMain}>
-        <div className={styles.homeCalendarList}>
+      <div className="homeMain">
+        <div className="homeCalendarList">
           {error ? (
-            <span className={styles.emptyMessage}>Error: {error}</span>
+            <span className="emptyMessage">Error: {error}</span>
           ) : data.calendar.length === 0 ? (
-            <span className={styles.emptyMessage}>No Data</span>
+            <span className="emptyMessage">No Data</span>
           ) : (
-            <ul className={styles.homeLists}>
+            <ul className="homeLists">
               {data.calendar.map((event, index) => (
                 <li key={index}>
                   <h3>{event.title}</h3>
@@ -47,13 +47,13 @@ const Home = () => {
             </ul>
           )}
         </div>
-        <div className={styles.homeStickyList}>
+        <div className="homeStickyList">
           {error ? (
-            <span className={styles.emptyMessage}>Error: {error}</span>
+            <span className="emptyMessage">Error: {error}</span>
           ) : data.sticky.length === 0 ? (
-            <span className={styles.emptyMessage}>No Data</span>
+            <span className="emptyMessage">No Data</span>
           ) : (
-            <ul className={styles.homeLists}>
+            <ul className="homeLists">
               {data.sticky.map((note, index) => (
                 <li key={index}>
                   <p>{note.content}</p>
