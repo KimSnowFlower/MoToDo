@@ -1,79 +1,165 @@
+@import url("https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap");
+
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+::selection {
+  background: #333;
+  color: #eee;
+}
+
+body {
+  font-family: "IBM Plex Mono", monospace;
+  color: #333;
+  margin: 0;
+  position: relative;
+  line-height: 1.5em;
+  font-size: 15px;
+  background: repeating-linear-gradient(
+    45deg,
+    #aaa,
+    #aaa 2px,
+    #ccc 2px,
+    #ccc 6px
+  );
+  background-attachment: fixed;
+}
+
 .totalPage {
-    display: flex;
-    flex-direction: row;
-    width: calc(100vw - 200px); 
-    height: 100vh; 
-    margin-left: 200px; 
-    padding-top: 80px; 
-    box-sizing: border-box; 
+  display: flex;
+  flex-direction: row;
+  width: calc(100vw - 200px);
+  height: 100vh;
+  margin-left: 200px;
+  padding-top: 80px;
+  box-sizing: border-box;
 }
 
 .homeMain {
-    flex: 1; 
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center; 
-    padding: 20px;
-    background-color: #f9f9f9;
-    height: calc(100vh - 80px);
-    overflow-y: auto;
-    box-sizing: border-box;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  background-color: #f9f9f9;
+  height: calc(100vh - 80px);
+  overflow-y: auto;
+  box-sizing: border-box;
 }
 
 .contentContainer {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 20px; 
-    width: 100%; 
-    max-width: 1300px; 
-    height: 750px; 
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 20px;
+  width: 100%;
+  max-width: 1300px;
 }
 
 .homeCalendarList,
 .homeStickyList {
-    flex: 1;
-    background-color: #000000;
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    padding: 20px;
-    height: 90%;
-    max-width: 650px; 
-    width: 48%; 
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
+  background-color: #f7f7f7;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
 }
 
-.homeLists {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    display: flex;
-    flex-direction: column;
-    gap: 20px; 
+.tableWrap {
+  max-width: 100%;
+  overflow-x: auto;
 }
 
-.homeLists li {
-    background-color: #f0f0f0;
-    border-radius: 8px;
-    padding: 20px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    transition: background-color 0.3s;
-    height: 100px; 
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
+h2 {
+  font-size: 1.5em;
+  line-height: 1.1em;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-top: 0;
+  padding: 5px 10px;
+  margin-bottom: 15px;
+  border-bottom: 2px solid #333;
+  position: relative;
 }
 
-.homeLists li:hover {
-    background-color: #e0e0e0;
+h2::before,
+h2::after {
+  content: "";
+  position: absolute;
+  bottom: -2px;
+  width: 15px;
+  height: 100%;
+  left: -15px;
+  border: 2px solid #333;
+  border-left: none;
+  vertical-align: text-bottom;
+}
+
+h2::after {
+  left: unset;
+  right: -15px;
+  border-right: none;
+  border-left: 2px solid #333;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th,
+td {
+  border: 2px solid #333;
+  padding: 8px;
+  text-align: left;
+}
+
+tr:hover td {
+  background: #eee;
+}
+
+th {
+  background-color: #666;
+  color: #fff;
+}
+
+ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+li {
+  background-color: #f0f0f0;
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  transition: background-color 0.3s;
+}
+
+li:hover {
+  background-color: #e0e0e0;
 }
 
 .emptyMessage {
-    color: #999;
-    font-size: 1.2em;
-    text-align: center;
-    margin: 0;
+  color: #999;
+  font-size: 1.2em;
+  text-align: center;
+  margin: 0;
+}
+
+@media (min-width: 767px) {
+  .homeCalendarList,
+  .homeStickyList {
+    width: 48%;
+  }
 }

@@ -288,3 +288,7 @@ LoginForm/Register - css 버그 (버그 수정 완료) <br>
 <h4>LoginForm, Register</h4>
 - App.css 변경 후 ui 깨짐 현상 해결
 - LoginForm은 화면 배치 변경
+
+<h4>Home</h4>
+- 배경 적용 후 메뉴바에 아이콘 이미지, 폰트 크기가 이상해짐
+- 유저한테 보여줄 Calendar, Sticky 리스트 css 꾸밈
