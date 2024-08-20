@@ -59,7 +59,7 @@ const OptionBar = styled.div`
   position: fixed;
   top: 0;
   right: 0;
-  height: 80px;
+  height: ;
   width: 90%;
   background-color: ${({ theme }) => theme.bgColor};
   border: ${({ theme }) => theme.borderColor};
@@ -110,7 +110,7 @@ const Menu = styled.nav`
 
 const Heading = styled.span`
   color: ${({ theme }) => theme.textColor};
-  font-size: 0.75em;
+  font-size: 20px;
   line-height: 1;
   margin-bottom: 0.75rem;
   text-transform: uppercase;

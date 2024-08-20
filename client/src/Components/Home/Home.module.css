@@ -44,7 +44,6 @@ body {
   align-items: center;
   justify-content: center;
   padding: 20px;
-  background-color: #f9f9f9;
   height: calc(100vh - 80px);
   overflow-y: auto;
   box-sizing: border-box;

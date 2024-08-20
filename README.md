@@ -292,3 +292,7 @@ LoginForm/Register - css 버그 (버그 수정 완료) <br>
 <h4>Home</h4>
 - 배경 적용 후 메뉴바에 아이콘 이미지, 폰트 크기가 이상해짐
 - 유저한테 보여줄 Calendar, Sticky 리스트 css 꾸밈
+
+<h4>MenuBar</h4>
+- Home에 영향으로 조금 스타일링 바뀜 (아직은 그대로 둘 예정)
+<hr>
