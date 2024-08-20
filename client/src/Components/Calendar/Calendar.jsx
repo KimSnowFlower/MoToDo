@@ -1,14 +1,24 @@
 import React, { useState } from 'react';
+import { BiSolidHeart } from "react-icons/bi";
+import { PiCakeDuotone } from "react-icons/pi";
+import { IoAirplane } from "react-icons/io5";
+import { IoBeerOutline } from "react-icons/io5";
 import MenuBar from '../MenuBar/MenuBar';
-import styles from './Calendar.module.css'; // CSS 모듈로 변경
+import styles from './Calendar.module.css';
+
+const icons = [<BiSolidHeart />, <PiCakeDuotone />, <IoAirplane />, <IoBeerOutline />];
 
 const Calendar = () => {
   const currentDate = new Date();
   const [currentYear, setCurrentYear] = useState(currentDate.getFullYear());
   const [currentMonth, setCurrentMonth] = useState(currentDate.getMonth());
   const [selectedDate, setSelectedDate] = useState(null);
-  const [eventTitle, setEventTitle] = useState(''); // 이벤트 제목 상태 추가
-  const [events, setEvents] = useState({}); // 이벤트 저장 상태 추가
+  const [eventTitle, setEventTitle] = useState('');
+  const [eventTime, setEventTime] = useState({ hour: '00', minute: '00', second: '00' });
+  const [eventContent, setEventContent] = useState(''); // 일정 내용 상태 추가
+  const [events, setEvents] = useState({});
+  const [selectedEvent, setSelectedEvent] = useState(null); // 선택된 일정 저장 상태
+  const [iconIndex, setIconIndex] = useState(0);
 
   const daysInWeek = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
   const firstDayOfMonth = new Date(currentYear, currentMonth, 1).getDay();
@@ -16,7 +26,10 @@ const Calendar = () => {
 
   const handleDateClick = (day) => {
     setSelectedDate(new Date(currentYear, currentMonth, day));
-    setEventTitle(events[`${currentYear}-${currentMonth + 1}-${day}`] || ''); // 선택한 날짜에 이미 저장된 이벤트 제목을 불러오기
+    const event = events[`${currentYear}-${currentMonth + 1}-${day}`];
+    setEventTitle(event?.title || '');
+    setEventTime(event?.time || { hour: '00', minute: '00', second: '00' });
+    setEventContent(event?.content || '');
   };
 
   const handlePrevMonth = () => {
@@ -40,9 +53,69 @@ const Calendar = () => {
   const handleSaveEvent = () => {
     if (selectedDate) {
       const dateKey = `${selectedDate.getFullYear()}-${selectedDate.getMonth() + 1}-${selectedDate.getDate()}`;
-      setEvents(prevEvents => ({ ...prevEvents, [dateKey]: eventTitle }));
-      setEventTitle(''); // 제목을 저장한 후 필드를 초기화
+      const eventDetail = {
+        id: events[dateKey]?.id || Date.now(), // 고유 ID
+        title: eventTitle,
+        time: eventTime,
+        content: eventContent, // 일정 내용 추가
+      };
+      setEvents(prevEvents => ({
+        ...prevEvents,
+        [dateKey]: prevEvents[dateKey] ? [...prevEvents[dateKey], eventDetail].sort((a, b) => {
+          const timeA = `${a.time.hour}:${a.time.minute}:${a.time.second}`;
+          const timeB = `${b.time.hour}:${b.time.minute}:${b.time.second}`;
+          return timeA.localeCompare(timeB);
+        }) : [eventDetail]
+      }));
+      setEventTitle('');
+      setEventContent(''); // 저장 후 내용 초기화
     }
+  };
+
+  const handleTimeChange = (type, value) => {
+    setEventTime(prevTime => ({ ...prevTime, [type]: value }));
+  };
+
+  const handleEventClick = (day, event) => {
+    setSelectedDate(new Date(currentYear, currentMonth, day));
+    setSelectedEvent(event); // 선택된 이벤트를 상태로 저장
+    setEventTitle(event.title);
+    setEventTime(event.time);
+    setEventContent(event.content);
+  };
+
+  const handleEventUpdate = () => {
+    if (selectedDate && selectedEvent) {
+      const dateKey = `${selectedDate.getFullYear()}-${selectedDate.getMonth() + 1}-${selectedDate.getDate()}`;
+      setEvents(prevEvents => {
+        const updatedEvents = prevEvents[dateKey].map(event =>
+          event.id === selectedEvent.id ? { ...event, title: eventTitle, content: eventContent } : event
+        );
+        return {
+          ...prevEvents,
+          [dateKey]: updatedEvents
+        };
+      });
+      setSelectedEvent(null); // 수정 후 선택된 일정 초기화
+    }
+  };
+
+  const handleEventDelete = () => {
+    if (selectedDate && selectedEvent) {
+      const dateKey = `${selectedDate.getFullYear()}-${selectedDate.getMonth() + 1}-${selectedDate.getDate()}`;
+      setEvents(prevEvents => {
+        const filteredEvents = prevEvents[dateKey].filter(event => event.id !== selectedEvent.id);
+        return {
+          ...prevEvents,
+          [dateKey]: filteredEvents
+        };
+      });
+      setSelectedEvent(null); // 삭제 후 선택된 일정 초기화
+    }
+  };
+
+  const handleIconClick = () => {
+    setIconIndex((prevIndex) => (prevIndex + 1) % icons.length);
   };
 
   const days = [];
@@ -52,6 +125,7 @@ const Calendar = () => {
 
   for (let day = 1; day <= daysInMonth; day++) {
     const dateKey = `${currentYear}-${currentMonth + 1}-${day}`;
+    const hasEvents = !!events[dateKey];
     days.push(
       <div
         key={day}
@@ -59,7 +133,17 @@ const Calendar = () => {
         onClick={() => handleDateClick(day)}
       >
         {day}
-        <div className={styles.eventTitle}>{events[dateKey]}</div> {/* 캘린더에 이벤트 제목 표시 */}
+        {hasEvents && <div className={styles.eventIndicator}></div>}
+        {hasEvents && (
+          <div className={styles.iconContainer} onClick={handleIconClick}>
+            {icons[iconIndex]}
+          </div>
+        )}
+        {events[dateKey] && events[dateKey].map((event, index) => (
+          <div key={index} className={styles.eventTitle} onClick={() => handleEventClick(day, event)}>
+            ■ {event.title}
+          </div>
+        ))}
       </div>
     );
   }
@@ -93,12 +177,49 @@ const Calendar = () => {
           value={eventTitle}
           onChange={(e) => setEventTitle(e.target.value)}
         />
-        <input type="text" placeholder="00:00:00 ~ 00:00:00" className={styles.textFieldTime} />
+        <div className={styles.timeSelectors}>
+          <label>시간: {selectedDate?.toLocaleDateString()}</label>
+          <div>
+            <select value={eventTime.hour} onChange={(e) => handleTimeChange('hour', e.target.value)}>
+              {[...Array(24).keys()].map(hour => (
+                <option key={hour} value={String(hour).padStart(2, '0')}>
+                  {String(hour).padStart(2, '0')}
+                </option>
+              ))}
+            </select>
+            :
+            <select value={eventTime.minute} onChange={(e) => handleTimeChange('minute', e.target.value)}>
+              {[...Array(60).keys()].map(minute => (
+                <option key={minute} value={String(minute).padStart(2, '0')}>
+                  {String(minute).padStart(2, '0')}
+                </option>
+              ))}
+            </select>
+            :
+            <select value={eventTime.second} onChange={(e) => handleTimeChange('second', e.target.value)}>
+              {[...Array(60).keys()].map(second => (
+                <option key={second} value={String(second).padStart(2, '0')}>
+                  {String(second).padStart(2, '0')}
+                </option>
+              ))}
+            </select>
+          </div>
+        </div>
         <textarea
-          placeholder="일정을 입력해 주세요..."
-          className={styles.textArea}
-        ></textarea>
-        <button onClick={handleSaveEvent} className={styles.saveButton}>저장</button> 
+          placeholder="내용"
+          className={styles.textFieldContent}
+          value={eventContent}
+          onChange={(e) => setEventContent(e.target.value)}
+        />
+        <div className={styles.actionButtons}>
+          <button onClick={handleSaveEvent}>저장</button>
+          {selectedEvent && (
+            <>
+              <button onClick={handleEventUpdate}>수정</button>
+              <button onClick={handleEventDelete}>삭제</button>
+            </>
+          )}
+        </div>
       </div>
     </div>
   );
