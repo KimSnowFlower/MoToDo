@@ -283,7 +283,7 @@ LoginForm/Register - css 버그 (버그 수정 완료) <br>
 -> 버그 해결 (20240820 / 11:39:20 pm)
 <hr>
 
-<h2>2024.08.20 - 김평화</h2>
+<h2>2024.08.21 - 김평화</h2>
 
 <h4>LoginForm, Register</h4>
 - App.css 변경 후 ui 깨짐 현상 해결
