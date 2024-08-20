@@ -276,3 +276,15 @@ LoginForm/Register - css 버그 (버그 수정 완료) <br>
 <h3>Components</h3>
 <h4>MenuBar 버그</h4>
 - 현재 MenuBar에 width가 아무리 해도 전처럼 화면 해상도에 맞게 적절하게 변경 불가능
+-> 버그 해결 (20240820 / 11:10:20 pm)
+
+<h4>Home 버그</h4>
+- container 사이즈 버그
+-> 버그 해결 (20240820 / 11:39:20 pm)
+<hr>
+
+<h2>2024.08.20 - 김평화</h2>
+
+<h4>LoginForm, Register</h4>
+- App.css 변경 후 ui 깨짐 현상 해결
+- LoginForm은 화면 배치 변경

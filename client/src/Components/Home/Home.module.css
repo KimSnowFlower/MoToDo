@@ -1,0 +1,79 @@
+.totalPage {
+    display: flex;
+    flex-direction: row;
+    width: calc(100vw - 200px); 
+    height: 100vh; 
+    margin-left: 200px; 
+    padding-top: 80px; 
+    box-sizing: border-box; 
+}
+
+.homeMain {
+    flex: 1; 
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center; 
+    padding: 20px;
+    background-color: #f9f9f9;
+    height: calc(100vh - 80px);
+    overflow-y: auto;
+    box-sizing: border-box;
+}
+
+.contentContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px; 
+    width: 100%; 
+    max-width: 1300px; 
+    height: 750px; 
+}
+
+.homeCalendarList,
+.homeStickyList {
+    flex: 1;
+    background-color: #000000;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    height: 90%;
+    max-width: 650px; 
+    width: 48%; 
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+
+.homeLists {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 20px; 
+}
+
+.homeLists li {
+    background-color: #f0f0f0;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s;
+    height: 100px; 
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.homeLists li:hover {
+    background-color: #e0e0e0;
+}
+
+.emptyMessage {
+    color: #999;
+    font-size: 1.2em;
+    text-align: center;
+    margin: 0;
+}

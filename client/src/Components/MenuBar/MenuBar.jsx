@@ -59,8 +59,8 @@ const OptionBar = styled.div`
   position: fixed;
   top: 0;
   right: 0;
-  height: 10%;
-  width: 100%;
+  height: 80px;
+  width: 90%;
   background-color: ${({ theme }) => theme.bgColor};
   border: ${({ theme }) => theme.borderColor};
   display: flex;
@@ -96,7 +96,7 @@ const Menu = styled.nav`
 
   background-color: var(--bg-color);
   color: var(--text-color);
-  width: 15%;
+  width: 200px;
   height: 100%;
   position: fixed;
   top: 0;
