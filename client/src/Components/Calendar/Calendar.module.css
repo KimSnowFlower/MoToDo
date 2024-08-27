@@ -1,29 +1,31 @@
 .calendarPage {
-    display: flex;
-    flex-direction: row;
-    width: calc(100% - 200px); 
-    height: 100%;
-    margin-left: 200px; 
-    padding-top: 10em; 
+  display: flex;
+  flex-direction: row;
+  width: calc(100% - 200px); 
+  height: 100%;
+  margin-left: 200px; 
+  padding-top: 10em; 
+  background-color: #ffffff; /* 배경색을 흰색으로 설정 */
 }
-  
-  .calendarContainer {
-    flex: 2;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    padding: 100px;
-  }
-  
-  .textField {
-    flex: 1; 
-    display: flex;
-    flex-direction: column;
-    padding: 20px;
-    background-color: #f9f9f9;
-    border-left: 1px solid #ddd;
-  }
+
+.calendarContainer {
+  flex: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 100px;
+  background-color: #ffffff; 
+}
+
+.textField {
+  flex: 1; 
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  background-color: #f9f9f9; 
+  border-left: 1px solid #ddd;
+}
 
   .textFieldContent {
     width: 100%;
@@ -44,6 +46,7 @@
     justify-content: space-between;
     align-items: center;
     width: 100%;
+    background-color: #ffffff; /* 헤더 배경색 설정 */
   }
   
   .calendarGrid {
@@ -51,6 +54,7 @@
     grid-template-columns: repeat(7, 1fr);
     gap: 10px;
     width: 100%;
+    background-color: #ffffff; /* 전체 그리드 배경색 설정 */
   }
   
   .calendarDay {
@@ -58,6 +62,13 @@
     padding: 10px;
     border: 1px solid #ccc;
     min-height: 80px;
+    border-radius: 10px; /* 모서리를 둥글게 */
+    transition: background-color 0.3s ease, box-shadow 0.3s ease; /* 부드러운 효과 추가 */
+  }
+  
+  .calendarDay:hover {
+    background-color: #e0e0e0; /* 호버 시 부드러운 색 변화 */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* 호버 시 그림자 효과 */
   }
   
   .eventTitle {
@@ -73,8 +84,9 @@
     height: 6px;
     background-color: #ff0000;
     border-radius: 50%;
+    pointer-events: none;
   }
-
+  
   .iconContainer {
     position: absolute;
     top: 4px;
@@ -84,6 +96,23 @@
     cursor: pointer;
   }
   
+  .eventTitle {
+    font-size: 12px;
+    margin-top: 4px;
+  }
+  
+  .textFieldContent {
+    width: 100%;
+    height: 60px;
+    margin-top: 8px;
+  }
+  
+  .actionButtons {
+    display: flex;
+    gap: 8px;
+    margin-top: 8px;
+  }
+
   .calendarDayEmpty {
     border: none;
     background: transparent;
@@ -96,6 +125,7 @@
   
   .selected {
     background-color: #f0f0f0;
+    border-radius: 10px; /* 선택된 칸도 모서리를 둥글게 */
   }
   
   .actionButtons {

@@ -18,7 +18,7 @@ const Calendar = () => {
   const [eventContent, setEventContent] = useState(''); // 일정 내용 상태 추가
   const [events, setEvents] = useState({});
   const [selectedEvent, setSelectedEvent] = useState(null); // 선택된 일정 저장 상태
-  const [iconIndex, setIconIndex] = useState(0);
+  const [iconIndexes, setIconIndexes] = useState({}); // 각 날짜의 아이콘 인덱스 저장
 
   const daysInWeek = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
   const firstDayOfMonth = new Date(currentYear, currentMonth, 1).getDay();
@@ -71,10 +71,13 @@ const Calendar = () => {
       setEventContent(''); // 저장 후 내용 초기화
     }
   };
+  
 
   const handleTimeChange = (type, value) => {
     setEventTime(prevTime => ({ ...prevTime, [type]: value }));
   };
+
+  const [isEditing, setIsEditing] = useState(false); // 수정 모드 여부를 관리
 
   const handleEventClick = (day, event) => {
     setSelectedDate(new Date(currentYear, currentMonth, day));
@@ -82,6 +85,11 @@ const Calendar = () => {
     setEventTitle(event.title);
     setEventTime(event.time);
     setEventContent(event.content);
+    setIsEditing(false); // 수정 모드 해제
+  };
+
+  const handleEditClick = () => {
+    setIsEditing(true); // 수정 모드 활성화
   };
 
   const handleEventUpdate = () => {
@@ -114,8 +122,12 @@ const Calendar = () => {
     }
   };
 
-  const handleIconClick = () => {
-    setIconIndex((prevIndex) => (prevIndex + 1) % icons.length);
+  const handleIconClick = (day) => {
+    const dateKey = `${currentYear}-${currentMonth + 1}-${day}`;
+    setIconIndexes(prevIndexes => ({
+      ...prevIndexes,
+      [dateKey]: (prevIndexes[dateKey] + 1) % icons.length
+    }));
   };
 
   const days = [];
@@ -133,10 +145,12 @@ const Calendar = () => {
         onClick={() => handleDateClick(day)}
       >
         {day}
-        {hasEvents && <div className={styles.eventIndicator}></div>}
-        {hasEvents && (
-          <div className={styles.iconContainer} onClick={handleIconClick}>
-            {icons[iconIndex]}
+        {hasEvents && !selectedDate?.getDate() === day && (
+          <div className={styles.eventIndicator}></div>
+        )}
+        {selectedDate && selectedDate.getDate() === day && (
+          <div className={styles.iconContainer} onClick={() => handleIconClick(day)}>
+            {icons[iconIndexes[dateKey] || 0]}
           </div>
         )}
         {events[dateKey] && events[dateKey].map((event, index) => (
@@ -148,7 +162,7 @@ const Calendar = () => {
     );
   }
 
-  return (
+ return (
     <div className={styles.calendarPage}>
       <MenuBar />
       <div className={styles.calendarContainer}>
@@ -170,56 +184,67 @@ const Calendar = () => {
         </div>
       </div>
       <div className={styles.textField}>
-        <input
-          type="text"
-          placeholder="제목"
-          className={styles.textFieldTitle}
-          value={eventTitle}
-          onChange={(e) => setEventTitle(e.target.value)}
-        />
-        <div className={styles.timeSelectors}>
-          <label>시간: {selectedDate?.toLocaleDateString()}</label>
-          <div>
-            <select value={eventTime.hour} onChange={(e) => handleTimeChange('hour', e.target.value)}>
-              {[...Array(24).keys()].map(hour => (
-                <option key={hour} value={String(hour).padStart(2, '0')}>
-                  {String(hour).padStart(2, '0')}
-                </option>
-              ))}
-            </select>
-            :
-            <select value={eventTime.minute} onChange={(e) => handleTimeChange('minute', e.target.value)}>
-              {[...Array(60).keys()].map(minute => (
-                <option key={minute} value={String(minute).padStart(2, '0')}>
-                  {String(minute).padStart(2, '0')}
-                </option>
-              ))}
-            </select>
-            :
-            <select value={eventTime.second} onChange={(e) => handleTimeChange('second', e.target.value)}>
-              {[...Array(60).keys()].map(second => (
-                <option key={second} value={String(second).padStart(2, '0')}>
-                  {String(second).padStart(2, '0')}
-                </option>
-              ))}
-            </select>
-          </div>
-        </div>
-        <textarea
-          placeholder="내용"
-          className={styles.textFieldContent}
-          value={eventContent}
-          onChange={(e) => setEventContent(e.target.value)}
-        />
-        <div className={styles.actionButtons}>
-          <button onClick={handleSaveEvent}>저장</button>
-          {selectedEvent && (
-            <>
-              <button onClick={handleEventUpdate}>수정</button>
-              <button onClick={handleEventDelete}>삭제</button>
-            </>
-          )}
-        </div>
+        {selectedEvent && !isEditing ? (
+          <>
+            <h3>제목: {selectedEvent.title}</h3>
+            <p>시간: {selectedEvent.time.hour}:{selectedEvent.time.minute}:{selectedEvent.time.second}</p>
+            <p>내용: {selectedEvent.content}</p>
+            <button onClick={handleEditClick}>수정</button>
+          </>
+        ) : (
+          <>
+            <input
+              type="text"
+              placeholder="제목"
+              className={styles.textFieldTitle}
+              value={eventTitle}
+              onChange={(e) => setEventTitle(e.target.value)}
+            />
+            <div className={styles.timeSelectors}>
+              <label>시간: {selectedDate?.toLocaleDateString()}</label>
+              <div>
+                <select value={eventTime.hour} onChange={(e) => handleTimeChange('hour', e.target.value)}>
+                  {[...Array(24).keys()].map(hour => (
+                    <option key={hour} value={String(hour).padStart(2, '0')}>
+                      {String(hour).padStart(2, '0')}
+                    </option>
+                  ))}
+                </select>
+                :
+                <select value={eventTime.minute} onChange={(e) => handleTimeChange('minute', e.target.value)}>
+                  {[...Array(60).keys()].map(minute => (
+                    <option key={minute} value={String(minute).padStart(2, '0')}>
+                      {String(minute).padStart(2, '0')}
+                    </option>
+                  ))}
+                </select>
+                :
+                <select value={eventTime.second} onChange={(e) => handleTimeChange('second', e.target.value)}>
+                  {[...Array(60).keys()].map(second => (
+                    <option key={second} value={String(second).padStart(2, '0')}>
+                      {String(second).padStart(2, '0')}
+                    </option>
+                  ))}
+                </select>
+              </div>
+            </div>
+            <textarea
+              placeholder="내용"
+              className={styles.textFieldContent}
+              value={eventContent}
+              onChange={(e) => setEventContent(e.target.value)}
+            />
+            <div className={styles.actionButtons}>
+              <button onClick={handleSaveEvent}>저장</button>
+              {selectedEvent && (
+                <>
+                  <button onClick={handleEventUpdate}>수정 완료</button>
+                  <button onClick={handleEventDelete}>삭제</button>
+                </>
+              )}
+            </div>
+          </>
+        )}
       </div>
     </div>
   );
