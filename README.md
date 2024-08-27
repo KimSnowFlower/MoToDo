@@ -296,3 +296,9 @@ LoginForm/Register - css 버그 (버그 수정 완료) <br>
 <h4>MenuBar</h4>
 - Home에 영향으로 조금 스타일링 바뀜 (아직은 그대로 둘 예정)
 <hr>
+
+<h2>2024.08.28 - 이준서</h2>
+
+<h3> Components </h3>
+- Calendar.jsx : 캘린더 배경도 회색으로 보여서 일단 캘린더 내부에서 배경색 고정했어요. 디자인 조금 손보고 일정 수정방식 조금 바꿈  <br>
+- Calendar.module.css : 비율수정 <br>
