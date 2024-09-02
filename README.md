@@ -302,3 +302,9 @@ LoginForm/Register - css 버그 (버그 수정 완료) <br>
 <h3> Components </h3>
 - Calendar.jsx : 캘린더 배경도 회색으로 보여서 일단 캘린더 내부에서 배경색 고정했어요. 디자인 조금 손보고 일정 수정방식 조금 바꿈  <br>
 - Calendar.module.css : 비율수정 <br>
+
+<h2>2024.09.02 - 이준서</h2>
+
+<h3> Components </h3>
+- Calendar.jsx : 평화띠가 제안한 색상으로 캘린더 분위기 바꿔봄. 아이콘이랑 빨간점이 같이나오는 버그수정  <br>
+- Calendar.module.css : 비율수정 <br>
