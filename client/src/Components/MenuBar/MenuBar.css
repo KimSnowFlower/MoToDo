@@ -202,4 +202,15 @@ button {
 	 --fg: var(--fg-dark);
 	}
 }
-  
+
+.currentDateTime {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    text-align: center;
+    width: 100%;
+    color: var(--fg);
+    font-size: calc(20px + (30 - 20) * (100vw - 854px) / (1920 - 854));
+    white-space: pre-wrap;
+}

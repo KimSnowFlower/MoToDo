@@ -19,7 +19,12 @@ const MenuBar = () => {
         </Button>
       </OptionBar>
       <Menu>
-        <CurrentDateTime />
+      <LogoContainer>
+          <Logo src={require('../Assets/motodo_logo.png')} alt="MoToDo Logo" />
+        </LogoContainer>
+        <CurrentDateTimeContainer>
+          <CurrentDateTime />
+        </CurrentDateTimeContainer>
         <Heading>Menu</Heading>
         <NavList>
           <NavItem to="/home" title="Home">
@@ -106,6 +111,26 @@ const Menu = styled.nav`
   padding: 20px;
   box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
   transition: background-color 0.3s ease, color 0.3s ease;
+`;
+const LogoContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 20px;
+`;
+
+const Logo = styled.img`
+  width: 200px;
+  height: auto;
+`;
+
+const CurrentDateTimeContainer = styled.div`
+  position: absolute;
+  bottom: 30px;
+  left: 50%;
+  transform: translateX(-50%);
+  text-align: center;
+  width: 100%;
 `;
 
 const Heading = styled.span`
