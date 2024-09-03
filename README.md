@@ -308,3 +308,10 @@ LoginForm/Register - css 버그 (버그 수정 완료) <br>
 <h3> Components </h3>
 - Calendar.jsx : 평화띠가 제안한 색상으로 캘린더 분위기 바꿔봄. 아이콘이랑 빨간점이 같이나오는 버그수정  <br>
 - Calendar.module.css : 비율수정 <br>
+<hr>
+
+<h2>2024.09.03 - 이준서</h2>
+
+<h3> Components </h3>
+- MenuBar.jsx : 로고를 CurrentDateTime이 나오는곳에 넣어보고 CurrentDateTime을 아래로 옮겨보았습니다.  <br>
+- MenuBar.css : 위치변경 <br>
