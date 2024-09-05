@@ -1,25 +1,15 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { useTheme } from '../Context/themeProvider';
 import styled from 'styled-components';
 import { IoHome } from "react-icons/io5";
 import { FaCalendarCheck, FaStickyNote } from "react-icons/fa";
 import CurrentDateTime from '../CurrentDateTime/CurrentDateTime';
 
 const MenuBar = () => {
-  const [ThemeMode, toggleTheme] = useTheme();
-
   return (
     <Container>
-      <OptionBar>
-        <Button onClick={() => console.log('Option 1')}>1</Button>
-        <Button onClick={() => console.log('Option 2')}>2</Button>
-        <Button onClick={toggleTheme}>
-          {ThemeMode === 'dark' ? 'dark' : 'light'}
-        </Button>
-      </OptionBar>
       <Menu>
-      <LogoContainer>
+        <LogoContainer>
           <Logo src={require('../Assets/motodo_logo.png')} alt="MoToDo Logo" />
         </LogoContainer>
         <CurrentDateTimeContainer>
@@ -40,6 +30,7 @@ const MenuBar = () => {
             <span>Sticky</span>
           </NavItem>
         </NavList>
+
         <Heading>Mo</Heading>
         <NavList>
           <NavItem to="/friends" title="Friends">
@@ -49,6 +40,12 @@ const MenuBar = () => {
             <span>Group</span>
           </NavItem>
         </NavList>
+
+        {/* 버튼을 메뉴 하단에 추가 */}
+        <ButtonGroup>
+          <Button onClick={() => console.log('Option 1')}>1</Button>
+          <Button onClick={() => console.log('Option 2')}>2</Button>
+        </ButtonGroup>
       </Menu>
     </Container>
   );
@@ -60,47 +57,9 @@ const Container = styled.div`
   height: 100vh;
 `;
 
-const OptionBar = styled.div`
-  position: fixed;
-  top: 0;
-  right: 0;
-  height: ;
-  width: 90%;
-  background-color: ${({ theme }) => theme.bgColor};
-  border: ${({ theme }) => theme.borderColor};
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
-  padding-right: 20px;
-  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
-  transition: background-color 0.3s ease, border-color 0.3s ease;
-`;
-
-const Button = styled.button`
-  width: 50px;
-  height: 50px;
-  background-color: ${({ theme }) => theme.optionButtonBg};
-  border: none;
-  color: ${({ theme }) => theme.textColor};
-  text-align: center;
-  display: inline-block;
-  font-size: 16px;
-  margin: 4px 2px;
-  cursor: pointer;
-  transition: background-color 0.3s ease, transform 0.3s ease;
-
-  &:hover {
-    background-color: ${({ theme }) => theme.optionButtonHoverBg};
-    transform: scale(1.05);  // Optional: add slight scaling effect for better feedback
-  }
-`;
-
 const Menu = styled.nav`
-  --bg-color: ${({ theme }) => theme.bgColor};
-  --text-color: ${({ theme }) => theme.textColor};
-
-  background-color: var(--bg-color);
-  color: var(--text-color);
+  background-color: #f4f4f4;
+  color: #333;
   width: 200px;
   height: 100%;
   position: fixed;
@@ -110,8 +69,8 @@ const Menu = styled.nav`
   flex-direction: column;
   padding: 20px;
   box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
-  transition: background-color 0.3s ease, color 0.3s ease;
 `;
+
 const LogoContainer = styled.div`
   display: flex;
   justify-content: center;
@@ -134,7 +93,7 @@ const CurrentDateTimeContainer = styled.div`
 `;
 
 const Heading = styled.span`
-  color: ${({ theme }) => theme.textColor};
+  color: #333;
   font-size: 20px;
   line-height: 1;
   margin-bottom: 0.75rem;
@@ -150,20 +109,20 @@ const NavList = styled.ul`
 `;
 
 const NavItem = styled(Link)`
-  background-color: var(--bg-color);
+  background-color: #f4f4f4;
   border-radius: 0.75em;
-  color: var(--text-color);
+  color: #333;
   display: flex;
   align-items: center;
   padding: 0.75em;
   text-align: left;
-  transition: background-color 0.3s ease, color 0.3s ease;
-  margin-bottom: 0.5em;  // Optional: add spacing between items
+  transition: background-color 0.3s ease;
+  margin-bottom: 0.5em;
   text-decoration: none;
 
   &:hover {
     background-color: hsla(0, 0%, 100%, 0.1);
-    color: var(--text-color);
+    color: #333;
   }
 
   .icon {
@@ -171,6 +130,29 @@ const NavItem = styled(Link)`
     width: 1.5em;
     height: 1.5em;
     margin-right: 0.75em;
+  }
+`;
+
+const ButtonGroup = styled.div`
+  display: inline-block;
+ margin: 20px 10px 10px 10px;
+`;
+
+const Button = styled.button`
+  width: 50%;
+  height: 50px;
+  background-color: #ffffff;
+  border: none;
+  color: black;
+  text-align: center;
+  display: inline-block;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+
+  &:hover {
+    background-color: #0056b3;
+    transform: scale(1.05);
   }
 `;
 
