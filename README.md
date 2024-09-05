@@ -315,3 +315,9 @@ LoginForm/Register - css 버그 (버그 수정 완료) <br>
 <h3> Components </h3>
 - MenuBar.jsx : 로고를 CurrentDateTime이 나오는곳에 넣어보고 CurrentDateTime을 아래로 옮겨보았습니다.  <br>
 - MenuBar.css : 위치변경 <br>
+
+<h2>2024.09.05 - 이준서</h2>
+
+<h3> Components </h3>
+- MenuBar.jsx : 옵션바 삭제 및 기존에 있는 버튼 위치조정  <br>
+- Calendar.module.css : 비율수정 <br> 
