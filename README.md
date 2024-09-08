@@ -315,3 +315,17 @@ LoginForm/Register - css 버그 (버그 수정 완료) <br>
 <h3> Components </h3>
 - MenuBar.jsx : 로고를 CurrentDateTime이 나오는곳에 넣어보고 CurrentDateTime을 아래로 옮겨보았습니다.  <br>
 - MenuBar.css : 위치변경 <br>
+<hr>
+
+<h2>2024.09.05 - 이준서</h2>
+
+<h3> Components </h3>
+- MenuBar.jsx : 매뉴바 통합했습니다 버튼 위치 변경  <br>
+- MenuBar.css : 위치변경 <br>
+<hr>
+
+<h2>2024.09.09 - 이준서</h2>
+
+<h3> Components </h3>
+- Calendar.jsx : 텍스트 필드대신 캘린더 칸을 클릭했을때 react-modal 컴포넌트를 사용해서 모달창으로 구현해봤습니다. 아직 미완성  <br>
+- Calendar.module.css : 수정 <br>
