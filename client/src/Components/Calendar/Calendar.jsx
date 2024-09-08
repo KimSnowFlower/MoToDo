@@ -3,10 +3,13 @@ import { BiSolidHeart } from "react-icons/bi";
 import { PiCakeDuotone } from "react-icons/pi";
 import { IoAirplane } from "react-icons/io5";
 import { IoBeerOutline } from "react-icons/io5";
+import Modal from 'react-modal';
 import MenuBar from '../MenuBar/MenuBar';
 import styles from './Calendar.module.css';
 
 const icons = [<BiSolidHeart />, <PiCakeDuotone />, <IoAirplane />, <IoBeerOutline />];
+
+Modal.setAppElement('#root'); // Modal에 대한 접근성 설정
 
 const Calendar = () => {
   const currentDate = new Date();
@@ -19,10 +22,15 @@ const Calendar = () => {
   const [events, setEvents] = useState({});
   const [selectedEvent, setSelectedEvent] = useState(null);
   const [iconIndexes, setIconIndexes] = useState({});
+  const [showModal, setShowModal] = useState(false);
 
   const daysInWeek = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
   const firstDayOfMonth = new Date(currentYear, currentMonth, 1).getDay();
   const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
+
+  
+  const openModal = () => setShowModal(true);
+  const closeModal = () => setShowModal(false);
 
   const handleDateClick = (day) => {
     const dateKey = `${currentYear}-${currentMonth + 1}-${day}`;
@@ -31,6 +39,7 @@ const Calendar = () => {
     setEventTitle(event?.title || '');
     setEventTime(event?.time || { hour: '00', minute: '00', second: '00' });
     setEventContent(event?.content || '');
+    openModal();
     
     // 아이콘 토글을 위한 상태 업데이트
     setIconIndexes(prevIndexes => ({
@@ -76,6 +85,7 @@ const Calendar = () => {
       }));
       setEventTitle('');
       setEventContent('');
+      closeModal();
     }
   };
 
@@ -179,14 +189,6 @@ const Calendar = () => {
           {days}
         </div>
       </div>
-      <div className={styles.textField}>
-        <input
-          type="text"
-          placeholder="제목"
-          className={styles.textFieldTitle}
-          value={eventTitle}
-          onChange={(e) => setEventTitle(e.target.value)}
-        />
         <div className={styles.timeSelectors}>
           <label>시간: {selectedDate?.toLocaleDateString()}</label>
           <div>
@@ -215,26 +217,14 @@ const Calendar = () => {
             </select>
           </div>
         </div>
-        <textarea
-          placeholder="내용"
-          className={styles.textFieldContent}
-          value={eventContent}
-          onChange={(e) => setEventContent(e.target.value)}
-        />
-        <button className={styles.saveButton} onClick={handleSaveEvent}>
-          저장
-        </button>
-        {selectedEvent && (
-          <div className={styles.actionButtons}>
-            <button className={styles.updateButton} onClick={handleEventUpdate}>
-              수정
-            </button>
-            <button className={styles.deleteButton} onClick={handleEventDelete}>
-              삭제
-            </button>
-          </div>
-        )}
-      </div>
+        <Modal isOpen={showModal} onRequestClose={closeModal}>
+        <h2>이벤트 상세 정보</h2>
+        <input type="text" placeholder="제목" value={eventTitle} onChange={(e) => setEventTitle(e.target.value)} />
+        <input type="text" placeholder="시간" value={`${eventTime.hour}:${eventTime.minute}`} onChange={(e) => setEventTime(e.target.value)} />
+        <textarea placeholder="내용" value={eventContent} onChange={(e) => setEventContent(e.target.value)} />
+        <button onClick={handleSaveEvent}>저장</button>
+        <button onClick={closeModal}>닫기</button>
+      </Modal>
     </div>
   );
 };

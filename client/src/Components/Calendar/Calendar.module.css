@@ -13,36 +13,10 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: calc(50px + (100 - 50) * (100vw - 854px) / (1920 - 854)); /* 패딩이 화면 크기에 따라 유동적으로 변경 */
+  padding: 30px; /* 모달로 인해 패딩을 약간 조정 */
   background-color: #ffffff; /* 캘린더 영역 배경 색상 */
   border-radius: 10px; /* 컨테이너 모서리를 둥글게 */
-  width: calc(400px + (600 - 400) * (100vw - 854px) / (1920 - 854)); /* 너비가 화면 크기에 따라 유동적으로 변경 */
-}
-
-.textField {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  padding: 20px;
-  background-color: #F6F1F1; /* 텍스트 입력 영역 배경 색상 */
-  border-left: 1px solid #ddd;
-}
-
-.textFieldContent {
-  width: 100%;
-  height: 60px;
-  margin-top: 8px;
-}
-
-.textFieldTitle,
-.textFieldTime,
-.textArea {
-  width: 100%;
-  margin-bottom: 10px;
-  padding: 10px;
-  background-color: #ffffff; /* 텍스트 필드 배경색 */
-  border: 1px solid #ccc;
-  border-radius: 5px;
+  width: 100%; /* 전체 화면 너비를 사용하도록 변경 */
 }
 
 .calendarHeader {
@@ -67,12 +41,13 @@
 
 .calendarDay {
   position: relative;
-  padding: calc(10px + (15 - 10) * (100vw - 854px) / (1920 - 854)); /* 패딩이 화면 크기에 따라 유동적으로 변경 */
+  padding: 15px; /* 패딩 수정 */
   border: 1px solid #ccc;
   min-height: 80px;
   border-radius: 10px; /* 모서리를 둥글게 */
   background-color: #ffffff;
   transition: background-color 0.3s ease, box-shadow 0.3s ease;
+  cursor: pointer; /* 클릭 가능함을 표시 */
 }
 
 .calendarDay:hover {
@@ -81,28 +56,8 @@
 }
 
 .eventTitle {
-  font-size: calc(12px + (14 - 12) * (100vw - 854px) / (1920 - 854)); /* 폰트 크기가 화면 크기에 따라 유동적으로 변경 */
+  font-size: 14px; /* 폰트 크기 일관성 유지 */
   margin-top: 4px;
-}
-
-.eventIndicator {
-  position: absolute;
-  top: 4px;
-  right: 4px;
-  width: 8px;
-  height: 8px;
-  background-color: #146C94;
-  border-radius: 50%;
-  animation: rotate 2s infinite linear; 
-}
-
-@keyframes rotate {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
 }
 
 .iconContainer {
@@ -114,38 +69,23 @@
   cursor: pointer;
 }
 
-.actionButtons {
+/* 모달 관련 스타일 */
+.modalOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.75); /* 모달 배경 투명도 */
   display: flex;
-  gap: 8px;
-  margin-top: 8px;
+  justify-content: center;
+  align-items: center;
 }
 
-.calendarDayEmpty {
-  border: none;
-  background: transparent;
-}
-
-.calendarDayName {
-  font-weight: bold;
-  text-align: center;
-  font-size: calc(14px + (16 - 14) * (100vw - 854px) / (1920 - 854)); /* 폰트 크기가 화면 크기에 따라 유동적으로 변경 */
-}
-
-.selected {
-  background-color: #E8F1F5;
+.modalContent {
+  background: white;
+  padding: 20px;
   border-radius: 10px;
-}
-
-.saveButton {
-  background-color: #ffffff;
-  color: #000000;
-  border: none;
-  padding: 10px;
-  cursor: pointer;
-  border-radius: 5px;
-  transition: background-color 0.3s;
-}
-
-.saveButton:hover {
-  background-color: #ffffff;
+  width: 50%; /* 모달 크기 */
+  max-width: 500px; /* 최대 모달 너비 */
 }
