@@ -189,34 +189,6 @@ const Calendar = () => {
           {days}
         </div>
       </div>
-        <div className={styles.timeSelectors}>
-          <label>시간: {selectedDate?.toLocaleDateString()}</label>
-          <div>
-            <select value={eventTime.hour} onChange={(e) => handleTimeChange('hour', e.target.value)}>
-              {[...Array(24).keys()].map(hour => (
-                <option key={hour} value={String(hour).padStart(2, '0')}>
-                  {String(hour).padStart(2, '0')}
-                </option>
-              ))}
-            </select>
-            :
-            <select value={eventTime.minute} onChange={(e) => handleTimeChange('minute', e.target.value)}>
-              {[...Array(60).keys()].map(minute => (
-                <option key={minute} value={String(minute).padStart(2, '0')}>
-                  {String(minute).padStart(2, '0')}
-                </option>
-              ))}
-            </select>
-            :
-            <select value={eventTime.second} onChange={(e) => handleTimeChange('second', e.target.value)}>
-              {[...Array(60).keys()].map(second => (
-                <option key={second} value={String(second).padStart(2, '0')}>
-                  {String(second).padStart(2, '0')}
-                </option>
-              ))}
-            </select>
-          </div>
-        </div>
         <Modal isOpen={showModal} onRequestClose={closeModal}>
         <h2>이벤트 상세 정보</h2>
         <input type="text" placeholder="제목" value={eventTitle} onChange={(e) => setEventTitle(e.target.value)} />

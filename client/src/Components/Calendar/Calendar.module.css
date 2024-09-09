@@ -4,19 +4,19 @@
   width: calc(100% - 200px);
   height: 100%;
   margin-left: 200px;
-  background-color: #F6F1F1; /* 전체 배경을 밝은 색상으로 설정 */
+  background-color: #F6F1F1; 
 }
 
 .calendarContainer {
-  flex: 2;
+  flex: 1;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 30px; /* 모달로 인해 패딩을 약간 조정 */
-  background-color: #ffffff; /* 캘린더 영역 배경 색상 */
-  border-radius: 10px; /* 컨테이너 모서리를 둥글게 */
-  width: 100%; /* 전체 화면 너비를 사용하도록 변경 */
+  padding: calc(30px + (275 - 200) * (100vw - 854px) / (1920 - 854));
+  background-color: #ffffff; 
+  border-radius: 10px;
+  width: 100%; 
 }
 
 .calendarHeader {
@@ -24,9 +24,9 @@
   justify-content: space-between;
   align-items: center;
   width: 100%;
-  background-color: #19A7C3; /* 헤더 배경색 설정 */
-  color: #ffffff; /* 헤더 텍스트 색상 */
-  padding: 10px;
+  background-color: #19A7C3; 
+  color: #ffffff; 
+  padding: 5px;
   border-radius: 10px 10px 0 0; 
 }
 
@@ -36,18 +36,17 @@
   gap: 10px;
   width: 100%;
   background-color: #AFD3E2; 
-  border-radius: 0 0 10px 10px; /* 그리드 하단 모서리 둥글게 */
+  border-radius: 0 0 10px 10px; 
 }
 
 .calendarDay {
   position: relative;
-  padding: 15px; /* 패딩 수정 */
+  padding: 15px; 
   border: 1px solid #ccc;
   min-height: 80px;
-  border-radius: 10px; /* 모서리를 둥글게 */
   background-color: #ffffff;
   transition: background-color 0.3s ease, box-shadow 0.3s ease;
-  cursor: pointer; /* 클릭 가능함을 표시 */
+  cursor: pointer; 
 }
 
 .calendarDay:hover {
@@ -56,7 +55,7 @@
 }
 
 .eventTitle {
-  font-size: 14px; /* 폰트 크기 일관성 유지 */
+  font-size: 14px; 
   margin-top: 4px;
 }
 
@@ -69,14 +68,13 @@
   cursor: pointer;
 }
 
-/* 모달 관련 스타일 */
 .modalOverlay {
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: rgba(0, 0, 0, 0.75); /* 모달 배경 투명도 */
+  background-color: rgba(0, 0, 0, 0.75); 
   display: flex;
   justify-content: center;
   align-items: center;
@@ -86,6 +84,6 @@
   background: white;
   padding: 20px;
   border-radius: 10px;
-  width: 50%; /* 모달 크기 */
-  max-width: 500px; /* 최대 모달 너비 */
+  width: 50%;
+  max-width: 500px; 
 }
