@@ -327,5 +327,12 @@ LoginForm/Register - css 버그 (버그 수정 완료) <br>
 <h2>2024.09.09 - 이준서</h2>
 
 <h3> Components </h3>
-- Calendar.jsx : 텍스트 필드대신 캘린더 칸을 클릭했을때 react-modal 컴포넌트를 사용해서 모달창으로 구현해봤습니다. 아직 미완성  <br>
+- Calendar.jsx : 텍스트 필드대신 캘린더 칸을 클릭했을때 react-modal 라이브러리를 사용해서 모달창으로 구현해봤습니다. 아직 미완성  <br>
+- Calendar.module.css : 수정 <br>
+<hr>
+
+<h2>2024.09.10 - 이준서</h2>
+
+<h3> Components </h3>
+- Calendar.jsx : 세부기능 조정  <br>
 - Calendar.module.css : 수정 <br>
