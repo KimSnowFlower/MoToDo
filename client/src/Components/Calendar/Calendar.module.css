@@ -3,6 +3,7 @@
   width: calc(100% - 200px);
   height: 100%;
   margin-left: 200px;
+  padding: 100px;
   background-color: #F6F1F1; 
 }
 
@@ -23,8 +24,8 @@
   justify-content: space-between;
   align-items: center;
   width: 100%;
-  background-color: #19A7C3; 
-  color: #ffffff; 
+  background-color: #ffffff; 
+  color: #000000; 
   padding: 5px;
   border-radius: 10px 10px 0 0; 
 }
@@ -34,7 +35,7 @@
   grid-template-columns: repeat(7, 1fr);
   gap: 10px;
   width: 100%;
-  background-color: #AFD3E2; 
+  background-color: #ffffff; 
   border-radius: 0 0 10px 10px; 
 }
 
@@ -87,10 +88,12 @@
   align-items: center;
 }
 
-.modalContent {
+.modal {
   background: white;
   padding: 50px;
+  margin-top: 200px;
+  margin-left: 700px;
   border-radius: 10px;
   width: 30%;
-  max-width: 100px; 
+  max-width: 160px; 
 }

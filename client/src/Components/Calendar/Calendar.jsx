@@ -29,12 +29,11 @@ const Calendar = () => {
   const firstDayOfMonth = new Date(currentYear, currentMonth, 1).getDay();
   const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
 
-  const colors = [
-    '#FF0000', '#FFC0CB', '#FFA500', '#FFFF00',
-    '#008000', '#0000FF', '#800080', '#000000'
+  const colorOptions = [
+    '#7F24A6', '#4563BF', '#39BF73', '#F2AC29',
+    '#D90404'
   ]; // 추가된 색상 옵션
 
-  // 15분 단위 시간 배열
   const timeOptions = Array.from({ length: 96 }, (_, i) => {
     const hour = Math.floor(i / 4);
     const minute = (i % 4) * 15;
@@ -44,12 +43,20 @@ const Calendar = () => {
     return `${period} ${formattedHour}:${minute.toString().padStart(2, '0')}`;
   });
 
-  // 시간 변환 (오전/오후 -> 24시간 형식)
   const convertTo24HourFormat = (timeString) => {
+
     const [period, time] = timeString.split(' ');
+    if (!period || !time) {
+      console.error('Invalid time format:', timeString);
+      return '00:00:00'; 
+    }
     let [hour, minute] = time.split(':').map(Number);
     if (period === '오후' && hour !== 12) hour += 12;
     if (period === '오전' && hour === 12) hour = 0;
+    if (!timeString) {
+      console.error('Invalid time input:', timeString);
+      return '00:00:00'; 
+    } 
     return `${hour.toString().padStart(2, '0')}:${minute.toString().padStart(2, '0')}:00`;
   };
 
@@ -68,7 +75,6 @@ const Calendar = () => {
     setEventContent(event.content);
     openModal();
     
-    // 아이콘 토글
     setIconIndexes(prevIndexes => ({
       ...prevIndexes,
       [dateKey]: (prevIndexes[dateKey] === undefined || prevIndexes[dateKey] === -1) ? 0 : (prevIndexes[dateKey] + 1) % icons.length
@@ -192,12 +198,12 @@ const Calendar = () => {
                 key={index}
                 className={styles.eventTitle}
                 onClick={(e) => {
-                  e.stopPropagation(); // 이벤트 클릭 시 날짜 클릭 방지
+                  e.stopPropagation(); 
                   handleEventClick(day, event);
                 }}
                 style={{
-                  backgroundColor: 'colors',
-                  color: 'white', // 글자색 하얗게
+                  backgroundColor: 'setEventColor',
+                  color: 'white', 
                   padding: '2px 4px',
                   borderRadius: '4px',
                   marginTop: '4px',
@@ -218,8 +224,8 @@ const Calendar = () => {
       <div className={styles.calendarContainer}>
         <div className={styles.calendarHeader}>
           <button onClick={handlePrevMonth}>&lt;</button>
-          <div>{`${currentYear}년 ${currentMonth + 1}월`}</div>
           <button onClick={handleNextMonth}>&gt;</button>
+          <div>{`${currentYear}년 ${currentMonth + 1}월`}</div>
           <div className={styles.selectedDate}>
             {selectedDate ? `선택: ${selectedDate.toLocaleDateString()}` : '날짜 선택 안됨'}
           </div>
@@ -234,7 +240,7 @@ const Calendar = () => {
         </div>
       </div>
       <Modal isOpen={showModal} onRequestClose={closeModal} className={styles.modal}>
-        <h2>이벤트 상세 정보</h2>
+        <h2>제목 및 일정 추가</h2>
         <input type="text" placeholder="제목" value={eventTitle} onChange={(e) => setEventTitle(e.target.value)} />
         <select
           value={eventTime}
@@ -245,6 +251,15 @@ const Calendar = () => {
           ))}
         </select>
         <textarea placeholder="내용" value={eventContent} onChange={(e) => setEventContent(e.target.value)} />
+        <div className={styles.colorPicker}>
+          {colorOptions.map(color => (
+            <button
+              key={color}
+              style={{ background: color, width: '24px', height: '24px', margin: '5px' }}
+              onClick={() => setEventColor(color)}
+            />
+          ))}
+        </div>
         <button onClick={handleSaveEvent}>저장</button>
         <button onClick={closeModal}>닫기</button>
         {selectedEvent && (
