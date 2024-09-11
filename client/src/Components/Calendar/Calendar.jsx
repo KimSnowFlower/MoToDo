@@ -6,34 +6,34 @@ import { IoBeerOutline } from "react-icons/io5";
 import Modal from 'react-modal';
 import MenuBar from '../MenuBar/MenuBar';
 import styles from './Calendar.module.css';
-
+// 아이콘 로테이션 순서
 const icons = [<BiSolidHeart />, <PiCakeDuotone />, <IoAirplane />, <IoBeerOutline />];
 
 Modal.setAppElement('#root'); // Modal 접근성 설정
 
 const Calendar = () => {
-  const currentDate = new Date();
-  const [currentYear, setCurrentYear] = useState(currentDate.getFullYear());
-  const [currentMonth, setCurrentMonth] = useState(currentDate.getMonth());
-  const [selectedDate, setSelectedDate] = useState(null);
-  const [eventTitle, setEventTitle] = useState('');
-  const [eventTime, setEventTime] = useState('오전 12:00');
-  const [eventContent, setEventContent] = useState('');
-  const [events, setEvents] = useState({}); 
+  const currentDate = new Date(); //현재 날짜
+  const [currentYear, setCurrentYear] = useState(currentDate.getFullYear()); //현재 연도
+  const [currentMonth, setCurrentMonth] = useState(currentDate.getMonth()); // 현재 월
+  const [selectedDate, setSelectedDate] = useState(null); // 선택된 날짜
+  const [eventTitle, setEventTitle] = useState(''); // 이벤트 제목
+  const [eventTime, setEventTime] = useState('오전 12:00'); // 이벤트 시간
+  const [eventContent, setEventContent] = useState(''); // 이벤트 내용
+  const [events, setEvents] = useState({}); // 이벤트 저장
   const [eventColor, setEventColor] = useState('#FFFF00'); // 기본 색상
-  const [selectedEvent, setSelectedEvent] = useState(null);
-  const [iconIndexes, setIconIndexes] = useState({});
-  const [showModal, setShowModal] = useState(false);
+  const [selectedEvent, setSelectedEvent] = useState(null); // 선택된 이벤트
+  const [iconIndexes, setIconIndexes] = useState({}); // 아이콘 인덱스
+  const [showModal, setShowModal] = useState(false); // 모달
 
-  const daysInWeek = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
-  const firstDayOfMonth = new Date(currentYear, currentMonth, 1).getDay();
-  const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
+  const daysInWeek = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']; //요일 배열
+  const firstDayOfMonth = new Date(currentYear, currentMonth, 1).getDay(); // 해당 월의 첫 요일
+  const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate(); // 해당 월의 일수
 
   const colorOptions = [
     '#7F24A6', '#4563BF', '#39BF73', '#F2AC29',
     '#D90404'
-  ]; // 추가된 색상 옵션
-
+  ]; // 선택할 수 있는 색깔
+//시간을 15분 단위로 선택
   const timeOptions = Array.from({ length: 96 }, (_, i) => {
     const hour = Math.floor(i / 4);
     const minute = (i % 4) * 15;
@@ -42,14 +42,14 @@ const Calendar = () => {
     const period = isPM ? "오후" : "오전";
     return `${period} ${formattedHour}:${minute.toString().padStart(2, '0')}`;
   });
-
+// 문자열 시간을 24시간 형식으로 변환
   const convertTo24HourFormat = (timeString) => {
-
     const [period, time] = timeString.split(' ');
     if (!period || !time) {
       console.error('Invalid time format:', timeString);
       return '00:00:00'; 
     }
+    //오전 12시를 인식 못해서 예외 처리를 추가함
     let [hour, minute] = time.split(':').map(Number);
     if (period === '오후' && hour !== 12) hour += 12;
     if (period === '오전' && hour === 12) hour = 0;
@@ -60,12 +60,12 @@ const Calendar = () => {
     return `${hour.toString().padStart(2, '0')}:${minute.toString().padStart(2, '0')}:00`;
   };
 
-  const openModal = () => setShowModal(true);
-  const closeModal = () => {
+  const openModal = () => setShowModal(true); //모달 창 오픈
+  const closeModal = () => { // 모달창 닫기
     setShowModal(false);
     setSelectedEvent(null);
   };
-
+//날짜를 클릭했을 때 이벤트
   const handleDateClick = (day) => {
     const dateKey = `${currentYear}-${currentMonth + 1}-${day}`;
     setSelectedDate(new Date(currentYear, currentMonth, day));
@@ -80,7 +80,7 @@ const Calendar = () => {
       [dateKey]: (prevIndexes[dateKey] === undefined || prevIndexes[dateKey] === -1) ? 0 : (prevIndexes[dateKey] + 1) % icons.length
     }));
   };
-
+// 이전달 이동 버튼
   const handlePrevMonth = () => {
     if (currentMonth === 0) {
       setCurrentYear(prevYear => prevYear - 1);
@@ -89,7 +89,7 @@ const Calendar = () => {
       setCurrentMonth(prevMonth => prevMonth - 1);
     }
   };
-
+// 다음달 이동 버튼
   const handleNextMonth = () => {
     if (currentMonth === 11) {
       setCurrentYear(prevYear => prevYear + 1);
@@ -98,7 +98,7 @@ const Calendar = () => {
       setCurrentMonth(prevMonth => prevMonth + 1);
     }
   };
-
+// 이벤트 저장
   const handleSaveEvent = () => {
     if (selectedDate) {
       const dateKey = `${selectedDate.getFullYear()}-${selectedDate.getMonth() + 1}-${selectedDate.getDate()}`;
@@ -107,7 +107,7 @@ const Calendar = () => {
         title: eventTitle,
         time: convertTo24HourFormat(eventTime),
         content: eventContent,
-        color: eventColor // 색상 저장
+        color: eventColor 
       };
       setEvents(prevEvents => ({
         ...prevEvents,
@@ -116,7 +116,7 @@ const Calendar = () => {
       closeModal();
     }
   };
-
+// 이벤트 클릭? 
   const handleEventClick = (day, event) => {
     setSelectedDate(new Date(currentYear, currentMonth, day));
     setSelectedEvent(event);
@@ -202,7 +202,7 @@ const Calendar = () => {
                   handleEventClick(day, event);
                 }}
                 style={{
-                  backgroundColor: 'setEventColor',
+                  backgroundColor: event.color,
                   color: 'white', 
                   padding: '2px 4px',
                   borderRadius: '4px',

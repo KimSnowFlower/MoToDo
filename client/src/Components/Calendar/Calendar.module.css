@@ -78,10 +78,6 @@
 
 .modalOverlay {
   position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
   background-color: rgba(0, 0, 0, 0.75); 
   display: flex;
   justify-content: center;
@@ -93,7 +89,6 @@
   padding: 50px;
   margin-top: 200px;
   margin-left: 700px;
-  border-radius: 10px;
   width: 30%;
-  max-width: 160px; 
+  max-width: 200px; 
 }
