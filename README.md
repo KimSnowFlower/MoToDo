@@ -351,4 +351,5 @@ LoginForm/Register - css 버그 (버그 수정 완료) <br>
 
 <h3> 전달사항 </h3>
 - 정인님 스티키 css 완전히 변경해야 함
-- Calendar 뒷배경이 저게 맞나요? 갈색 느낌이 맞아용?
+- Calendar 뒷배경이 저게 맞나요? 갈색 느낌이 맞아용? 아니면 fafafa로 바꿀게용
+- Chat gpt 돌릴 때 App.css에 기준을 같이 보여주면 바꾸기 편할거임!!
