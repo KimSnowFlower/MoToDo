@@ -1,9 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-import { IoHome } from "react-icons/io5";
-import { FaCalendarCheck, FaStickyNote } from "react-icons/fa";
-import CurrentDateTime from '../CurrentDateTime/CurrentDateTime';
 
 const MenuBar = () => {
   return (
@@ -12,40 +9,29 @@ const MenuBar = () => {
         <LogoContainer>
           <Logo src={require('../Assets/motodo_logo.png')} alt="MoToDo Logo" />
         </LogoContainer>
-        <CurrentDateTimeContainer>
-          <CurrentDateTime />
-        </CurrentDateTimeContainer>
-        <Heading>Menu</Heading>
+
         <NavList>
           <NavItem to="/home" title="Home">
-            <IoHome className="icon" />
+            <img src={require('../Assets/home_button.png')} alt="Home" className="icon" />
             <span>Home</span>
           </NavItem>
           <NavItem to="/calendar" title="Calendar">
-            <FaCalendarCheck className="icon" />
+            <img src={require('../Assets/calendar_button.png')} alt="Calendar" className="icon" />
             <span>Calendar</span>
           </NavItem>
-          <NavItem to="#" title="Sticky">
-            <FaStickyNote className="icon" />
+          <NavItem to="/sticky" title="Sticky">
+            <img src={require('../Assets/sticky_button.png')} alt="Sticky" className="icon" />
             <span>Sticky</span>
           </NavItem>
-        </NavList>
-
-        <Heading>Mo</Heading>
-        <NavList>
           <NavItem to="/friends" title="Friends">
+            <img src={require('../Assets/friends_button.png')} alt="Friends" className="icon" />
             <span>Friends</span>
           </NavItem>
           <NavItem to="#" title="Group">
+            <img src={require('../Assets/group_button.png')} alt="Group" className="icon" />
             <span>Group</span>
           </NavItem>
         </NavList>
-
-        {/* 버튼을 메뉴 하단에 추가 */}
-        <ButtonGroup>
-          <Button onClick={() => console.log('Option 1')}>1</Button>
-          <Button onClick={() => console.log('Option 2')}>2</Button>
-        </ButtonGroup>
       </Menu>
     </Container>
   );
@@ -92,16 +78,6 @@ const CurrentDateTimeContainer = styled.div`
   width: 100%;
 `;
 
-const Heading = styled.span`
-  color: #333;
-  font-size: 20px;
-  line-height: 1;
-  margin-bottom: 0.75rem;
-  text-transform: uppercase;
-  display: flex;
-  align-items: center;
-`;
-
 const NavList = styled.ul`
   list-style: none;
   padding: 0;
@@ -114,10 +90,10 @@ const NavItem = styled(Link)`
   color: #333;
   display: flex;
   align-items: center;
-  padding: 0.75em;
+  padding: 0.25em; /* 간격을 줄이기 위해 padding 값을 줄였습니다 */
   text-align: left;
   transition: background-color 0.3s ease;
-  margin-bottom: 0.5em;
+  margin-bottom: 0.125em; /* 간격을 줄이기 위해 margin 값을 줄였습니다 */
   text-decoration: none;
 
   &:hover {
@@ -127,32 +103,13 @@ const NavItem = styled(Link)`
 
   .icon {
     display: block;
-    width: 1.5em;
-    height: 1.5em;
-    margin-right: 0.75em;
+    width: 2em; /* 아이콘 크기를 키우기 위해 width 값을 증가시켰습니다 */
+    height: 2em; /* 아이콘 크기를 키우기 위해 height 값을 증가시켰습니다 */
+    margin-right: 1em; /* 아이콘과 텍스트 간격을 늘리기 위해 값을 조정했습니다 */
   }
-`;
 
-const ButtonGroup = styled.div`
-  display: inline-block;
- margin: 20px 10px 10px 10px;
-`;
-
-const Button = styled.button`
-  width: 50%;
-  height: 50px;
-  background-color: #ffffff;
-  border: none;
-  color: black;
-  text-align: center;
-  display: inline-block;
-  font-size: 16px;
-  cursor: pointer;
-  transition: background-color 0.3s ease, transform 0.3s ease;
-
-  &:hover {
-    background-color: #0056b3;
-    transform: scale(1.05);
+  span {
+    font-size: 1.2em; /* 텍스트 크기를 키우기 위해 font-size 값을 증가시켰습니다 */
   }
 `;
 

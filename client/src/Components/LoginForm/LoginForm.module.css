@@ -14,7 +14,7 @@ html, body {
 
 .background {
     flex: 1;
-    background: url('../Assets/LoginForm_background.png') center center no-repeat;
+    background-color: #146c94;
     background-size: cover;
 }
 

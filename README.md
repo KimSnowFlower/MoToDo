@@ -336,3 +336,19 @@ LoginForm/Register - css 버그 (버그 수정 완료) <br>
 <h3> Components </h3>
 - Calendar.jsx : 세부기능 조정  <br>
 - Calendar.module.css : 수정 <br>
+<hr>
+
+<h2>2024.10.04 - 김평화</h2>
+
+<h3> App </h3>
+- App.js에 sticky 링크 추가 <br>
+
+<h3> Components </h3>
+- Assets에 이미지 아이콘 추가 <br>
+- Sticky 추가 (정인님 구현) <br>
+- LoginForm, MenuBar 일부 수정 <br>
+- Menubar 불필요한 것들 제거 후 변경
+
+<h3> 전달사항 </h3>
+- 정인님 스티키 css 완전히 변경해야 함
+- Calendar 뒷배경이 저게 맞나요? 갈색 느낌이 맞아용?
