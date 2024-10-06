@@ -7,7 +7,7 @@ const socket = io('http://localhost:5000');
 
 const Friends = () => {
     const [friends, setFriends] = useState([]);
-    const [userInfo, setUserInfo] = useState({ name: '' });
+    const [userInfo, setUserInfo] = useState({ id: '', name: '' });
     const [inputMessage, setInputMessage] = useState('');
     const [selectedFriend, setSelectedFriend] = useState(null);
     const [chatHistory, setChatHistory] = useState([]);
@@ -108,7 +108,7 @@ const Friends = () => {
 
         try {
             // 사용자가 참여하고 있는 채팅 방 조회
-            const roomsResponse = await fetch(`http://localhost:5000/api/chatRooms`, {
+            const roomsResponse = await fetch('http://localhost:5000/api/chatRooms', {
                 method: 'GET',
                 headers: {
                     'Authorization': `Bearer ${token}`,
@@ -130,7 +130,7 @@ const Friends = () => {
             }
 
             // 채팅 방이 없는 경우 생성
-            const createResponse = await fetch(`http://localhost:5000/api/chatRoom`, {
+            const createResponse = await fetch('http://localhost:5000/api/chatRoom', {
                 method: 'POST',
                 headers: {
                     'Authorization': `Bearer ${token}`,
@@ -177,7 +177,7 @@ const Friends = () => {
     const sendMessage = async () => {
         if (inputMessage.trim() && selectedFriend) {
             const messageData = {
-                chat_id: userInfo.id,       // 선택한 채팅 방 ID
+                chat_id: selectedFriend.id, // 선택한 친구의 ID
                 sender_id: userInfo.id,     // 사용자의 ID
                 message: inputMessage,      // 보낼 메시지 내용
             };
@@ -212,66 +212,66 @@ const Friends = () => {
 
     return (
         <div className={styles.totalPage}>
-            <MenuBar />
-            <div className={styles.friendsMain}>
-                <div className={styles.userFriendsContainer}>
-                    <div className={styles.userInfo}>
-                        <span>{userInfo.name ? userInfo.name : "X"}의 친구들</span>
-                        <div className={styles.buttons}>
-                            <button className={styles.addFriendButton}>
-                                <img src={require('../Assets/add_button.png')} alt="Add Friend" className={styles.buttonImage} />
-                            </button>
-                            <button className={styles.searchFriendButton}>
-                                <img src={require('../Assets/search_button.png')} alt="Search Friend" className={styles.buttonImage} />
-                            </button>
+    <MenuBar />
+    <div className={styles.friendsMain}>
+        <div className={styles.userFriendsContainer}>
+            <div className={styles.userInfo}>
+                <span>{userInfo.name ? userInfo.name : "X"}의 친구들</span>
+                <div className={styles.buttons}>
+                    <button className={styles.addFriendButton}>
+                        <img src={require('../Assets/add_button.png')} alt="Add Friend" className={styles.buttonImage} />
+                    </button>
+                    <button className={styles.searchFriendButton}>
+                        <img src={require('../Assets/search_button.png')} alt="Search Friend" className={styles.buttonImage} />
+                    </button>
+                </div>
+            </div>
+            <div className={styles.friendsList}>
+                {friends.length > 0 ? (
+                    friends.map((friend) => (
+                        <div 
+                            key={friend.id} 
+                            className={`${styles.friendItem} ${selectedFriend?.id === friend.id ? styles.selected : ''}`} 
+                            onClick={() => selectFriend(friend)}
+                        >
+                            {friend.name}
                         </div>
-                    </div>
-                    <div className={styles.friendsList}>
-                        {friends.length > 0 ? (
-                            friends.map((friend) => (
-                                <div 
-                                    key={friend.id} 
-                                    className={`${styles.friendItem} ${selectedFriend?.id === friend.id ? styles.selected : ''}`} 
-                                    onClick={() => selectFriend(friend)}
-                                >
-                                    {friend.name}
-                                </div>
-                            ))
-                        ) : (
-                            <div>친구가 없습니다.</div>
-                        )}
-                    </div>
-                </div>
-                <div className={styles.chatWindow}>
-                    {selectedFriend ? (
-                        <>
-                            <div className={styles.chatUserName}>{selectedFriend.name}</div>
-                            <div className={styles.separator} />
-                            <div className={styles.chatMessages}>
-                                {chatHistory.map((message, index) => (
-                                    <div key={index} className={`${styles.message} ${message.senderId === userInfo.id ? styles.sent : styles.received}`}>
-                                        <span className={styles.sender}>{message.senderId === userInfo.id ? userInfo.name : selectedFriend.name}</span>
-                                        {message.message}
-                                    </div>
-                                ))}
-                            </div>
-                            <div className={styles.messageInput}>
-                                <input 
-                                    type="text" 
-                                    value={inputMessage} 
-                                    onChange={(e) => setInputMessage(e.target.value)} 
-                                    placeholder="메시지를 입력하세요..." 
-                                />
-                                <button onClick={sendMessage}>전송</button>
-                            </div>
-                        </>
-                    ) : (
-                        <div>친구를 선택하세요.</div>
-                    )}
-                </div>
+                    ))
+                ) : (
+                    <div className={styles.noFriends}>친구가 없습니다.</div>
+                )}
+            </div>
+        </div>
+
+        <div className={styles.chatContainer}>
+            <div className={styles.chatHeader}>
+                {selectedFriend ? `Chat with ${selectedFriend.name}` : "친구를 선택하세요"}
+            </div>
+            <div className={styles.chatMessages}>
+                {chatHistory.length > 0 ? (
+                    chatHistory.map((msg, index) => (
+                        <div key={index} className={`${styles.message} ${msg.sender_id === userInfo.id ? styles.myMessage : styles.theirMessage}`}>
+                            <strong>{msg.sender_id === userInfo.id ? userInfo.name : selectedFriend?.name}:</strong> {msg.message}
+                        </div>
+                    ))
+                ) : (
+                    <div className={styles.noMessages}>채팅 메시지가 없습니다.</div>
+                )}
+            </div>
+            <div className={styles.inputContainer}>
+                <input
+                    type="text"
+                    value={inputMessage}
+                    onChange={(e) => setInputMessage(e.target.value)}
+                    placeholder="메시지를 입력하세요..."
+                    className={styles.inputField}
+                />
+                <button onClick={sendMessage} className={styles.sendButton}>전송</button>
             </div>
             {errorMessage && <div className={styles.errorMessage}>{errorMessage}</div>}
         </div>
+    </div>
+</div>
     );
 };
 

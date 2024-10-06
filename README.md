@@ -353,3 +353,16 @@ LoginForm/Register - css 버그 (버그 수정 완료) <br>
 - 정인님 스티키 css 완전히 변경해야 함
 - Calendar 뒷배경이 저게 맞나요? 갈색 느낌이 맞아용? 아니면 fafafa로 바꿀게용
 - Chat gpt 돌릴 때 App.css에 기준을 같이 보여주면 바꾸기 편할거임!!
+
+<h2>2024.10.06 - 김평화</h2>
+
+<h3> App </h3>
+- App.js에 group 링크 추가 <br>
+
+<h3> Components </h3>
+- Friends 채팅 기능 구현 완료 (테스트 x)
+- Menubar에 group 버튼 링크 추가
+
+<h3> 전달사항 </h3>
+- Friends에 친구 추가 / 친구 검색 로직 구현 필요
+- 일단 Group을 빨리 만들고 Friends에 시간을 써야 할듯
