@@ -7,6 +7,7 @@ import Home from './Components/Home/Home';
 import Calendar from './Components/Calendar/Calendar';
 import Sticky from './Components/Sticky/Sticky';
 import Friends from './Components/Friends/Friends';
+import Group from './Components/Group/Group';
 import { ThemeProvider } from './Components/Context/themeProvider';
 import { GlobalStyle } from './Components/Theme/GlobalStyle';
 
@@ -23,6 +24,7 @@ function App() {
             <Route path="/calendar" element={<Calendar />} />
             <Route path="/sticky" element={<Sticky/>} />
             <Route path="/friends" element={<Friends/>} />
+            <Route path="/group" element={<Group/>} />
           </Routes>
         </div>
       </ThemeProvider>

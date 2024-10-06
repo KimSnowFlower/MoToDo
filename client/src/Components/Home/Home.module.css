@@ -33,7 +33,6 @@ body {
   width: calc(100vw - 200px);
   height: 100vh;
   margin-left: 200px;
-  padding-top: 80px;
   box-sizing: border-box;
 }
 

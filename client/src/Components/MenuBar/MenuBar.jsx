@@ -27,7 +27,7 @@ const MenuBar = () => {
             <img src={require('../Assets/friends_button.png')} alt="Friends" className="icon" />
             <span>Friends</span>
           </NavItem>
-          <NavItem to="#" title="Group">
+          <NavItem to="/group" title="Group">
             <img src={require('../Assets/group_button.png')} alt="Group" className="icon" />
             <span>Group</span>
           </NavItem>
@@ -67,15 +67,6 @@ const LogoContainer = styled.div`
 const Logo = styled.img`
   width: 200px;
   height: auto;
-`;
-
-const CurrentDateTimeContainer = styled.div`
-  position: absolute;
-  bottom: 30px;
-  left: 50%;
-  transform: translateX(-50%);
-  text-align: center;
-  width: 100%;
 `;
 
 const NavList = styled.ul`
