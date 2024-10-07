@@ -225,12 +225,13 @@ app.get('/api/chatHistory/:chatRoomId', authenticateToken, async (req, res) => {
 app.post('/api/saveMessage', authenticateToken, async (req, res) => {
   const { chat_id, sender_id, message } = req.body;
 
+  console.log(chat_id, sender_id, message);
+
   // SQL 쿼리 작성
   const sql = 'INSERT INTO messages (chat_id, sender_id, message, created_at) VALUES (?, ?, ?, NOW())';
   
   try {
       const [result] = await db.query(sql, [chat_id, sender_id, message]); // 값을 SQL 쿼리에 전달
-      console.log(chat_id, " ", sender_id, " ", message);
       // 성공적으로 메시지가 저장된 경우
       res.status(201).json({ message: '메시지가 저장되었습니다.' });
   } catch (error) {
