@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState } from 'react'; //React Hook 사용
 import { BiSolidHeart } from "react-icons/bi";
 import { PiCakeDuotone } from "react-icons/pi";
 import { IoAirplane } from "react-icons/io5";
@@ -168,7 +168,7 @@ const Calendar = () => {
   };
 
   const weeks = Math.ceil((firstDayOfMonth + daysInMonth) / 7);
-  const daySize = weeks === 6 ? 80 : 100; // 6주일 때 칸 크기 조정
+  const daySize = weeks === 6 ? 82 : 100; // 6주일 때 칸 크기 조정
 
   const days = [];
   for (let i = 0; i < firstDayOfMonth; i++) {
@@ -224,11 +224,8 @@ const Calendar = () => {
       <div className={styles.calendarContainer}>
         <div className={styles.calendarHeader}>
           <button onClick={handlePrevMonth}>&lt;</button>
-          <button onClick={handleNextMonth}>&gt;</button>
           <div>{`${currentYear}년 ${currentMonth + 1}월`}</div>
-          <div className={styles.selectedDate}>
-            {selectedDate ? `선택: ${selectedDate.toLocaleDateString()}` : '날짜 선택 안됨'}
-          </div>
+          <button onClick={handleNextMonth}>&gt;</button>
         </div>
         <div className={styles.calendarGrid}>
           {daysInWeek.map((dayName, index) => (

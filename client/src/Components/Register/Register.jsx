@@ -62,18 +62,18 @@ const Register = () => {
   };
 
   return (
-    <div className={styles.registerForm}>
+    <><div className={styles['title']}>Welcome to Mo To Do</div><div className={styles.registerForm}>
       <form onSubmit={handleSubmit}>
-        <input name="name" placeholder="이름" onChange={handleChange} value={formData.name} required />
-        <input name="age" type="number" placeholder="나이" onChange={handleChange} value={formData.age} required />
-        <input name="studentId" placeholder="학번" onChange={handleChange} value={formData.studentId} required />
-        <input name="department" placeholder="학과" onChange={handleChange} value={formData.department} required />
-        <input name="username" placeholder="아이디" onChange={handleChange} value={formData.username} required />
+        <input name="name" placeholder="Name" onChange={handleChange} value={formData.name} required />
+        <input name="age" type="number" placeholder="Age" onChange={handleChange} value={formData.age} required />
+        <input name="studentId" placeholder="Student number" onChange={handleChange} value={formData.studentId} required />
+        <input name="department" placeholder="Department" onChange={handleChange} value={formData.department} required />
+        <input name="username" placeholder="ID" onChange={handleChange} value={formData.username} required />
         {errors.username && <p className={styles.error}>{errors.username}</p>}
-        <input name="password" type="password" placeholder="비밀번호" onChange={handleChange} value={formData.password} required />
-        <button type="submit">회원가입</button>
+        <input name="password" type="password" placeholder="Password" onChange={handleChange} value={formData.password} required />
+        <button type="submit">Sign in</button>
       </form>
-    </div>
+    </div></>
   );
 };
 

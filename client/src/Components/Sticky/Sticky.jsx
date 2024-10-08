@@ -46,11 +46,12 @@ export default function StickyNotesApp() {
     }
 
     return (
-        <div className="sticky">
+        <div className="container"><div className="title">메모장</div>
             <MenuBar />
             <div style={{ marginTop: '10px' }}> {/* 여백 추가 */}
                 <button className="sticky-btn" onClick={addNote}>Create Note +</button>
             </div>
+        <div className="container"></div>
             {notes.map(item => (
                 <div className="sticky-note" key={item.id} ref={stickyNoteRef}>
                     <div

@@ -3,20 +3,19 @@ html, body {
     width: 100%;
     margin: 0;
     overflow: hidden;
-
-    background-color: #333 !important;
+    background-color: #ffffff !important;
     background-size: cover;
 }
 
 .registerForm {
     width: 420px;
     background: transparent;
-    border: 2px solid rgba(255, 255, 255, .2);
+    border: 2px solid #AFD3E2;
     backdrop-filter: blur(30px);
     box-shadow: 0 0 1px rgba(0, 0, 0, .2);
     color: #fff;
-    border-radius: 10px;
-    padding: 30px 40px;
+    border-radius: 50px;
+    padding: 50px 60px;
     box-sizing: border-box;
 }
 
@@ -25,10 +24,10 @@ html, body {
     height: 50px; 
     background: transparent;
     outline: none;
-    border: 2px solid rgba(225, 255, 255, .2);
-    border-radius: 40px;
-    font-size: 16px;
-    color: #fff;
+    border: 2px solid #AFD3E2;
+    border-radius: 10px;
+    font-size: 19px;
+    color: #000000;
     padding: 0 20px; 
     box-sizing: border-box;
     margin-bottom: 15px;
@@ -37,13 +36,13 @@ html, body {
 .registerForm button {
     width: 100%;
     height: 45px;
-    background: #fff;
+    background: #19A7C3;
     border: none;
     border-radius: 40px;
     box-shadow: 0 0 1px rgba(0, 0, 0, .1);
     cursor: pointer;
     font-size: 16px;
-    color: #333;
+    color: #fafafa;
     font-weight: 700;
     transition: background-color 0.3s, color 0.3s;
     box-sizing: border-box; 
@@ -52,4 +51,10 @@ html, body {
 .registerForm button:hover {
     background: #ddd;
     color: #000;
+}
+
+.title {
+    color: #146C94;
+    font-size: 32px;
+    font: bolder;
 }
