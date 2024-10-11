@@ -2,9 +2,12 @@
   "name": "server",
   "version": "1.0.0",
   "main": "server.js",
+  "bin": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server.js"
+    "start": "node server.js",
+    "dev": "node server.js",
+    "build": "pkg . --out-path dist --targets node18-linux-x64,node18-macos-x64,node18-win-x64"
   },
   "keywords": [],
   "author": "",
@@ -20,5 +23,9 @@
     "mysql2": "^3.11.3",
     "server": "file:",
     "socket.io": "^4.8.0"
+  },
+  "devDependencies": {
+    "parcel-bundler": "^1.12.5",
+    "pkg": "^5.8.1"
   }
 }

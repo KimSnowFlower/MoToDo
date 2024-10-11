@@ -177,7 +177,7 @@ const Friends = () => {
     const sendMessage = async () => {
         if (inputMessage.trim() && selectedFriend) {
             const messageData = {
-                chat_id: userInfo.id, // 선택한 친구의 ID
+                chat_id: userInfo.id,       // 선택한 친구의 ID
                 sender_id: userInfo.id,     // 사용자의 ID
                 message: inputMessage,      // 보낼 메시지 내용
             };
