@@ -357,41 +357,42 @@ app.get('/api/chatRooms', authenticateToken, async (req, res) => {
 
 // 그룹 조회
 app.get('/api/groups', authenticateToken, async (req, res) => {
-  const userId = req.user.Id;
+  const userId = req.user.id;
 
-  const sql = `SELECT * FROM group_member WHERE user_id = ?`;
+  // 그룹 멤버 테이블과 그룹 테이블을 조인하여 사용자가 속한 그룹 정보 조회
+  const sql = `
+    SELECT g.id, g.name, g.code
+    FROM groups g
+    JOIN group_members gm ON g.id = gm.group_id
+    WHERE gm.user_id = ?
+  `;
 
-  try{
+  try {
     const [rows] = await db.query(sql, [userId]);
-    res.json(rows);
+    res.json(rows); // 그룹 정보 반환
   } catch (error) {
-    res.status(500).json({error: 'Failed to fetch to-do itmes'});
+    console.error('그룹 조회 실패:', error);
+    res.status(500).json({ error: 'Failed to fetch groups' });
   }
 });
 
 // 그룹 생성 API
 app.post('/api/createGroup', authenticateToken, async (req, res) => {
-  const userId = req.user.Id;
+  const userId = req.user.id;
   const { code, name } = req.body; // 클라이언트로부터 그룹 코드와 이름을 받음
-  
-  console.log("createGroup Api");
 
-  // groups 테이블에 그룹 생성
   const sql = `INSERT INTO groups (code, name, created_at, updated_at, creator_id) VALUES (?, ?, NOW(), NOW(), ?)`;
-  // group_member 테이블에 그룹 멤버 추가
-  const sql2 = `INSERT INTO group_member (group_id, user_id, joined_at) VALUES (?, ?, NOW())`;
+  const sql2 = `INSERT INTO group_members (group_id, user_id, joined_at) VALUES (?, ?, NOW())`;
 
   try {
-    // groups 테이블에 그룹 생성
     const [result] = await db.query(sql, [code, name, userId]);
     
-    // group_member 테이블에 생성한 그룹의 id와 userId 추가
     const [joinGroup] = await db.query(sql2, [result.insertId, userId]);
 
-    console.log(result); // 생성된 그룹 정보
-    console.log(joinGroup); // group_member 테이블에 추가된 멤버 정보
+    console.log('User ID:', userId);
+    console.log('Group creation result:', result);
+    console.log("JoinGroup: ", joinGroup);
 
-    // 그룹 생성이 성공하면 클라이언트에 응답
     res.status(201).json({ success: true, groupId: result.insertId });
   } catch (error) {
     console.error('Error creating group:', error);
@@ -403,11 +404,11 @@ app.post('/api/createGroup', authenticateToken, async (req, res) => {
 app.get('/api/checkGroupCode/:code', async (req, res) => {
   const groupCode = req.params.code;
 
-  const sql = `SELECT COUNT(*) as count FROM groups WHERE code = ?`;
+  const sql = `SELECT COUNT(*) AS count FROM groups WHERE code = ?`;
 
   try {
     const [rows] = await db.query(sql, [groupCode]);
-    res.json({ exists: rows[0].count > 0 });
+    res.json({ exists: rows[0].count > 0 }); // 존재 여부를 반환
   } catch (error) {
     console.error('Error checking group code:', error);
     res.status(500).json({ error: 'Failed to check group code' });

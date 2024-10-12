@@ -5,7 +5,7 @@ import styles from './Group.module.css';
 
 const Group = () => {
     const [groups, setGroups] = useState([]);
-    const [selectedGroup, setSelectedGroup] = useState(null); // 선택된 그룹
+    const [selectedGroup, setSelectedGroup] = useState(""); // 선택된 그룹 초기값을 빈 문자열로 설정
     const [createGroup, setCreateGroup] = useState(false); // 그룹 생성 상태
     const [newGroupName, setNewGroupName] = useState(""); // 새로운 그룹 이름
     const [message, setMessage] = useState("");
@@ -32,19 +32,15 @@ const Group = () => {
         }
     };
 
-    // 그룹 생성 처리
     const handleCreateGroup = async () => {
         const token = localStorage.getItem('jwtToken');
         const groupCode = await generateGroupCode(); // 그룹 코드 생성
-        const newGroupName = prompt("새로운 그룹 이름을 입력하세요"); // 그룹 이름 입력 받기
-
-        console.log("createGruop");
-        
+    
         if (!newGroupName) {
             setMessage("그룹 이름을 입력해야 합니다.");
-            return; // 그룹 이름이 없을 경우 함수 종료
+            return;
         }
-
+    
         try {
             const response = await axios.post('http://localhost:5000/api/createGroup', {
                 code: groupCode,
@@ -54,12 +50,11 @@ const Group = () => {
                     Authorization: `Bearer ${token}`,
                 },
             });
-
+    
             if (response.status === 201) {
-                // 성공적으로 그룹 생성된 경우
                 setMessage(`그룹이 생성되었습니다! (그룹 번호: ${groupCode})`);
-                setCreateGroup(false); // 그룹 생성 후 초기 화면으로 돌아감
-                fetchGroups(); // 새로운 그룹 목록을 가져옴
+                setCreateGroup(false);
+                fetchGroups();
             } else {
                 throw new Error('그룹 생성 실패');
             }
@@ -67,7 +62,7 @@ const Group = () => {
             console.error("그룹 생성 실패:", error);
             setMessage("그룹 생성에 실패했습니다. 다시 시도해 주세요.");
         }
-    };
+    };    
 
     // 그룹 코드 생성 함수 (5자리 랜덤 숫자)
     const generateGroupCode = async () => {
@@ -80,7 +75,7 @@ const Group = () => {
             // 그룹 번호의 중복 여부를 확인하기 위한 API 호출
             try {
                 const response = await axios.get(`http://localhost:5000/api/checkGroupCode/${groupCode}`);
-                if (response.data.isUnique) {
+                if (!response.data.exists) { // 중복되지 않으면
                     isUnique = true; // 중복되지 않은 코드라면 루프 종료
                 }
             } catch (error) {
@@ -93,17 +88,25 @@ const Group = () => {
 
     // 그룹 선택 처리
     const handleGroupChange = (event) => {
-        setSelectedGroup(event.target.value);
+        setSelectedGroup(event.target.value); // 선택된 그룹을 상태로 설정
     };
 
-    // 그룹 접속 처리
     const handleJoinGroup = () => {
         if (selectedGroup) {
-            setMessage(`그룹 ${selectedGroup}에 접속합니다.`);
-            // 그룹 접속 후, 그룹의 To-do List와 Notice 페이지로 이동할 로직
-            // 추후 구현 필요
+            const group = groups.find(g => g.id === Number(selectedGroup)); // 문자열을 숫자로 변환
+            
+            // 그룹이 존재하는지 확인
+            if (group) {
+                setMessage(`${group.name}에 접속합니다.`);
+                // 그룹 접속 후, 그룹의 To-do List와 Notice 페이지로 이동할 로직
+                // 추후 구현 필요
+            } else {
+                setMessage("선택된 그룹이 없습니다."); // 그룹이 존재하지 않을 경우 메시지
+            }
+        } else {
+            setMessage("그룹을 선택하세요."); // 선택된 그룹이 없을 경우 메시지
         }
-    };
+    };    
 
     useEffect(() => {
         fetchGroups();
@@ -117,7 +120,6 @@ const Group = () => {
                     <h1>Select Group</h1>
                     {groups.length > 0 ? (
                         <select className={styles.groupSelect} onChange={handleGroupChange} value={selectedGroup}>
-                            <option value="">그룹을 선택하세요</option>
                             {groups.map((group) => (
                                 <option key={group.id} value={group.id}>
                                     {group.name} (코드: {group.code})

@@ -19,7 +19,6 @@ const ToDo = () => {
           Authorization: `Bearer ${token}`,
         },
       });
-      console.log(response.data);
       setNotes(response.data); // 서버에서 가져온 노트 데이터
     } catch (error) {
       setError(error.message);
