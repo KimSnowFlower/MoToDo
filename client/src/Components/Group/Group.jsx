@@ -120,6 +120,9 @@ const Group = () => {
                         <h1>Select Group</h1>
                         {groups.length > 0 ? (
                             <select className={styles.groupSelect} onChange={handleGroupChange} value={selectedGroup}>
+                                <option value="" disabled>
+                                    그룹을 선택하세요.
+                                </option>
                                 {groups.map((group) => (
                                     <option key={group.id} value={group.id}>
                                         {group.name} (코드: {group.code})

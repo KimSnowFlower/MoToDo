@@ -94,7 +94,7 @@ io.on('connection', (socket) => {
   });
 });
 
-// 사용자 등록
+// 사용자 등록 -> Register.jsx
 app.post('/api/register', [
   body('name').isString().withMessage('Name must be a string'),
   body('age').isInt({ min: 1 }).withMessage('Age must be a positive integer'),
@@ -122,7 +122,7 @@ app.post('/api/register', [
   }
 });
 
-// 사용자 로그인
+// 사용자 로그인 -> LoginForm.jsx
 app.post('/api/login', async (req, res) => {
   const { username, password } = req.body;
 
@@ -144,7 +144,7 @@ app.post('/api/login', async (req, res) => {
   }
 });
 
-// 홈 데이터 가져오기
+// 홈 데이터 가져오기 -> Home.jsx
 app.get('/api/home', authenticateToken, async (req, res) => {
   const userId = req.user.id;
 
@@ -169,7 +169,7 @@ app.get('/api/home', authenticateToken, async (req, res) => {
   }
 });
 
-// To-Do 항목 가져오기
+// To-Do 항목 가져오기 -> Home.jsx / To Do.jsx
 app.get('/api/todos', authenticateToken, async (req, res) => {
   const userId = req.user.id;
 
@@ -183,7 +183,7 @@ app.get('/api/todos', authenticateToken, async (req, res) => {
   }
 });
 
-// 새로운 To-Do 항목 추가하기
+// 새로운 To-Do 항목 추가하기 -> Home.jsx / To Do.jsx
 app.post('/api/todos', authenticateToken, async (req, res) => {
   const userId = req.user.id; 
   const { content } = req.body;
@@ -207,7 +207,7 @@ app.post('/api/todos', authenticateToken, async (req, res) => {
   }
 });
 
-// 특정 To-Do 항목 삭제하기
+// 특정 To-Do 항목 삭제하기 -> Home.jsx / To Do.jsx
 app.delete('/api/todos/:id', (req, res) => {
   const { id } = req.params; // URL에서 전달된 id 가져오기
   console.log(id);
@@ -226,7 +226,7 @@ app.delete('/api/todos/:id', (req, res) => {
   });
 });
 
-// 정보 가져오기
+// 정보 가져오기 -> Friends.jsx
 app.get('/api/userInfo', authenticateToken, async (req, res) => {
   const userId = req.user.id;
 
@@ -244,7 +244,7 @@ app.get('/api/userInfo', authenticateToken, async (req, res) => {
   }
 });
 
-// 친구 목록 가져오기
+// 친구 목록 가져오기 -> Friends.jsx
 app.get('/api/friendsList', authenticateToken, async (req, res) => {
   const userId = req.user.id;
 
@@ -269,7 +269,7 @@ app.get('/api/friendsList', authenticateToken, async (req, res) => {
   }
 });
 
-// 채팅 기록 가져오기
+// 채팅 기록 가져오기 -> Friends.jsx
 app.get('/api/chatHistory/:chatRoomId', authenticateToken, async (req, res) => {
   const chatRoomId = req.params.chatRoomId;
 
@@ -283,7 +283,7 @@ app.get('/api/chatHistory/:chatRoomId', authenticateToken, async (req, res) => {
   }
 });
 
-// 메시지 저장 API
+// 메시지 저장 API -> Friends.jsx
 app.post('/api/saveMessage', authenticateToken, async (req, res) => {
   const { chat_id, sender_id, message } = req.body;
 
@@ -302,7 +302,7 @@ app.post('/api/saveMessage', authenticateToken, async (req, res) => {
   }
 });
 
-// 새로운 채팅 방 생성
+// 새로운 채팅 방 생성 -> Friends.jsx
 app.post('/api/chatRoom', authenticateToken, async (req, res) => {
   const { userIds } = req.body; // 채팅에 참여할 사용자 ID 배열
   const userId = req.user.id; // 현재 사용자 ID
@@ -330,7 +330,7 @@ app.post('/api/chatRoom', authenticateToken, async (req, res) => {
   }
 });
 
-// 채팅 방 조회 API
+// 채팅 방 조회 API -> Friends.jsx
 app.get('/api/chatRooms', authenticateToken, async (req, res) => {
   const userId = req.user.id;
 
@@ -355,7 +355,7 @@ app.get('/api/chatRooms', authenticateToken, async (req, res) => {
   }
 });
 
-// 그룹 조회
+// 그룹 조회 -> Group.jsx
 app.get('/api/groups', authenticateToken, async (req, res) => {
   const userId = req.user.id;
 
@@ -376,7 +376,7 @@ app.get('/api/groups', authenticateToken, async (req, res) => {
   }
 });
 
-// 그룹 생성 API
+// 그룹 생성 API -> Group.jsx
 app.post('/api/createGroup', authenticateToken, async (req, res) => {
   const userId = req.user.id;
   const { code, name } = req.body; // 클라이언트로부터 그룹 코드와 이름을 받음
@@ -400,7 +400,7 @@ app.post('/api/createGroup', authenticateToken, async (req, res) => {
   }
 });
 
-// 그룹 코드 중복 확인 API
+// 그룹 코드 중복 확인 API -> Group.jsx
 app.get('/api/checkGroupCode/:code', async (req, res) => {
   const groupCode = req.params.code;
 
@@ -418,5 +418,5 @@ app.get('/api/checkGroupCode/:code', async (req, res) => {
 // 서버 포트 설정
 const PORT = process.env.PORT || 5000;
 server.listen(PORT, () => {
-  console.log('Server is running on port ${PORT}');
+  console.log(`Server is running on port ${PORT}`);
 });
