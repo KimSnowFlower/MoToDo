@@ -149,7 +149,14 @@ app.get('/api/home', authenticateToken, async (req, res) => {
   const userId = req.user.id;
 
   try {
-    const [calendarResults] = await db.query('SELECT * FROM calendar WHERE user_id = ?', [userId]);
+    // 현재 월 가져오기
+    const currentMonth = new Date().getMonth() + 1;
+
+    // 현재 월에 해당하는 캘린더 이벤트만 선택
+    const [calendarResults] = await db.query(
+      'SELECT * FROM calendar WHERE user_id = ? AND MONTH(start_date) = ?',
+      [userId, currentMonth]
+    );
     const [stickyResults] = await db.query('SELECT * FROM sticky WHERE user_id = ?', [userId]);
 
     res.json({
