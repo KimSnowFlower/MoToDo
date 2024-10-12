@@ -122,3 +122,9 @@
   left: 700px;
   top: 100px;
 }
+
+.colorpicker {
+  width: 10px;
+  height: 10%;
+  position: relative;
+}
