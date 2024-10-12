@@ -6,4 +6,4 @@ options:
       value: production
   install: npm ci --production
   ports: 5000/http
-  start: node server.js
+  start: npm start
