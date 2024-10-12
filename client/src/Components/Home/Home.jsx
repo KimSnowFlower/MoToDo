@@ -1,11 +1,11 @@
-// Home.jsx
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import styles from './Home.module.css'; // CSS 모듈
 import MenuBar from '../MenuBar/MenuBar'; // MenuBar 임포트
+import ToDo from '../ToDo/ToDo'; // ToDo 컴포넌트 임포트
 
 const Home = () => {
-  const [data, setData] = useState({ calendar: [], sticky: [] });
+  const [data, setData] = useState({ calendar: [] });
   const [error, setError] = useState(null);
 
   useEffect(() => {
@@ -14,8 +14,8 @@ const Home = () => {
         const token = localStorage.getItem('jwtToken');
         const response = await axios.get('http://localhost:5000/api/home', {
           headers: {
-            'Authorization': `Bearer ${token}`
-          }
+            Authorization: `Bearer ${token}`,
+          },
         });
         setData(response.data);
       } catch (error) {
@@ -31,13 +31,14 @@ const Home = () => {
       <MenuBar />
       <div className={styles.homeMain}>
         <div className={styles.contentContainer}>
+          {/* Calendar */}
           <div className={styles.homeCalendarList}>
             <h2>Calendar</h2>
             <div className={styles.tableWrap}>
               {error ? (
                 <span className={styles.emptyMessage}>Error: {error}</span>
               ) : data.calendar.length === 0 ? (
-                <span className={styles.emptyMessage}>No Data</span>
+                <span className={styles.emptyMessage}>이번 달은 일정이 없어요!!</span>
               ) : (
                 <table>
                   <thead>
@@ -60,26 +61,19 @@ const Home = () => {
               )}
             </div>
           </div>
-          <div className={styles.homeStickyList}>
-            <h2>Sticky</h2>
-            {error ? (
-              <span className={styles.emptyMessage}>Error: {error}</span>
-            ) : data.sticky.length === 0 ? (
-              <span className={styles.emptyMessage}>No Data</span>
-            ) : (
-              <ul className={styles.homeLists}>
-                {data.sticky.map((note, index) => (
-                  <li key={index}>
-                    <p>{note.content}</p>
-                  </li>
-                ))}
-              </ul>
-            )}
+          {/* 우측 상단 Notice and Time */}
+          <div className={styles.noticeAndTime}>
+            <h2>Notice and Time</h2>
+            <p>No notices available.</p>
+          </div>
+          {/* 우측 하단 To-do와 Check List */}
+          <div className={styles.todoCheckList}>
+            <ToDo /> {/* ToDo 컴포넌트를 호출 */}
           </div>
         </div>
       </div>
     </div>
   );
-}
+};
 
 export default Home;

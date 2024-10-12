@@ -1,0 +1,42 @@
+.todoContainer {
+    padding: 20px; 
+}
+  
+.header {
+    display: flex; 
+    justify-content: space-between; 
+    align-items: center;
+}
+  
+.addButton {
+    background-color: #4CAF50;
+    color: white; 
+    border: none; 
+    padding: 10px 20px;
+    font-size: 24px; 
+    cursor: pointer;
+    margin-left: 10px;
+}
+  
+.inputContainer {
+    display: flex;
+    margin-bottom: 10px;
+}
+  
+.inputContainer input {
+    flex-grow: 1;
+    padding: 10px;
+}
+  
+.inputContainer button {
+    padding: 10px 20px;
+    background-color: #2196F3; 
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+  
+.homeLists {
+    list-style-type: none;
+    padding: 0; 
+}  
