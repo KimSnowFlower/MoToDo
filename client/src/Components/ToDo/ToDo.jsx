@@ -9,24 +9,27 @@ const ToDo = () => {
   const [showInput, setShowInput] = useState(false); // 입력창 표시 여부
   const [loading, setLoading] = useState(false); // 로딩 상태 추가
 
-  useEffect(() => {
-    const fetchNotes = async () => {
-      setLoading(true); // 로딩 시작
-      try {
-        const token = localStorage.getItem('jwtToken');
-        const response = await axios.get('http://localhost:5000/api/todos', {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
-        setNotes(response.data); // 서버에서 가져온 노트 데이터
-      } catch (error) {
-        setError(error.message);
-      } finally {
-        setLoading(false); // 로딩 종료
-      }
-    };
+  // 노트 데이터 fetch 함수
+  const fetchNotes = async () => {
+    setLoading(true); // 로딩 시작
+    try {
+      const token = localStorage.getItem('jwtToken');
+      const response = await axios.get('http://localhost:5000/api/todos', {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      console.log(response.data);
+      setNotes(response.data); // 서버에서 가져온 노트 데이터
+    } catch (error) {
+      setError(error.message);
+    } finally {
+      setLoading(false); // 로딩 종료
+    }
+  };
 
+  // 컴포넌트가 마운트될 때 노트 데이터를 가져온다
+  useEffect(() => {
     fetchNotes();
   }, []);
 
@@ -41,14 +44,18 @@ const ToDo = () => {
             Authorization: `Bearer ${token}`,
           },
         });
-        setNotes((prevNotes) => [...prevNotes, response.data]); // 새로운 노트 추가
+
+        console.log(response.data);
+  
+        // 새로 추가된 노트를 상태에 추가
+        setNotes((prevNotes) => [...prevNotes, response.data]); // response.data는 새로 추가된 노트
         setNewNote('');
         setShowInput(false); // 입력 후 입력창 숨기기
       } catch (error) {
         setError(error.message);
       }
     }
-  };
+  };  
 
   const handleDeleteNote = async (id) => {
     try {
@@ -58,7 +65,7 @@ const ToDo = () => {
           Authorization: `Bearer ${token}`,
         },
       });
-      setNotes((prevNotes) => prevNotes.filter(note => note.id !== id)); // 노트 삭제
+      fetchNotes(); // 삭제 후 데이터 재fetch
     } catch (error) {
       setError(error.message);
     }
@@ -88,17 +95,17 @@ const ToDo = () => {
         </div>
       )}
 
+      {!loading && notes.length === 0 && !error && (
+        <li>No notes available.</li>
+      )}
+      
       <ul className={styles.homeLists}>
-        {notes && notes.length > 0 ? (
-          notes.map((note) => (
-            <li key={note.id}>
-              <p>{note.content}</p>
-              <button onClick={() => handleDeleteNote(note.id)}>Delete</button> {/* 삭제 버튼 추가 */}
-            </li>
-          ))
-        ) : (
-          <li>No notes available.</li>
-        )}
+        {notes.map((note) => (
+          <li key={note.id}>
+            <p>{note.content}</p>
+            <button onClick={() => handleDeleteNote(note.id)}>Delete</button> {/* 삭제 버튼 추가 */}
+          </li>
+        ))}
       </ul>
     </div>
   );

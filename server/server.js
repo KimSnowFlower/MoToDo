@@ -169,21 +169,37 @@ app.get('/api/home', authenticateToken, async (req, res) => {
   }
 });
 
+// JWT 토큰에서 사용자 ID를 가져오는 함수
+const getUserIdFromToken = (req) => {
+  const authHeader = req.headers['authorization'];
+  const token = authHeader && authHeader.split(' ')[1];
+
+  if (!token) {
+    throw new Error('No token provided');
+  }
+
+  const decoded = jwt.verify(token, JWT_SECRET);
+  return decoded.id; // JWT에서 ID 반환
+};
+
 // To-Do 항목 가져오기
-app.get('/api/todos', (req, res) => {
-  const userId = getUserIdFromToken(req);
-  
+app.get('/api/todos', authenticateToken, (req, res) => {
+  const userId = getUserIdFromToken(req); // 수정된 부분
+
+  console.log(userId);
+
   db.query('SELECT * FROM todos WHERE user_id = ?', [userId], (error, results) => {
     if (error) {
       return res.status(500).json({ error: error.message });
     }
     res.json(results);
+    console.log(res.json);
   });
 });
 
 // 새로운 To-Do 항목 추가하기
-app.post('/api/todos', (req, res) => {
-  const userId = getUserIdFromToken(req);
+app.post('/api/todos', authenticateToken, (req, res) => {
+  const userId = getUserIdFromToken(req); // 수정된 부분
   const { content } = req.body;
 
   db.query('INSERT INTO todos (user_id, content) VALUES (?, ?)', [userId, content], (error, results) => {
@@ -199,6 +215,7 @@ app.delete('/api/todos/:id', (req, res) => {
   const { id } = req.params;
   db.query('DELETE FROM todos WHERE id = ?', [id], (error, results) => {
     if (error) {
+      console.error('Error deleting todo:', error); // 오류 로그 추가
       return res.status(500).json({ error: error.message });
     }
     res.status(204).send(); // 성공적으로 삭제되면 204 No Content 반환

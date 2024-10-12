@@ -70,10 +70,10 @@ const Calendar = () => {
     setSelectedEvent(null);
   };
 
-  const openMoreModal = (eventsForDay) => {
+  /*const openMoreModal = (eventsForDay) => {
     setMoreEvents(eventsForDay);
     setShowMoreModal(true);
-  };
+  };*/
   const closeMoreModal = () => setShowMoreModal(false);
 
 //날짜를 클릭했을 때 이벤트
