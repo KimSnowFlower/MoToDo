@@ -46,14 +46,14 @@ const ToDo = () => {
         });
   
         // 새로 추가된 노트를 상태에 추가
-        setNotes((prevNotes) => [...prevNotes, response.data]); // response.data는 새로 추가된 노트
+        setNotes((prevNotes) => [...prevNotes, response.data]); // 서버에서 반환한 새로 추가된 노트 사용
         setNewNote('');
         setShowInput(false); // 입력 후 입력창 숨기기
       } catch (error) {
         setError(error.message);
       }
     }
-  };  
+  };    
 
   const handleDeleteNote = async (id) => {
     // 우선 삭제된 항목을 프론트엔드 상태에서 제거
@@ -74,7 +74,7 @@ const ToDo = () => {
       // 에러 발생 시 삭제된 항목을 다시 복구하는 로직을 추가할 수도 있습니다
       setNotes((prevNotes) => [...prevNotes, { id, content: '삭제된 항목 복구' }]); // 예시로 복구하는 로직
     }
-  }  
+  };  
 
   return (
     <div className={styles.todoContainer}>
@@ -85,34 +85,36 @@ const ToDo = () => {
         </button>
       </div>
       
-      {showInput && (
-        <div className={styles.inputContainer}>
-          <input
-            type="text"
-            value={newNote}
-            onChange={(e) => setNewNote(e.target.value)}
-            placeholder="Add a new note"
-          />
-          <button onClick={handleAddNote}>Add</button>
-        </div>
-      )}
-
-      {!loading && notes.length === 0 && !error && (
-        <li>No notes available.</li>
-      )}
+      {loading} {/* 로딩 상태 표시 */}
+      {error} {/* 에러 메시지 표시 */}
 
       <ul className={styles.homeLists}>
         {notes.map((note) => (
           <li key={note.id}>
             <input type="checkbox" />
             <p>{note.content}</p>
-            <button onClick={() => handleDeleteNote(note.id)}>Delete</button> {/* 삭제 버튼에서 note.id 전달 */}
+            <button onClick={() => handleDeleteNote(note.id)}>Delete</button>
           </li>
         ))}
       </ul>
+  
+      {notes.length > 0 && (
+        <div className={styles.inputContainer}>
+          {showInput && (
+            <div className={styles.inputWrapper}>
+              <input
+                type="text"
+                value={newNote}
+                onChange={(e) => setNewNote(e.target.value)}
+                placeholder="Add a new note"
+              />
+              <button onClick={handleAddNote}>Add</button>
+            </div>
+          )}
+        </div>
+      )}
     </div>
-  );
+  );  
 };
 
 export default ToDo;
-

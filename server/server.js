@@ -190,8 +190,17 @@ app.post('/api/todos', authenticateToken, async (req, res) => {
 
   try {
     const sql = 'INSERT INTO todos (user_id, content, created_at, updated_at) VALUES (?, ?, NOW(), NOW())';
-    await db.query(sql, [userId, content]); 
-    res.status(201).json({ message: 'To-do item created successfully' });
+    const result = await db.query(sql, [userId, content]);
+
+    // 새로 생성된 항목 반환
+    const newTodo = {
+      id: result.insertId, // 새로 생성된 ID
+      content: content,
+      created_at: new Date(),
+      updated_at: new Date(),
+    };
+
+    res.status(201).json(newTodo); // 새로 추가된 항목 반환
   } catch (error) {
     console.error('Error creating to-do item:', error);
     res.status(500).json({ error: 'Failed to create to-do item' }); 
