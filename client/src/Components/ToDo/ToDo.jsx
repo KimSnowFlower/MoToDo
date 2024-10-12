@@ -43,7 +43,7 @@ const ToDo = () => {
             Authorization: `Bearer ${token}`,
           },
         });
-  
+
         // 새로 추가된 노트를 상태에 추가
         setNotes((prevNotes) => [...prevNotes, response.data]); // 서버에서 반환한 새로 추가된 노트 사용
         setNewNote('');
@@ -52,12 +52,12 @@ const ToDo = () => {
         setError(error.message);
       }
     }
-  };    
+  };
 
   const handleDeleteNote = async (id) => {
     // 우선 삭제된 항목을 프론트엔드 상태에서 제거
     setNotes((prevNotes) => prevNotes.filter(note => note.id !== id));
-  
+
     try {
       const token = localStorage.getItem('jwtToken');
       await axios.delete(`http://localhost:5000/api/todos/${id}`, {
@@ -65,15 +65,15 @@ const ToDo = () => {
           Authorization: `Bearer ${token}`,
         },
       });
-  
-      // 필요시 fetchNotes를 통해 서버에서 최신 상태를 가져옴
-      fetchNotes(); // 필요하다면 이 라인을 다시 추가
+
+      // 삭제 후 서버에서 최신 상태를 가져옴
+      fetchNotes();
     } catch (error) {
       setError(error.message);
       // 에러 발생 시 삭제된 항목을 다시 복구하는 로직을 추가할 수도 있습니다
       setNotes((prevNotes) => [...prevNotes, { id, content: '삭제된 항목 복구' }]); // 예시로 복구하는 로직
     }
-  };  
+  };
 
   return (
     <div className={styles.todoContainer}>
@@ -84,8 +84,22 @@ const ToDo = () => {
         </button>
       </div>
       
-      {loading} {/* 로딩 상태 표시 */}
-      {error} {/* 에러 메시지 표시 */}
+      {loading && <p>Loading...</p>} {/* 로딩 상태 표시 */}
+      {error && <p style={{ color: 'red' }}>{error}</p>} {/* 에러 메시지 표시 */}
+
+      <div className={styles.inputContainer}>
+        {showInput && (
+          <div className={styles.inputWrapper}>
+            <input
+              type="text"
+              value={newNote}
+              onChange={(e) => setNewNote(e.target.value)}
+              placeholder="Add a new note"
+            />
+            <button onClick={handleAddNote}>Add</button>
+          </div>
+        )}
+      </div>
 
       <ul className={styles.homeLists}>
         {notes.map((note) => (
@@ -96,22 +110,6 @@ const ToDo = () => {
           </li>
         ))}
       </ul>
-  
-      {notes.length > 0 && (
-        <div className={styles.inputContainer}>
-          {showInput && (
-            <div className={styles.inputWrapper}>
-              <input
-                type="text"
-                value={newNote}
-                onChange={(e) => setNewNote(e.target.value)}
-                placeholder="Add a new note"
-              />
-              <button onClick={handleAddNote}>Add</button>
-            </div>
-          )}
-        </div>
-      )}
     </div>
   );  
 };

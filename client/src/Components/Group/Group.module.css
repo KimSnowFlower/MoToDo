@@ -50,3 +50,27 @@ button:disabled {
     background-color: #cccccc; 
     cursor: not-allowed; 
 }
+
+.mainGroupContainer {
+    display: flex;
+    justify-content: space-between; /* 두 컨테이너 간의 간격 조절 */
+    padding: 20px;
+}
+
+.toDoContainer,
+.noticeContainer {
+    width: 80vh; /* 각각 48%로 너비 설정하여 간격 유지 */
+    min-height: 90vh; /* 최소 높이 설정, 필요에 따라 조정 */
+    border: 1px solid #ccc;
+    padding: 10px;
+    border-radius: 4px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* 약간의 그림자를 추가하여 깊이감 제공 */
+}
+
+.toDoContainer {
+    margin-right: 20px; /* 오른쪽 컨테이너에 간격 추가 */
+}
+
+.noticeContainer {
+    margin-right: 0; /* 마지막 컨테이너는 오른쪽 여백 제거 */
+}

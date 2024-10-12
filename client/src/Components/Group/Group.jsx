@@ -9,6 +9,7 @@ const Group = () => {
     const [createGroup, setCreateGroup] = useState(false); // 그룹 생성 상태
     const [newGroupName, setNewGroupName] = useState(""); // 새로운 그룹 이름
     const [message, setMessage] = useState("");
+    const [isGroupJoined, setIsGroupJoined] = useState(false); // 그룹 접속 여부
 
     // 그룹 목록을 가져오는 함수
     const fetchGroups = async () => {
@@ -93,20 +94,18 @@ const Group = () => {
 
     const handleJoinGroup = () => {
         if (selectedGroup) {
-            const group = groups.find(g => g.id === Number(selectedGroup)); // 문자열을 숫자로 변환
+            const group = groups.find(g => g.id === Number(selectedGroup));
             
-            // 그룹이 존재하는지 확인
             if (group) {
                 setMessage(`${group.name}에 접속합니다.`);
-                // 그룹 접속 후, 그룹의 To-do List와 Notice 페이지로 이동할 로직
-                // 추후 구현 필요
+                setIsGroupJoined(true); // 그룹 접속 성공
             } else {
-                setMessage("선택된 그룹이 없습니다."); // 그룹이 존재하지 않을 경우 메시지
+                setMessage("선택된 그룹이 없습니다.");
             }
         } else {
-            setMessage("그룹을 선택하세요."); // 선택된 그룹이 없을 경우 메시지
+            setMessage("그룹을 선택하세요.");
         }
-    };    
+    };       
 
     useEffect(() => {
         fetchGroups();
@@ -115,49 +114,62 @@ const Group = () => {
     return (
         <div className={styles.groupPage}>
             <MenuBar />
-            {!createGroup ? (
-                <div className={styles.groupContainer}>
-                    <h1>Select Group</h1>
-                    {groups.length > 0 ? (
-                        <select className={styles.groupSelect} onChange={handleGroupChange} value={selectedGroup}>
-                            {groups.map((group) => (
-                                <option key={group.id} value={group.id}>
-                                    {group.name} (코드: {group.code})
-                                </option>
-                            ))}
-                        </select>
-                    ) : (
-                        <p>{message}</p>
-                    )}
-
-                    {message && <p className={styles.message}>{message}</p>}
-
-                    <div className={styles.joinButtonContainer}>
-                        <button className={styles.createGroupButton} onClick={() => setCreateGroup(true)}>
-                            그룹 생성
-                        </button>
-                        <button className={styles.connectButton} onClick={handleJoinGroup} disabled={!selectedGroup}>
-                            접속
+            {!isGroupJoined ? ( // 그룹에 접속하지 않았을 때
+                !createGroup ? (
+                    <div className={styles.groupContainer}>
+                        <h1>Select Group</h1>
+                        {groups.length > 0 ? (
+                            <select className={styles.groupSelect} onChange={handleGroupChange} value={selectedGroup}>
+                                {groups.map((group) => (
+                                    <option key={group.id} value={group.id}>
+                                        {group.name} (코드: {group.code})
+                                    </option>
+                                ))}
+                            </select>
+                        ) : (
+                            <p>{message}</p>
+                        )}
+    
+                        {message && <p className={styles.message}>{message}</p>}
+    
+                        <div className={styles.joinButtonContainer}>
+                            <button className={styles.createGroupButton} onClick={() => setCreateGroup(true)}>
+                                그룹 생성
+                            </button>
+                            <button className={styles.connectButton} onClick={handleJoinGroup} disabled={!selectedGroup}>
+                                접속
+                            </button>
+                        </div>
+                    </div>
+                ) : (
+                    <div className={styles.createGroupContainer}>
+                        <h1>새 그룹 생성</h1>
+                        <input
+                            type="text"
+                            placeholder="그룹 이름을 입력하세요"
+                            value={newGroupName}
+                            onChange={(e) => setNewGroupName(e.target.value)}
+                            className={styles.groupInput}
+                        />
+                        <button className={styles.createGroupButton} onClick={handleCreateGroup} disabled={!newGroupName}>
+                            그룹 생성 완료
                         </button>
                     </div>
-                </div>
-            ) : (
-                <div className={styles.createGroupContainer}>
-                    <h1>새 그룹 생성</h1>
-                    <input
-                        type="text"
-                        placeholder="그룹 이름을 입력하세요"
-                        value={newGroupName}
-                        onChange={(e) => setNewGroupName(e.target.value)}
-                        className={styles.groupInput}
-                    />
-                    <button className={styles.createGroupButton} onClick={handleCreateGroup} disabled={!newGroupName}>
-                        그룹 생성 완료
-                    </button>
+                )
+            ) : ( // 그룹에 접속했을 때
+                <div className={styles.mainGroupContainer}>
+                    <div className={styles.toDoContainer}>
+                        <h2>To-Do List</h2>
+                        {/* To-Do 리스트 컴포넌트 또는 로직 추가 */}
+                    </div>
+                    <div className={styles.noticeContainer}>
+                        <h2>Notice</h2>
+                        {/* Notice 컴포넌트 또는 로직 추가 */}
+                    </div>
                 </div>
             )}
         </div>
     );
-}
+};
 
 export default Group;
