@@ -2,9 +2,10 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import styles from './Home.module.css'; // CSS 모듈
 import MenuBar from '../MenuBar/MenuBar'; // MenuBar 임포트
+import ToDo from '../ToDo/ToDo'; // ToDo 컴포넌트 임포트
 
 const Home = () => {
-  const [data, setData] = useState({ calendar: [], sticky: [] });
+  const [data, setData] = useState({ calendar: [] });
   const [error, setError] = useState(null);
 
   useEffect(() => {
@@ -63,25 +64,11 @@ const Home = () => {
           {/* 우측 상단 Notice and Time */}
           <div className={styles.noticeAndTime}>
             <h2>Notice and Time</h2>
-            {/* 여기에 알림 및 시간 관련 데이터를 추가할 수 있습니다 */}
             <p>No notices available.</p>
           </div>
           {/* 우측 하단 To-do와 Check List */}
           <div className={styles.todoCheckList}>
-            <h2>To Do - Check List</h2>
-            {error ? (
-              <span className={styles.emptyMessage}>Error: {error}</span>
-            ) : data.sticky.length === 0 ? (
-              <span className={styles.emptyMessage}>No Data</span>
-            ) : (
-              <ul className={styles.homeLists}>
-                {data.sticky.map((note, index) => (
-                  <li key={index}>
-                    <p>{note.content}</p>
-                  </li>
-                ))}
-              </ul>
-            )}
+            <ToDo /> {/* ToDo 컴포넌트를 호출 */}
           </div>
         </div>
       </div>

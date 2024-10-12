@@ -83,7 +83,7 @@ h2 {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100%; /* 컨테이너 전체 높이에 맞추기 */
+  height: 100%;
 }
 
 .homeCalendarList h2,

@@ -133,7 +133,7 @@ app.post('/api/login', async (req, res) => {
       const user = results[0];
       const match = await bcrypt.compare(password, user.password);
       if (match) {
-        const token = jwt.sign({ id: user.id, username: user.username }, JWT_SECRET, { expiresIn: '5h' });
+        const token = jwt.sign({ id: user.id, username: user.username }, JWT_SECRET, { expiresIn: '24h' });
         return res.json({ message: 'Login successful', token });
       }
     }
@@ -167,6 +167,42 @@ app.get('/api/home', authenticateToken, async (req, res) => {
     console.error('Error fetching data:', error);
     res.status(500).json({ error: 'Error fetching data', details: error.message });
   }
+});
+
+// To-Do 항목 가져오기
+app.get('/api/todos', (req, res) => {
+  const userId = getUserIdFromToken(req);
+  
+  db.query('SELECT * FROM todos WHERE user_id = ?', [userId], (error, results) => {
+    if (error) {
+      return res.status(500).json({ error: error.message });
+    }
+    res.json(results);
+  });
+});
+
+// 새로운 To-Do 항목 추가하기
+app.post('/api/todos', (req, res) => {
+  const userId = getUserIdFromToken(req);
+  const { content } = req.body;
+
+  db.query('INSERT INTO todos (user_id, content) VALUES (?, ?)', [userId, content], (error, results) => {
+    if (error) {
+      return res.status(500).json({ error: error.message });
+    }
+    res.status(201).json({ id: results.insertId, content });
+  });
+});
+
+// 특정 To-Do 항목 삭제하기
+app.delete('/api/todos/:id', (req, res) => {
+  const { id } = req.params;
+  db.query('DELETE FROM todos WHERE id = ?', [id], (error, results) => {
+    if (error) {
+      return res.status(500).json({ error: error.message });
+    }
+    res.status(204).send(); // 성공적으로 삭제되면 204 No Content 반환
+  });
 });
 
 // 정보 가져오기
