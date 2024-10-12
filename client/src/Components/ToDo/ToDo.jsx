@@ -44,8 +44,6 @@ const ToDo = () => {
             Authorization: `Bearer ${token}`,
           },
         });
-
-        console.log(response.data);
   
         // 새로 추가된 노트를 상태에 추가
         setNotes((prevNotes) => [...prevNotes, response.data]); // response.data는 새로 추가된 노트
@@ -58,6 +56,9 @@ const ToDo = () => {
   };  
 
   const handleDeleteNote = async (id) => {
+    // 우선 삭제된 항목을 프론트엔드 상태에서 제거
+    setNotes((prevNotes) => prevNotes.filter(note => note.id !== id));
+  
     try {
       const token = localStorage.getItem('jwtToken');
       await axios.delete(`http://localhost:5000/api/todos/${id}`, {
@@ -65,11 +66,15 @@ const ToDo = () => {
           Authorization: `Bearer ${token}`,
         },
       });
-      fetchNotes(); // 삭제 후 데이터 재fetch
+  
+      // 필요시 fetchNotes를 통해 서버에서 최신 상태를 가져옴
+      fetchNotes(); // 필요하다면 이 라인을 다시 추가
     } catch (error) {
       setError(error.message);
+      // 에러 발생 시 삭제된 항목을 다시 복구하는 로직을 추가할 수도 있습니다
+      setNotes((prevNotes) => [...prevNotes, { id, content: '삭제된 항목 복구' }]); // 예시로 복구하는 로직
     }
-  };
+  }  
 
   return (
     <div className={styles.todoContainer}>
@@ -79,9 +84,6 @@ const ToDo = () => {
           +
         </button>
       </div>
-
-      {loading && <span className={styles.loadingMessage}>Loading...</span>}
-      {error && <span className={styles.errorMessage}>Error: {error}</span>}
       
       {showInput && (
         <div className={styles.inputContainer}>
@@ -98,12 +100,13 @@ const ToDo = () => {
       {!loading && notes.length === 0 && !error && (
         <li>No notes available.</li>
       )}
-      
+
       <ul className={styles.homeLists}>
         {notes.map((note) => (
           <li key={note.id}>
+            <input type="checkbox" />
             <p>{note.content}</p>
-            <button onClick={() => handleDeleteNote(note.id)}>Delete</button> {/* 삭제 버튼 추가 */}
+            <button onClick={() => handleDeleteNote(note.id)}>Delete</button> {/* 삭제 버튼에서 note.id 전달 */}
           </li>
         ))}
       </ul>
@@ -112,3 +115,4 @@ const ToDo = () => {
 };
 
 export default ToDo;
+

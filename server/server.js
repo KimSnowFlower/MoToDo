@@ -169,56 +169,51 @@ app.get('/api/home', authenticateToken, async (req, res) => {
   }
 });
 
-// JWT 토큰에서 사용자 ID를 가져오는 함수
-const getUserIdFromToken = (req) => {
-  const authHeader = req.headers['authorization'];
-  const token = authHeader && authHeader.split(' ')[1];
-
-  if (!token) {
-    throw new Error('No token provided');
-  }
-
-  const decoded = jwt.verify(token, JWT_SECRET);
-  return decoded.id; // JWT에서 ID 반환
-};
-
 // To-Do 항목 가져오기
-app.get('/api/todos', authenticateToken, (req, res) => {
-  const userId = getUserIdFromToken(req); // 수정된 부분
+app.get('/api/todos', authenticateToken, async (req, res) => {
+  const userId = req.user.id;
 
-  console.log(userId);
-
-  db.query('SELECT * FROM todos WHERE user_id = ?', [userId], (error, results) => {
-    if (error) {
-      return res.status(500).json({ error: error.message });
-    }
-    res.json(results);
-    console.log(res.json);
-  });
+  try {
+    const sql = 'SELECT id, content FROM todos WHERE user_id = ?'; // id도 가져오도록 수정
+    const [rows] = await db.query(sql, [userId]);
+    res.json(rows); 
+  } catch (error) {
+    console.error('Error fetching to-do items:', error);
+    res.status(500).json({ error: 'Failed to fetch to-do items' }); 
+  }
 });
 
 // 새로운 To-Do 항목 추가하기
-app.post('/api/todos', authenticateToken, (req, res) => {
-  const userId = getUserIdFromToken(req); // 수정된 부분
+app.post('/api/todos', authenticateToken, async (req, res) => {
+  const userId = req.user.id; 
   const { content } = req.body;
 
-  db.query('INSERT INTO todos (user_id, content) VALUES (?, ?)', [userId, content], (error, results) => {
-    if (error) {
-      return res.status(500).json({ error: error.message });
-    }
-    res.status(201).json({ id: results.insertId, content });
-  });
+  try {
+    const sql = 'INSERT INTO todos (user_id, content, created_at, updated_at) VALUES (?, ?, NOW(), NOW())';
+    await db.query(sql, [userId, content]); 
+    res.status(201).json({ message: 'To-do item created successfully' });
+  } catch (error) {
+    console.error('Error creating to-do item:', error);
+    res.status(500).json({ error: 'Failed to create to-do item' }); 
+  }
 });
 
 // 특정 To-Do 항목 삭제하기
 app.delete('/api/todos/:id', (req, res) => {
-  const { id } = req.params;
+  const { id } = req.params; // URL에서 전달된 id 가져오기
+  console.log(id);
   db.query('DELETE FROM todos WHERE id = ?', [id], (error, results) => {
     if (error) {
-      console.error('Error deleting todo:', error); // 오류 로그 추가
+      console.error('Error deleting todo:', error); 
       return res.status(500).json({ error: error.message });
     }
-    res.status(204).send(); // 성공적으로 삭제되면 204 No Content 반환
+
+    // 삭제된 행이 있는지 확인
+    if (results.affectedRows === 0) {
+      return res.status(404).json({ error: 'Todo item not found' }); // 삭제된 행이 없으면 404 응답
+    }
+
+    res.status(200).json({ message: 'Todo item deleted successfully' }); // 성공 시 응답
   });
 });
 
@@ -227,14 +222,12 @@ app.get('/api/userInfo', authenticateToken, async (req, res) => {
   const userId = req.user.id;
 
   try {
-    // 'name'과 'id' 필드를 함께 선택
     const [userInfoResults] = await db.query('SELECT id, name FROM users WHERE id = ?', [userId]);
 
     if (!userInfoResults.length) {
       return res.status(404).json({ error: 'User not found' });
     }
 
-    // 'name'과 'id'를 함께 응답으로 반환
     res.json({ id: userInfoResults[0].id, name: userInfoResults[0].name });
   } catch (error) {
     console.error('Error fetching user info:', error);
