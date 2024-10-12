@@ -1,71 +1,86 @@
 import { useState, useRef } from 'react';
-import './Sticky.css';
+import styles from './Sticky.module.css';
 import MenuBar from '../MenuBar/MenuBar';
 
 export default function StickyNotesApp() {
     const [notes, setNotes] = useState([]);
     const [allowMove, setAllowMove] = useState(false);
-    const stickyNoteRef = useRef();
-
+    const stickyNoteRefs = useRef([]);
     const [dx, setDx] = useState(0);
     const [dy, setDy] = useState(0);
+    const [movingNoteIndex, setMovingNoteIndex] = useState(null);
 
-    // 노트 추가 함수
     function addNote() {
-        setNotes([
-            ...notes,
-            {
-                id: Date.now(),
-            },
-        ]);
+        setNotes([...notes, { id: Date.now() }]);
     }
 
-    // 노트 삭제 함수
     function removeNote(noteId) {
         setNotes(notes.filter((item) => item.id !== noteId));
     }
 
-    function handleMouseUP() {
+    function handleMouseUp() {
+        console.log("Mouse up");
         setAllowMove(false);
+        setMovingNoteIndex(null);
     }
 
-    function handleMouseDown(e) {
+    function handleMouseDown(e, index) {
+        console.log("Mouse down", e.clientX, e.clientY);
         setAllowMove(true);
-        const dimensions = stickyNoteRef.current.getBoundingClientRect();
-        setDx(e.clientX - dimensions.x);
-        setDy(e.clientY - dimensions.y);
+        setMovingNoteIndex(index);
+        
+        const noteElement = stickyNoteRefs.current[index];
+        const dimensions = noteElement.getBoundingClientRect();
+        
+        // 현재 클릭 위치에서 메모의 좌측 상단까지의 차이 계산
+        setDx(e.clientX - dimensions.left);
+        setDy(e.clientY - dimensions.top);
     }
-
+    
     function handleMouseMove(e) {
-        if (allowMove) {
-            const x = e.clientX - dx;
-            const y = e.clientY - dy;
-            stickyNoteRef.current.style.left = x + "px";
-            stickyNoteRef.current.style.top = y + "px";
+        console.log("Mouse move", e.clientX, e.clientY);
+    
+        if (allowMove && movingNoteIndex !== null) {
+            const noteElement = stickyNoteRefs.current[movingNoteIndex];
+    
+            // 마우스 위치에서 오프셋을 빼서 메모의 정확한 위치를 계산
+            const x = e.clientX - dx*2.4;
+            const y = e.clientY - dy*2.4;
+    
+            noteElement.style.left = `${x}px`;
+            noteElement.style.top = `${y}px`;
+    
+            console.log("Moving Note to", x, y);
         }
     }
-
     return (
-        <div className="container"><div className="title">메모장</div>
+        <div className={styles.container} onMouseMove={handleMouseMove} onMouseUp={handleMouseUp}>
+            <div className={styles.title}>메모장</div>
             <MenuBar />
-            <div style={{ marginTop: '10px' }}> {/* 여백 추가 */}
-                <button className="sticky-btn" onClick={addNote}>Create Note +</button>
+            <div style={{ marginTop: '10px' }}>
+                <button className={styles['sticky-btn']} onClick={addNote}>
+                    <img
+                        src={require('../Assets/add_button.png')}
+                        className={styles.buttonImage}
+                    />
+                </button>
             </div>
-        <div className="container"></div>
-            {notes.map(item => (
-                <div className="sticky-note" key={item.id} ref={stickyNoteRef}>
+
+            {notes.map((item, index) => (
+                <div
+                    className={styles['sticky-note']}
+                    key={item.id}
+                    ref={el => stickyNoteRefs.current[index] = el}
+                    style={{ position: 'absolute', left: '50px', top: '30px' }} // 기본 위치
+                >
                     <div
-                        className="sticky-note-header"
-                        onMouseUp={handleMouseUP}
-                        onMouseDown={handleMouseDown}
-                        onMouseMove={handleMouseMove}
+                        className={styles['sticky-note-header']}
+                        onMouseDown={(e) => handleMouseDown(e, index)}
                     >
                         <div>Sticky Note</div>
-                        <div className="close" onClick={() => removeNote(item.id)}>
-                            &times;
-                        </div>
+                        <div className={styles.close} onClick={() => removeNote(item.id)}>&times;</div>
                     </div>
-                    <textarea name="" id="" cols="30" rows="10"></textarea>
+                    <textarea cols="30" rows="10"></textarea>
                 </div>
             ))}
         </div>

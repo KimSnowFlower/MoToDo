@@ -1,37 +1,42 @@
 .calendarPage {
   display: flex;
-  width: calc(100% - 200px);
-  height: 100%;
-  margin-left: 200px;
-  padding: 100px;
-  background-color: transparent;
+  justify-content: center;
+  align-items: center;  
+  width: 100vw; 
+  height: 100vh;
+  margin: 0;
+  padding: 0;
+  background-color: transparent; 
   box-sizing: border-box;
-  aspect-ratio: 16 / 9;
+  overflow: hidden; 
+  position: relative;
 }
 
 .calendarContainer {
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  grid-template-rows: auto auto; 
   align-items: center;
-  justify-content: center;
-  padding: calc(30px + (275 - 200) * (100vw - 854px) / (1920 - 854));
-  background-color: transparent;
-  border-radius: 10px;
+  justify-items: center;
   width: 100%; 
-  height: 123%;
-  border: 4px solid #AFD3E2;
-  position: relative;
-  bottom: 30px;
+  max-width: 1500px;
+  padding: 50px; 
+  border: 3px solid #AFD3E2;
+  background-color: transparent;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
   box-sizing: border-box;
-  aspect-ratio: 16 / 9;
+  transition: all 0.3s ease-in-out; 
+  height: 95vh; 
+  max-height: 1100px; 
+  margin-left:9vw;
 }
+
 
 .calendarHeader {
   display: flex;
   position: relative;
   justify-content: space-between;
   align-items: center;
-  width: 100%;
+  width: 20vw;
   background-color: transparent;
   color: #146C94; 
   font-size: 28px;
@@ -43,24 +48,27 @@
 .calendarGrid {
   display: grid;
   grid-template-columns: repeat(7, 1fr);
-  gap: 10px;
+  grid-template-rows: repeat(7, 1fr); 
+  grid-gap: 13px; 
   width: 100%;
-  background-color: transparent;
-  aspect-ratio: 16 / 9;
+  height: calc(90vh - 70px); 
+  align-items: stretch; 
 }
 
 .calendarDay {
+  min-height: 130px; 
   position: relative;
-  padding: 10px; 
-  border: 1px solid #ccc;
+  padding: 10px;  
   background-color: transparent;
   transition: background-color 0.3s ease, box-shadow 0.3s ease;
   cursor: pointer;
-  min-height: 60px;
-  min-width: 60px;
+  aspect-ratio: 1 / 1;
   border: 4px solid #146C94;
-  bottom: 20px;
   box-sizing: border-box;
+  display: flex;
+  font-size: 1.4rem; 
+  height: auto; 
+  
 }
 
 
@@ -76,11 +84,12 @@
 
 .calendarDayName{
   font-weight: 900;
-  text-align: center;
   color: #146C94;
-  position: relative;
-  bottom: 20px;
   font-size: 22px;
+  line-height: 1;  
+  display: flex; 
+  position: relative;
+  left: 25%;
 }
 
 .eventTitle {
@@ -96,7 +105,7 @@
   position: absolute;
   top: 4px;
   right: 4px;
-  width: 30px;  /* 아이콘 크기 조정 */
+  width: 30px;
   height: 30px;
   cursor: pointer;
 }
@@ -108,23 +117,44 @@
 .modalOverlay {
   position: relative;
   display: flex;
-  justify-content: center;
-  align-items: center;
   background-color: transparent;
-  bottom: 300px;
 }
 
 .modal {
+  position: fixed; /* 변경: 상대 위치에서 고정 위치로 변경 */
+  top: 50%; /* 수직 중앙 */
+  left: 50%; /* 수평 중앙 */
+  transform: translate(-50%, -50%); /* 중앙으로 이동 */
   background: #fafafa;
   padding: 30px;
-  max-width: 300px; 
-  position: relative;
-  left: 700px;
-  top: 100px;
+  max-width: 300px;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000; /* 모달이 다른 요소들 위에 오도록 설정 */
 }
 
 .colorpicker {
   width: 10px;
   height: 10%;
   position: relative;
+}
+
+@media (max-width: 768px) {
+  .calendarContainer {
+    width: 90%; 
+  }
+
+  .calendarDay {
+    font-size: 1rem; 
+  }
+}
+
+@media (max-width: 480px) {
+  .calendarGrid {
+    grid-template-columns: repeat(3, 1fr); 
+  }
+
+  .calendarDay {
+    font-size: 0.8rem;
+  }
 }
