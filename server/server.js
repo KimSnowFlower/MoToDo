@@ -94,6 +94,7 @@ io.on('connection', (socket) => {
   });
 });
 
+// Register
 // 사용자 등록 -> Register.jsx
 app.post('/api/register', [
   body('name').isString().withMessage('Name must be a string'),
@@ -122,6 +123,7 @@ app.post('/api/register', [
   }
 });
 
+// LoginForm
 // 사용자 로그인 -> LoginForm.jsx
 app.post('/api/login', async (req, res) => {
   const { username, password } = req.body;
@@ -144,6 +146,7 @@ app.post('/api/login', async (req, res) => {
   }
 });
 
+// Home
 // 홈 데이터 가져오기 -> Home.jsx
 app.get('/api/home', authenticateToken, async (req, res) => {
   const userId = req.user.id;
@@ -169,7 +172,79 @@ app.get('/api/home', authenticateToken, async (req, res) => {
   }
 });
 
-// To-Do 항목 가져오기 -> Home.jsx / To Do.jsx
+
+// Calendar
+// 이벤트 저장 -> Calendar.jsx
+app.post('/api/events', authenticateToken, (req, res) => {
+  const user_id = req.user.id;
+  const { title, description, start_date, end_date, all_day, color } = req.body;
+
+  const query = `
+      INSERT INTO calendar (user_id, title, description, start_date, end_date, all_day, color, created_at, updated_at)
+      VALUES (?, ?, ?, ?, ?, ?, ?, NOW(), NOW())`;
+
+  db.query(query, [user_id, title, description, start_date, end_date, all_day, color], (err, result) => {
+      if (err) return res.status(500).send('Error saving event');
+      res.status(201).send({ id: result.insertId });
+  });
+});
+
+// 이벤트 확인 -> Calendar.jsx
+app.get('/api/events', authenticateToken, (req, res) => {
+  const userId = req.user.id; // 로그인한 사용자의 ID
+
+  const query = `
+      SELECT * FROM calendar 
+      WHERE user_id = ?`; // 날짜 조건 제거
+
+  db.query(query, [userId], (err, results) => {
+      if (err) {
+          console.error('Database error:', err);
+          return res.status(500).send('Error fetching events');
+      }
+      res.send(results); // 결과 반환
+  });
+});
+
+// 이벤트 수정 -> Calendar.jsx
+app.put('/api/events/:id', authenticateToken, (req, res) => {
+  const { id } = req.params.id;
+  const { title, description, start_date, end_date, all_day, color } = req.body;
+
+  // 필수 필드 확인
+  if (!title || !start_date || !end_date) {
+    return res.status(400).send('Title, start_date, and end_date are required');
+  }
+
+  const query = `
+      UPDATE calendar
+      SET title = ?, description = ?, start_date = ?, end_date = ?, all_day = ?, color = ?
+      WHERE id = ?`;
+  
+  db.query(query, [title, description, start_date, end_date, all_day, color, id], (err) => {
+      if (err) {
+          console.error('Database error:', err);
+          return res.status(500).send('Error updating event');
+      }
+      res.send('Event updated');
+  });
+});
+
+// 이벤트 삭제 -> Calendar.jsx
+app.delete('/api/events/:id', authenticateToken, (req, res) => {
+  const id = req.params.id; // URL에서 이벤트 ID 가져오기
+  const userId = req.user.id; // 로그인한 사용자의 ID
+
+  const query = `DELETE FROM calendar WHERE id = ? AND user_id = ?`; // user_id도 조건에 추가
+
+  db.query(query, [id, userId], (err, result) => {
+    if (err) return res.status(500).send('Error deleting event');
+    if (result.affectedRows === 0) return res.status(404).send('Event not found or not authorized to delete');
+    res.send('Event deleted');
+  });
+});
+
+// To-Do 항목 가져오기 -> To Do.jsx
 app.get('/api/todos', authenticateToken, async (req, res) => {
   const userId = req.user.id;
 
@@ -183,7 +258,7 @@ app.get('/api/todos', authenticateToken, async (req, res) => {
   }
 });
 
-// 새로운 To-Do 항목 추가하기 -> Home.jsx / To Do.jsx
+// 새로운 To-Do 항목 추가하기 -> To Do.jsx
 app.post('/api/todos', authenticateToken, async (req, res) => {
   const userId = req.user.id; 
   const { content } = req.body;
@@ -206,7 +281,7 @@ app.post('/api/todos', authenticateToken, async (req, res) => {
   }
 });
 
-// 특정 To-Do 항목 삭제하기 -> Home.jsx / To Do.jsx
+// 특정 To-Do 항목 삭제하기 -> To Do.jsx
 app.delete('/api/todos/:id', (req, res) => {
   const { id } = req.params; // URL에서 전달된 id 가져오기
   db.query('DELETE FROM todos WHERE id = ?', [id], (error, results) => {
