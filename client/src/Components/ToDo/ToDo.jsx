@@ -55,9 +55,11 @@ const ToDo = () => {
   };
 
   const handleDeleteNote = async (id) => {
-    // 우선 삭제된 항목을 프론트엔드 상태에서 제거
-    setNotes((prevNotes) => prevNotes.filter(note => note.id !== id));
+    // 삭제할 노트의 내용을 찾기
+    const noteToDelete = notes.find(note => note.id === id);
 
+    console.log(id);
+  
     try {
       const token = localStorage.getItem('jwtToken');
       await axios.delete(`http://localhost:5000/api/todos/${id}`, {
@@ -65,15 +67,16 @@ const ToDo = () => {
           Authorization: `Bearer ${token}`,
         },
       });
-
-      // 삭제 후 서버에서 최신 상태를 가져옴
+  
       fetchNotes();
+
     } catch (error) {
+      console.error("Error deleting note:", error); // 콘솔에 에러 출력
       setError(error.message);
-      // 에러 발생 시 삭제된 항목을 다시 복구하는 로직을 추가할 수도 있습니다
-      setNotes((prevNotes) => [...prevNotes, { id, content: '삭제된 항목 복구' }]); // 예시로 복구하는 로직
+      // 에러 발생 시 삭제된 항목을 다시 복구하는 로직을 추가
+      setNotes((prevNotes) => [...prevNotes, noteToDelete]); // 원래 노트를 복구
     }
-  };
+  };  
 
   return (
     <div className={styles.todoContainer}>

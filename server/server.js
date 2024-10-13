@@ -195,9 +195,8 @@ app.post('/api/todos', authenticateToken, async (req, res) => {
     // 새로 생성된 항목 반환
     const newTodo = {
       id: result.insertId, // 새로 생성된 ID
+      user_id: userId,
       content: content,
-      created_at: new Date(),
-      updated_at: new Date(),
     };
 
     res.status(201).json(newTodo); // 새로 추가된 항목 반환
@@ -210,18 +209,13 @@ app.post('/api/todos', authenticateToken, async (req, res) => {
 // 특정 To-Do 항목 삭제하기 -> Home.jsx / To Do.jsx
 app.delete('/api/todos/:id', (req, res) => {
   const { id } = req.params; // URL에서 전달된 id 가져오기
-  console.log(id);
   db.query('DELETE FROM todos WHERE id = ?', [id], (error, results) => {
     if (error) {
       console.error('Error deleting todo:', error); 
       return res.status(500).json({ error: error.message });
     }
 
-    // 삭제된 행이 있는지 확인
-    if (results.affectedRows === 0) {
-      return res.status(404).json({ error: 'Todo item not found' }); // 삭제된 행이 없으면 404 응답
-    }
-
+    // 삭제 후 항상 성공 응답
     res.status(200).json({ message: 'Todo item deleted successfully' }); // 성공 시 응답
   });
 });
