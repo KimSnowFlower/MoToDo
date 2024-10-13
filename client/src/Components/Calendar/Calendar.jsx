@@ -332,8 +332,14 @@ days.push(
           {colorOptions.map(color => (
             <button
               key={color}
-              style={{ background: color, width: '24px', height: '24px', margin: '5px' , position: 'relative',
-                border: selectedColor === color ? '2px solid black' : 'none',}}
+              style={{ background: color,
+
+                margin: '5px',
+                border: '2px solid black',
+                display: 'inline-block', // 독립적으로 배치
+                overflow: 'hidden', // 원형 밖으로 나가지 않도록
+                position: 'relative',
+              }}
                 onClick={() => handleColorSelection(color)} // 클릭 시 색상 업데이트
             >
                {selectedColor === color && (  // 선택된 색상에만 아이콘 표시
@@ -355,12 +361,8 @@ days.push(
         </div>
         <button onClick={handleSaveEvent}>저장</button>
         <button onClick={closeModal}>닫기</button>
-        {selectedEvent && (
-          <>
-            <button onClick={handleEventUpdate}>수정</button>
-            <button onClick={handleEventDelete}>삭제</button>
-          </>
-        )}
+        <button onClick={handleEventUpdate}>수정</button>
+        <button onClick={handleEventDelete}>삭제</button>
       </Modal>
       <Modal isOpen={showMoreModal} onRequestClose={closeMoreModal} className={styles.modal}>
         <h2>모든 일정 보기</h2>

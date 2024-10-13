@@ -166,11 +166,12 @@
   margin: 5px;
   font-size: 12px;
   border: none;
-  border-radius: 8px;
   background-color: #146C94;
   color: white;
   cursor: pointer;
   transition: background 0.3s;
+  display: inline-block;
+  border-radius: 8px;
 }
 
 .modal button:hover {
@@ -185,8 +186,9 @@
 
 .modal .colorPicker button {
   cursor: pointer;
-  border-radius: 50%; /* 버튼을 동그랗게 */
   transition: transform 0.2s;
+  padding: 20px 20px;
+  border-radius: 50%;
 }
 
 .modal .colorPicker button:hover {
