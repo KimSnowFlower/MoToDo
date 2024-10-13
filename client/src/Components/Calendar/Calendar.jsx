@@ -6,6 +6,7 @@ import { IoBeerOutline } from "react-icons/io5";
 import Modal from 'react-modal';
 import MenuBar from '../MenuBar/MenuBar';
 import styles from './Calendar.module.css';
+import colorCheckIcon from '../Assets/color_check.png'; // 아이콘 불러오기
 // 아이콘 로테이션 순서
 const icons = [<BiSolidHeart />, <PiCakeDuotone />, <IoAirplane />, <IoBeerOutline />];
 
@@ -20,7 +21,6 @@ const Calendar = () => {
   const [eventTime, setEventTime] = useState('오전 12:00'); // 이벤트 시간
   const [eventContent, setEventContent] = useState(''); // 이벤트 내용
   const [events, setEvents] = useState({}); // 이벤트 저장
-  const [eventColor, setEventColor] = useState('#FFFF00'); // 기본 색상
   const [selectedEvent, setSelectedEvent] = useState(null); // 선택된 이벤트
   const [iconIndexes, setIconIndexes] = useState({}); // 아이콘 인덱스
   const [showModal, setShowModal] = useState(false); // 모달
@@ -42,6 +42,9 @@ const Calendar = () => {
     '#7F24A6', '#4563BF', '#39BF73', '#F2AC29',
     '#D90404'
   ]; // 선택할 수 있는 색깔
+
+  const [selectedColor, setSelectedColor] = useState('#FFFF00'); // 기본값 노란색
+
 //시간을 15분 단위로 선택
   const timeOptions = Array.from({ length: 96 }, (_, i) => {
     const hour = Math.floor(i / 4);
@@ -123,7 +126,7 @@ const Calendar = () => {
         title: eventTitle,
         time: convertTo24HourFormat(eventTime),
         content: eventContent,
-        color: eventColor 
+        color: selectedColor // 선택한 색상을 저장 
       };
       setEvents(prevEvents => ({
         ...prevEvents,
@@ -133,14 +136,15 @@ const Calendar = () => {
     }
   };
 // 이벤트 클릭? 
-  const handleEventClick = (day, event) => {
-    setSelectedDate(new Date(currentYear, currentMonth, day));
-    setSelectedEvent(event);
-    setEventTitle(event.title);
-    setEventTime(event.time);
-    setEventContent(event.content);
-    openModal();
-  };
+const handleEventClick = (day, event) => {
+  setSelectedDate(new Date(currentYear, currentMonth, day));
+  setSelectedEvent(event);
+  setEventTitle(event.title);
+  setEventTime(event.time);
+  setEventContent(event.content);
+  setSelectedColor(event.color); // 선택한 이벤트의 색상 설정
+  openModal();
+};
 
   const handleMoreClick = (day) => {
     const dateKey = `${currentYear}-${currentMonth + 1}-${day}`;
@@ -158,15 +162,19 @@ const Calendar = () => {
   const handleEventUpdate = () => {
     if (selectedDate && selectedEvent) {
       const dateKey = `${selectedDate.getFullYear()}-${selectedDate.getMonth() + 1}-${selectedDate.getDate()}`;
-      setEvents(prevEvents => {
-        const updatedEvents = prevEvents[dateKey].map(event =>
-          event.id === selectedEvent.id ? { ...event, title: eventTitle, content: eventContent } : event
+  
+      setEvents((prevEvents) => {
+        const updatedEvents = prevEvents[dateKey].map((event) =>
+          event.id === selectedEvent.id
+            ? { ...event, title: eventTitle, content: eventContent, color: selectedColor } // 색상 업데이트
+            : event
         );
         return {
           ...prevEvents,
-          [dateKey]: updatedEvents
+          [dateKey]: updatedEvents,
         };
       });
+  
       setSelectedEvent(null);
       closeModal();
     }
@@ -203,6 +211,10 @@ const Calendar = () => {
   setEventContent(event.content);
   closeMoreModal(); // 더보기 모달 닫기
   openModal(); // 원래 모달 열기
+};
+
+const handleColorSelection = (color) => {
+  setSelectedColor(color); // 선택된 색상 업데이트
 };
 
   const filteredAndSortedEvents = moreEvents
@@ -315,15 +327,31 @@ days.push(
             <option key={time} value={time}>{time}</option>
           ))}
         </select>
-        <textarea placeholder="내용" value={eventContent} onChange={(e) => setEventContent(e.target.value)} />
+        <textarea placeholder="내용" value={eventContent} onChange={(e) => setEventContent(e.target.value)} style={{ border: '1px solid #000000', padding: '10px'}}/>
         <div className={styles.colorPicker}>
           {colorOptions.map(color => (
             <button
               key={color}
-              style={{ background: color, width: '24px', height: '24px', margin: '5px' }}
-              onClick={() => setEventColor(color)}
-            />
-          ))}
+              style={{ background: color, width: '24px', height: '24px', margin: '5px' , position: 'relative',
+                border: selectedColor === color ? '2px solid black' : 'none',}}
+                onClick={() => handleColorSelection(color)} // 클릭 시 색상 업데이트
+            >
+               {selectedColor === color && (  // 선택된 색상에만 아이콘 표시
+                 <img 
+                   src={colorCheckIcon} 
+                    alt="selected" 
+                    style={{
+                    width: '20px',
+                    height: '20px',
+                    position: 'absolute',
+                    top: '50%',
+                    left: '50%',
+                    transform: 'translate(-50%, -50%)', // 중앙 정렬
+                   }}
+                 />
+               )}
+              </button>
+            ))}
         </div>
         <button onClick={handleSaveEvent}>저장</button>
         <button onClick={closeModal}>닫기</button>
