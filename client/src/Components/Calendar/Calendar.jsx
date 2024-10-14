@@ -158,18 +158,25 @@ const Calendar = () => {
         all_day: 1, 
         color: selectedColor
       };
-      console.log("eventDetail");
+  
       try {
         const token = localStorage.getItem('jwtToken');
-        console.log("JWT 토큰 추가",token);
+        
+        // axios로 POST 요청
         const response = await axios.post('http://localhost:5000/api/events', eventDetail, {
           headers: {
-            Authorization: `Bearer ${token}`
+            Authorization: `Bearer ${token}`,
+            'Content-Type': 'application/json'  // Content-Type 헤더 수정
           },
         });
-        const savedEventId = response.data.id;
-
-        console.log(response.data.id);
+  
+        // response.data로 바로 데이터 접근
+        const data = response.data;
+  
+        console.log(data);
+        const savedEventId = data.saveEventId.insertId;  // 백엔드에서 반환한 ID 사용
+  
+        console.log(savedEventId);
   
         const newEventDetail = {
           id: savedEventId,
@@ -177,18 +184,20 @@ const Calendar = () => {
           time: convertTo24HourFormat(eventTime)
         };
   
-      setEvents(prevEvents => ({
-        ...prevEvents,
-        [dateKey]: prevEvents[dateKey]
-          ? [...prevEvents[dateKey], newEventDetail].sort((a, b) => a.time.localeCompare(b.time))
-          : [newEventDetail]
-      }));
-      console.log("setEvents");
+        // 이벤트 업데이트
+        setEvents(prevEvents => ({
+          ...prevEvents,
+          [dateKey]: prevEvents[dateKey]
+            ? [...prevEvents[dateKey], newEventDetail].sort((a, b) => a.time.localeCompare(b.time))
+            : [newEventDetail]
+        }));
+        console.log("setEvents");
+  
         closeModal();
       } catch (error) {
         console.error('Error saving event:', error);
       } finally {
-        console.log("실행종료")
+        console.log("실행종료");
       }
     }
   };  

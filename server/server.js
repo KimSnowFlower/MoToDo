@@ -174,7 +174,7 @@ app.get('/api/home', authenticateToken, async (req, res) => {
 
 // Calendar
 // 이벤트 저장 -> Calendar.jsx
-app.post('/api/events', authenticateToken, (req, res) => {
+app.post('/api/events', authenticateToken, async (req, res) => {
   const user_id = req.user.id;
   const { title, description, start_date, end_date, all_day, color } = req.body;
 
@@ -182,10 +182,13 @@ app.post('/api/events', authenticateToken, (req, res) => {
       INSERT INTO calendar (user_id, title, description, start_date, end_date, all_day, color, created_at, updated_at)
       VALUES (?, ?, ?, ?, ?, ?, ?, NOW(), NOW())`;
 
-  db.query(query, [user_id, title, description, start_date, end_date, all_day, color], (err, result) => {
-      if (err) return res.status(500).send('Error saving event');
-      res.status(201).send({ id: result.insertId });
-  });
+  const [calendarEvents] = await db.query(query, [user_id, title, description, start_date, end_date, all_day, color]);
+
+  if(!calendarEvents){
+    console.log("undefined");
+  }
+
+  return res.json({ saveEventId: calendarEvents });
 });
 
 // 이벤트 확인 -> Calendar.jsx
@@ -254,7 +257,6 @@ app.get('/api/stickys', authenticateToken, async (req, res) => {
         res.json({
             sticky: stickyResults,
         });
-      console.log(res.json());
     } catch (error) {
         console.error('Error fetching sticky notes:', error);
         res.status(500).json({ error: 'Error fetching sticky notes', details: error.message });
