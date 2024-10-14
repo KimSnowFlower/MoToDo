@@ -15,11 +15,12 @@ export default function StickyNotesApp() {
     }, []);
 
     const fetchStickyNotes = async () => {
+        const token = localStorage.getItem('jwtToken');
         try {
             const response = await fetch('/api/stickys', {
                 method: 'GET',
                 headers: {
-                    'Authorization': `Bearer ${yourToken}`, // 필요한 경우 토큰 추가
+                    Authorization: `Bearer ${token}`,
                 },
             });
 

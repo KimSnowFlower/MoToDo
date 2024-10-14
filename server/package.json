@@ -20,6 +20,7 @@
     "express": "^4.21.0",
     "express-validator": "^7.1.0",
     "jsonwebtoken": "^9.0.2",
+    "lru-cache": "^11.0.1",
     "mysql2": "^3.11.3",
     "server": "file:",
     "socket.io": "^4.8.0"
