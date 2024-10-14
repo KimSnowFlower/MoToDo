@@ -10,49 +10,67 @@ export default function StickyNotesApp() {
     const [dy, setDy] = useState(0);
     const [movingNoteIndex, setMovingNoteIndex] = useState(null);
 
-    function addNote() {
+    const fetchStickyNotes = async () => {
+        try {
+            const token = localStorage.getItem('jwtToken');
+            const response = await fetch('/api/stickys', {
+                method: 'GET',
+                headers: {
+                    'Authorization': `Bearer ${token}`, // 필요한 경우 토큰 추가
+                },
+            });
+
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+
+            const data = await response.json();
+            console.log(data.sticky); // stickyResults 배열 출력
+        } catch (error) {
+            console.error('Error fetching sticky notes:', error);
+        }
+    };
+    const addNote = () => {
         setNotes([...notes, { id: Date.now() }]);
-    }
+    };
 
-    function removeNote(noteId) {
+    const removeNote = (noteId) => {
         setNotes(notes.filter((item) => item.id !== noteId));
-    }
+    };
 
-    function handleMouseUp() {
+    const handleMouseUp = () => {
         console.log("Mouse up");
         setAllowMove(false);
         setMovingNoteIndex(null);
-    }
+    };
 
-    function handleMouseDown(e, index) {
+    const handleMouseDown = (e, index) => {
         console.log("Mouse down", e.clientX, e.clientY);
         setAllowMove(true);
         setMovingNoteIndex(index);
-        
+    
         const noteElement = stickyNoteRefs.current[index];
         const dimensions = noteElement.getBoundingClientRect();
-        
-        // 현재 클릭 위치에서 메모의 좌측 상단까지의 차이 계산
+    
         setDx(e.clientX - dimensions.left);
         setDy(e.clientY - dimensions.top);
-    }
-    
-    function handleMouseMove(e) {
+    };
+
+    const handleMouseMove = (e) => {
         console.log("Mouse move", e.clientX, e.clientY);
-    
+
         if (allowMove && movingNoteIndex !== null) {
             const noteElement = stickyNoteRefs.current[movingNoteIndex];
-    
-            // 마우스 위치에서 오프셋을 빼서 메모의 정확한 위치를 계산
-            const x = e.clientX - dx*2.4;
-            const y = e.clientY - dy*2.4;
-    
+            const x = e.clientX - dx * 2.4;
+            const y = e.clientY - dy * 2.4;
+
             noteElement.style.left = `${x}px`;
             noteElement.style.top = `${y}px`;
-    
+
             console.log("Moving Note to", x, y);
         }
-    }
+    };
+    
     return (
         <div className={styles.container} onMouseMove={handleMouseMove} onMouseUp={handleMouseUp}>
             <div className={styles.title}>메모장</div>
