@@ -18,8 +18,7 @@ export default function StickyNotesApp() {
     const fetchStickyNotes = async () => {
         const token = localStorage.getItem('jwtToken');
         try {
-            const response = await fetch('http://localhost:5000/api/stickys', {
-                method: 'GET',
+            const response = await axios.get('http://localhost:5000/api/stickys', {
                 headers: {
                     Authorization: `Bearer ${token}`,
                 },
@@ -36,7 +35,6 @@ export default function StickyNotesApp() {
         }
     };
 
-
     const addNote = async () => {
         const token = localStorage.getItem('jwtToken');
         const newNote = {
@@ -50,7 +48,7 @@ export default function StickyNotesApp() {
     
         try {
             const response = await axios.post('http://localhost:5000/api/stickys', 
-                newNote,  // 객체를 content 키로 감싸지 않고 직접 전송
+                newNote, 
                 {
                     headers: {
                         Authorization: `Bearer ${token}`,
@@ -58,11 +56,11 @@ export default function StickyNotesApp() {
                 }
             );
     
-            if (response.status !== 201) {  // response.ok 대신 status로 체크
+            if (response.status !== 201) {  
                 throw new Error('Failed to create sticky note');
             }
     
-            const createdNote = response.data;  // response.json() 대신 response.data 사용
+            const createdNote = response.data;  
             setNotes((prevNotes) => [...prevNotes, createdNote]);
         } catch (error) {
             console.error('Error adding sticky note:', error);
@@ -73,8 +71,7 @@ export default function StickyNotesApp() {
         const token = localStorage.getItem('jwtToken');
 
         try {
-            const response = await fetch(`http://localhost:5000/api/stickys/${noteId}`, {
-                method: 'DELETE',
+            const response = await axios.delete(`http://localhost:5000/api/stickys/${noteId}`, {
                 headers: {
                     'Authorization': `Bearer ${token}`,
                 },
@@ -90,42 +87,8 @@ export default function StickyNotesApp() {
         }
     };
 
-    const handleMouseUp = async () => {
-        if (movingNoteIndex !== null) {
-            const noteElement = stickyNoteRefs.current[movingNoteIndex];
-            const content = noteElement.querySelector('textarea').value;
-
-            const noteId = notes[movingNoteIndex].id;
-            const updatedNote = { content, color: 'yellow', position_x: noteElement.style.left, position_y: noteElement.style.top, width: 200, height: 200 };
-
-            const token = localStorage.getItem('jwtToken');
-
-            try {
-                const response = await fetch(`/api/stickys/${noteId}`, {
-                    method: 'PUT',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${token}`,
-                    },
-                    body: JSON.stringify(updatedNote),
-                });
-
-                if (!response.ok) {
-                    throw new Error('Failed to update sticky note');
-                }
-
-                setAllowMove(false);
-                setMovingNoteIndex(null);
-            } catch (error) {
-                console.error('Error updating sticky note:', error);
-            }
-        }
-    };
-
     const handleMouseDown = (e, index) => {
-        setAllowMove(true);
         setMovingNoteIndex(index);
-
         const noteElement = stickyNoteRefs.current[index];
         const dimensions = noteElement.getBoundingClientRect();
 
@@ -134,13 +97,51 @@ export default function StickyNotesApp() {
     };
 
     const handleMouseMove = (e) => {
-        if (allowMove && movingNoteIndex !== null) {
+        if (movingNoteIndex !== null) {
             const noteElement = stickyNoteRefs.current[movingNoteIndex];
             const x = e.clientX - dx;
             const y = e.clientY - dy;
 
             noteElement.style.left = `${x}px`;
             noteElement.style.top = `${y}px`;
+        }
+    };
+
+    const handleMouseUp = async () => {
+        if (movingNoteIndex !== null) {
+            const noteElement = stickyNoteRefs.current[movingNoteIndex];
+            const content = noteElement.querySelector('textarea').value;
+
+            const noteId = notes[movingNoteIndex].id;
+            const updatedNote = {
+                content,
+                color: 'yellow',
+                position_x: noteElement.style.left,
+                position_y: noteElement.style.top,
+                width: 200,
+                height: 200
+            };
+
+            const token = localStorage.getItem('jwtToken');
+
+            try {
+                const response = await axios.put(`http://localhost:5000/api/stickys/${noteId}`,
+                    updatedNote,
+                    {
+                        headers: {
+                            'Authorization': `Bearer ${token}`,
+                        },
+                    }
+                );
+
+                if (response.status !== 200) {
+                    throw new Error('Failed to update sticky note');
+                }
+            } catch (error) {
+                console.error('Error updating sticky note:', error);
+            } finally {
+                setMovingNoteIndex(null); // 이동 중인 sticky note의 인덱스 초기화
+            }
         }
     };
 
