@@ -37,8 +37,8 @@ export default function StickyNotesApp() {
             content: '', 
             position_x: 50, 
             position_y: 30, 
-            width: 200, 
-            height: 200
+            width: 100, 
+            height: 100
         };
 
         try {
@@ -115,8 +115,8 @@ export default function StickyNotesApp() {
             // px를 제거하고 float로 변환
             position_x: parseFloat(stickyNoteRefs.current[index].style.left.replace('px', '')),
             position_y: parseFloat(stickyNoteRefs.current[index].style.top.replace('px', '')),
-            width: 200,
-            height: 200
+            width: 100,
+            height: 100
         };
     
         const token = localStorage.getItem('jwtToken');
