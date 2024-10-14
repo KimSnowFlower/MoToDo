@@ -1,6 +1,7 @@
 import { useState, useRef, useEffect } from 'react';
 import styles from './Sticky.module.css';
 import MenuBar from '../MenuBar/MenuBar';
+import axios from 'axios';
 
 export default function StickyNotesApp() {
     const [notes, setNotes] = useState([]);
@@ -11,13 +12,13 @@ export default function StickyNotesApp() {
     const [movingNoteIndex, setMovingNoteIndex] = useState(null);
 
     useEffect(() => {
-        fetchStickyNotes();
+        /*fetchStickyNotes();*/
     }, []);
 
     const fetchStickyNotes = async () => {
         const token = localStorage.getItem('jwtToken');
         try {
-            const response = await fetch('/api/stickys', {
+            const response = await fetch('http://localhost:5000/api/stickys', {
                 method: 'GET',
                 headers: {
                     Authorization: `Bearer ${token}`,
@@ -38,34 +39,41 @@ export default function StickyNotesApp() {
 
     const addNote = async () => {
         const token = localStorage.getItem('jwtToken');
-        const newNote = { content: '', color: 'yellow', position_x: 50, position_y: 30, width: 200, height: 200 };
-
+        const newNote = {
+            content: '', 
+            color: 'yellow', 
+            position_x: 50, 
+            position_y: 30, 
+            width: 200, 
+            height: 200
+        };
+    
         try {
-            const response = await fetch('/api/stickys', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${token}`,
-                },
-                body: JSON.stringify(newNote),
-            });
-
-            if (!response.ok) {
+            const response = await axios.post('http://localhost:5000/api/stickys', 
+                newNote,  // 객체를 content 키로 감싸지 않고 직접 전송
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                }
+            );
+    
+            if (response.status !== 201) {  // response.ok 대신 status로 체크
                 throw new Error('Failed to create sticky note');
             }
-
-            const createdNote = await response.json();
+    
+            const createdNote = response.data;  // response.json() 대신 response.data 사용
             setNotes((prevNotes) => [...prevNotes, createdNote]);
         } catch (error) {
             console.error('Error adding sticky note:', error);
         }
-    };
+    };    
 
     const removeNote = async (noteId) => {
         const token = localStorage.getItem('jwtToken');
 
         try {
-            const response = await fetch(`/api/stickys/${noteId}`, {
+            const response = await fetch(`http://localhost:5000/api/stickys/${noteId}`, {
                 method: 'DELETE',
                 headers: {
                     'Authorization': `Bearer ${token}`,

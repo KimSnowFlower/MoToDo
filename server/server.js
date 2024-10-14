@@ -263,23 +263,29 @@ app.get('/api/stickys', authenticateToken, async (req, res) => {
 
 // Sticky 노트 생성
 app.post('/api/stickys', authenticateToken, async (req, res) => {
-    const userId = req.user.id;
-    const { content, color, position_x, position_y, width, height } = req.body;
+  const userId = req.user.id;
+  const { content, color, position_x, position_y, width, height } = req.body;
 
-    if (!content) {
-        return res.status(400).json({ error: 'Content is required' });
-    }
-
-    try {
-        const sql = `INSERT INTO sticky (user_id, content, color, position_x, position_y, width, height, created_at, updated_at) 
-                     VALUES (?, ?, ?, ?, ?, ?, ?, NOW(), NOW())`;
-        const [result] = await db.query(sql, [userId, content, color, position_x, position_y, width, height]);
-        
-        res.status(201).json({ id: result.insertId, content, color, position_x, position_y, width, height });
-    } catch (error) {
-        console.error('Error creating sticky note:', error);
-        res.status(500).json({ error: 'Failed to create sticky note', details: error.message });
-    }
+  try {
+      // SQL 쿼리에서 8개의 열에 대해 8개의 값을 정확하게 전달
+      const sql = `INSERT INTO sticky (user_id, content, color, position_x, position_y, width, height, created_at, updated_at) 
+                   VALUES (?, ?, ?, ?, ?, ?, ?, NOW(), NOW())`;
+      const [result] = await db.query(sql, [userId, content, color, position_x, position_y, width, height]);
+      
+      // 성공 시 추가된 Sticky 노트의 정보를 반환
+      res.status(201).json({ 
+          id: result.insertId, 
+          content, 
+          color, 
+          position_x, 
+          position_y, 
+          width, 
+          height 
+      });
+  } catch (error) {
+      console.error('Error creating sticky note:', error);
+      res.status(500).json({ error: 'Failed to create sticky note', details: error.message });
+  }
 });
 
 // Sticky 노트 수정
