@@ -173,10 +173,7 @@ const Calendar = () => {
         // response.data로 바로 데이터 접근
         const data = response.data;
   
-        console.log(data);
         const savedEventId = data.saveEventId.insertId;  // 백엔드에서 반환한 ID 사용
-  
-        console.log(savedEventId);
   
         const newEventDetail = {
           id: savedEventId,
@@ -191,7 +188,6 @@ const Calendar = () => {
             ? [...prevEvents[dateKey], newEventDetail].sort((a, b) => a.time.localeCompare(b.time))
             : [newEventDetail]
         }));
-        console.log("setEvents");
   
         closeModal();
       } catch (error) {

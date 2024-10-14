@@ -21,6 +21,7 @@ export default function StickyNotesApp() {
             const response = await axios.get('http://localhost:5000/api/stickys', {
                 headers: {
                     Authorization: `Bearer ${token}`,
+                    'Content-Type': 'application/json'
                 },
             });
 
@@ -52,28 +53,33 @@ export default function StickyNotesApp() {
                 {
                     headers: {
                         Authorization: `Bearer ${token}`,
+                        'Content-Type': 'application/json'
                     },
                 }
             );
-    
+            
+            const data = response.data;
+
             if (response.status !== 201) {  
                 throw new Error('Failed to create sticky note');
             }
     
-            const createdNote = response.data;  
-            setNotes((prevNotes) => [...prevNotes, createdNote]);
+            const createdNote = data;
+            setNotes((prevNotes) => [...prevNotes, createdNote.insertId]);
         } catch (error) {
             console.error('Error adding sticky note:', error);
         }
     };    
 
     const removeNote = async (noteId) => {
+        console.log(noteId);
         const token = localStorage.getItem('jwtToken');
 
         try {
             const response = await axios.delete(`http://localhost:5000/api/stickys/${noteId}`, {
                 headers: {
-                    'Authorization': `Bearer ${token}`,
+                    Authorization: `Bearer ${token}`,
+                    'Content-Type': 'application/json'
                 },
             });
 
@@ -161,7 +167,7 @@ export default function StickyNotesApp() {
             {notes.map((item, index) => (
                 <div
                     className={styles['sticky-note']}
-                    key={item.id}
+                    key={index.id}
                     ref={el => stickyNoteRefs.current[index] = el}
                     style={{ position: 'absolute', left: item.position_x, top: item.position_y }} // API에서 받아온 위치로 설정
                 >
@@ -170,7 +176,7 @@ export default function StickyNotesApp() {
                         onMouseDown={(e) => handleMouseDown(e, index)}
                     >
                         <div>Sticky Note</div>
-                        <div className={styles.close} onClick={() => removeNote(item.id)}>&times;</div>
+                        <div className={styles.close} onClick={() => removeNote(index.id)}>&times;</div>
                     </div>
                     <textarea cols="30" rows="10" defaultValue={item.content}></textarea>
                 </div>
