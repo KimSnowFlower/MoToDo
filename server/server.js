@@ -172,7 +172,6 @@ app.get('/api/home', authenticateToken, async (req, res) => {
   }
 });
 
-
 // Calendar
 // 이벤트 저장 -> Calendar.jsx
 app.post('/api/events', authenticateToken, (req, res) => {
@@ -242,6 +241,23 @@ app.delete('/api/events/:id', authenticateToken, (req, res) => {
     if (result.affectedRows === 0) return res.status(404).send('Event not found or not authorized to delete');
     res.send('Event deleted');
   });
+});
+
+// Sticky 노트 데이터 가져오기
+app.get('/api/stickys', authenticateToken, async (req, res) => {
+    const userId = req.user.id;
+
+    try {
+        const [stickyResults] = await db.query('SELECT * FROM sticky WHERE user_id = ?', [userId]);
+
+        res.json({
+            sticky: stickyResults,
+        });
+      console.log(res.json());
+    } catch (error) {
+        console.error('Error fetching sticky notes:', error);
+        res.status(500).json({ error: 'Error fetching sticky notes', details: error.message });
+    }
 });
 
 // To-Do 항목 가져오기 -> To Do.jsx
