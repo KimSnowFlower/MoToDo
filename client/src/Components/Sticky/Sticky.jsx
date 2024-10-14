@@ -11,7 +11,7 @@ export default function StickyNotesApp() {
     const [movingNoteIndex, setMovingNoteIndex] = useState(null);
 
     useEffect(() => {
-        //fetchStickyNotes();
+        fetchStickyNotes();
     }, []);
 
     const fetchStickyNotes = async () => {
@@ -25,6 +25,8 @@ export default function StickyNotesApp() {
             });
 
             const data = response.data.sticky; // stickyResults 배열 출력
+
+            console.log(data);
             setNotes(data); // 상태에 노트 저장
         } catch (error) {
             console.error('Error fetching sticky notes:', error);
@@ -101,7 +103,7 @@ export default function StickyNotesApp() {
     };
 
     const updateContent = async (index, content) => {
-        const noteId = notes[index]?.sticky?.insertId; // Optional chaining 추가
+        const noteId = notes[index]?.id; // Optional chaining 추가
         console.log(noteId);
     
         // noteId가 undefined일 경우 함수 종료
@@ -112,7 +114,6 @@ export default function StickyNotesApp() {
     
         const updatedNote = {
             content,
-            // px를 제거하고 float로 변환
             position_x: parseFloat(stickyNoteRefs.current[index].style.left.replace('px', '')),
             position_y: parseFloat(stickyNoteRefs.current[index].style.top.replace('px', '')),
             width: 100,
@@ -176,7 +177,7 @@ export default function StickyNotesApp() {
             {notes.map((item, index) => (
                 <div
                     className={styles['sticky-note']}
-                    key={item.sticky.insertId}
+                    key={item.id}
                     ref={el => stickyNoteRefs.current[index] = el}
                     style={{ position: 'absolute', left: item.position_x, top: item.position_y }}
                 >
@@ -185,7 +186,7 @@ export default function StickyNotesApp() {
                         onMouseDown={(e) => handleMouseDown(e, index)}
                     >
                         <div>Sticky Note</div>
-                        <div className={styles.close} onClick={() => removeStickyNote(item.sticky.insertId)}>&times;</div>
+                        <div className={styles.close} onClick={() => removeStickyNote(item.id)}>&times;</div>
                     </div>
                     <textarea
                         cols="30"

@@ -204,6 +204,7 @@ app.get('/api/events', authenticateToken, (req, res) => {
           console.error('Database error:', err);
           return res.status(500).send('Error fetching events');
       }
+      
       res.send(results); // 결과 반환
   });
 });
@@ -254,6 +255,7 @@ app.get('/api/stickys', authenticateToken, async (req, res) => {
     try {
         const [stickyResults] = await db.query('SELECT * FROM sticky WHERE user_id = ?', [userId]);
 
+        console.log(stickyResults);
         res.json({ sticky: stickyResults });
     } catch (error) {
         console.error('Error fetching sticky notes:', error);
