@@ -61,7 +61,7 @@ const Calendar = () => {
   const fetchEvents = async () => {
     const token = localStorage.getItem('jwtToken');
     try {
-        const response = await axios.get(`http://localhost:5000/api/events}`, {
+        const response = await axios.get(`http://localhost:5000/api/events`, {
             headers: {
                 Authorization: `Bearer ${token}` // JWT 토큰 추가
             }
@@ -158,15 +158,15 @@ const Calendar = () => {
         all_day: 1, 
         color: selectedColor
       };
-  
+      console.log("eventDetail");
       try {
         const token = localStorage.getItem('jwtToken');
+        console.log("JWT 토큰 추가",token);
         const response = await axios.post('http://localhost:5000/api/events', eventDetail, {
           headers: {
-            Authorization: `Bearer ${token}` // JWT 토큰 추가
-          }
+            Authorization: `Bearer ${token}`
+          },
         });
-  
         const savedEventId = response.data.id;
 
         console.log(response.data.id);
@@ -174,20 +174,21 @@ const Calendar = () => {
         const newEventDetail = {
           id: savedEventId,
           ...eventDetail,
-          time: convertTo24HourFormat(eventTime) // 필요한 경우 time 필드 추가
+          time: convertTo24HourFormat(eventTime)
         };
   
-        // setEvents 호출
       setEvents(prevEvents => ({
         ...prevEvents,
         [dateKey]: prevEvents[dateKey]
           ? [...prevEvents[dateKey], newEventDetail].sort((a, b) => a.time.localeCompare(b.time))
           : [newEventDetail]
       }));
-
+      console.log("setEvents");
         closeModal();
       } catch (error) {
         console.error('Error saving event:', error);
+      } finally {
+        console.log("실행종료")
       }
     }
   };  
@@ -300,7 +301,6 @@ const Calendar = () => {
   const weeks = Math.ceil((firstDayOfMonth + daysInMonth) / 7);
   const isSixWeeks = weeks === 6;
 
-  const gridGap = isSixWeeks ? '2px' : '13px';
 
   const days = [];
   for (let i = 0; i < firstDayOfMonth; i++) {
@@ -320,7 +320,10 @@ const Calendar = () => {
         key={day}
         className={`${styles.calendarDay} ${selectedDate?.getDate() === day ? styles.selected : ''}`}
         onClick={() => handleDateClick(day)}
-        style={{ minHeight: isSixWeeks ? '110px' : '130px', color: color }}
+        style={{  
+          minHeight: isSixWeeks ? '11.5vh' : '13vh',
+          color: color 
+        }}
       >
         {day}
         {hasEvents && (
