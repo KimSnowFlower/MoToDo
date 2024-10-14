@@ -21,7 +21,7 @@
 .sticky-btn {
     color: white;
     border-radius: 10px;
-    border: none;
+    border: 3px solid #AFD3E2;
     position: absolute;
     top: 20px;
     right: 20px;
