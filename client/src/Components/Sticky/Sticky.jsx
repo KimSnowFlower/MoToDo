@@ -65,29 +65,29 @@ export default function StickyNotesApp() {
             }
     
             const createdNote = data;
-            setNotes((prevNotes) => [...prevNotes, createdNote.insertId]);
+            setNotes((prevNotes) => [...prevNotes, createdNote]);
         } catch (error) {
             console.error('Error adding sticky note:', error);
         }
     };    
 
-    const removeNote = async (noteId) => {
-        console.log(noteId);
+    const removeStickyNote = async (stickyNoteId) => {  // 변수 이름 변경
         const token = localStorage.getItem('jwtToken');
-
+    
         try {
-            const response = await axios.delete(`http://localhost:5000/api/stickys/${noteId}`, {
+            const response = await axios.delete(`http://localhost:5000/api/stickys/${stickyNoteId}`, {
                 headers: {
                     Authorization: `Bearer ${token}`,
                     'Content-Type': 'application/json'
                 },
             });
-
-            if (!response.ok) {
+    
+            if (response.status !== 200) { 
                 throw new Error('Failed to delete sticky note');
             }
-
-            setNotes(notes.filter((item) => item.id !== noteId));
+    
+            // stickyNoteId를 사용하여 노트를 필터링
+            setNotes(notes.filter((item) => item.sticky.insertId !== stickyNoteId));
         } catch (error) {
             console.error('Error deleting sticky note:', error);
         }
@@ -118,7 +118,9 @@ export default function StickyNotesApp() {
             const noteElement = stickyNoteRefs.current[movingNoteIndex];
             const content = noteElement.querySelector('textarea').value;
 
-            const noteId = notes[movingNoteIndex].id;
+            const noteId = notes[movingNoteIndex]?.sticky.insertId;
+
+            console.log('Updating note ID:', noteId);  // 로그 추가
             const updatedNote = {
                 content,
                 color: 'yellow',
@@ -167,7 +169,7 @@ export default function StickyNotesApp() {
             {notes.map((item, index) => (
                 <div
                     className={styles['sticky-note']}
-                    key={index.id}
+                    key={item.sticky.insertId}
                     ref={el => stickyNoteRefs.current[index] = el}
                     style={{ position: 'absolute', left: item.position_x, top: item.position_y }} // API에서 받아온 위치로 설정
                 >
@@ -176,7 +178,7 @@ export default function StickyNotesApp() {
                         onMouseDown={(e) => handleMouseDown(e, index)}
                     >
                         <div>Sticky Note</div>
-                        <div className={styles.close} onClick={() => removeNote(index.id)}>&times;</div>
+                        <div className={styles.close} onClick={() => removeStickyNote(item.sticky.insertId)}>&times;</div>
                     </div>
                     <textarea cols="30" rows="10" defaultValue={item.content}></textarea>
                 </div>

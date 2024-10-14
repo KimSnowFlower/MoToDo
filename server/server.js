@@ -310,7 +310,7 @@ app.put('/api/stickys/:id', authenticateToken, async (req, res) => {
 // Sticky 노트 삭제
 app.delete('/api/stickys/:id', authenticateToken, async (req, res) => {
     const userId = req.user.id;
-    const { id } = req.params;
+    const id = req.params.id;
 
     try {
         const sql = `DELETE FROM sticky WHERE id = ? AND user_id = ?`;

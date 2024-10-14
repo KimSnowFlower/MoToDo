@@ -181,7 +181,6 @@ const Calendar = () => {
           time: convertTo24HourFormat(eventTime)
         };
   
-        // 이벤트 업데이트
         setEvents(prevEvents => ({
           ...prevEvents,
           [dateKey]: prevEvents[dateKey]
