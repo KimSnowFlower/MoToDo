@@ -35,13 +35,15 @@ export default function StickyNotesApp() {
 
     const addNote = async () => {
         const token = localStorage.getItem('jwtToken');
+        console.log("토큰 얻음")
         const newNote = {
             content: '', 
-            position_x: 50, 
-            position_y: 30, 
+            position_x: 50,
+            position_y: 30,
             width: 100, 
             height: 100
         };
+        console.log("노트 생성")
 
         try {
             const response = await axios.post('http://localhost:5000/api/stickys', 
@@ -94,13 +96,22 @@ export default function StickyNotesApp() {
     const handleMouseMove = (e) => {
         if (movingNoteIndex !== null) {
             const noteElement = stickyNoteRefs.current[movingNoteIndex];
+            const containerRect = noteElement.parentElement.getBoundingClientRect();
             const x = e.clientX - dx;
             const y = e.clientY - dy;
-
-            noteElement.style.left = `${x}px`;
-            noteElement.style.top = `${y}px`;
+    
+            // 경계값 계산
+            const minX = containerRect.left;
+            const minY = containerRect.top;
+            const maxX = containerRect.right - noteElement.offsetWidth;
+            const maxY = containerRect.bottom - noteElement.offsetHeight;
+    
+            // 이동 좌표 제한
+            noteElement.style.left = `${Math.max(minX, Math.min(x, maxX)) - containerRect.left}px`;
+            noteElement.style.top = `${Math.max(minY, Math.min(y, maxY)) - containerRect.top}px`;
         }
     };
+    
 
     const updateContent = async (index, content) => {
         const noteId = notes[index]?.id; // Optional chaining 추가

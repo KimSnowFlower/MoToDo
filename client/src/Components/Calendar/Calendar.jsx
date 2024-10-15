@@ -409,9 +409,11 @@ const Calendar = () => {
       <MenuBar />
       <div className={styles.calendarContainer}>
         <div className={styles.calendarHeader}>
-          <button onClick={handlePrevMonth}>&lt;</button>
+        <button className={styles.moveMonthButton} onClick={handlePrevMonth}>
+        <img src={require('../Assets/arrow_left_button.png')} className={styles.buttonImage} /></button>
           <div>{`${currentYear}년 ${currentMonth + 1}월`}</div>
-          <button onClick={handleNextMonth}>&gt;</button>
+          <button className={styles.moveMonthButton} onClick={handleNextMonth}>
+          <img src={require('../Assets/arrow_right_button.png')} className={styles.buttonImage} /></button>
         </div>
         <div className={styles.calendarGrid}>
           {daysInWeek.map((dayName, index) => (
