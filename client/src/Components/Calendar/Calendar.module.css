@@ -3,12 +3,11 @@
   justify-content: center;
   align-items: center;
   width: calc(100vw - 200px);
-  height:  100vh;
-  margin: auto;
-  padding: 0;
+  height: 100vh;
   background-color: #19A7C3; 
   box-sizing: border-box;
   overflow: hidden;
+  
 }
 
 .calendarContainer {

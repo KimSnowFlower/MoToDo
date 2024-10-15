@@ -1,0 +1,43 @@
+.scheduleContainer {
+    padding: 20px;
+    height: calc(100vh - 60px); /* 전체 화면 높이에서 입력창 높이(60px) 제외 */
+    display: flex;
+    flex-direction: column;
+    position: relative; /* 위치 기준 설정 */
+  }
+  
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #f7f7f7; /* 배경색을 줘서 스크롤 시 리스트와 분리 */
+    padding: 10px;
+    position: sticky; /* 고정 위치 */
+    top: 0; /* 화면 상단에 고정 */
+    z-index: 10; /* 리스트 위에 표시되도록 z-index 설정 */
+    border-bottom: 1px solid #ddd; /* 헤더 아래에 경계선 추가 */
+  }
+  
+  .homeLists {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    overflow-y: auto; /* 세로 스크롤 가능 */
+    flex-grow: 1; /* 리스트 컨테이너가 남은 공간을 차지하게 설정 */
+    border-radius: 10px; /* 리스트 아이템의 모서리를 둥글게 설정 */
+  }
+  
+  .homeLists li {
+    padding: 10px;
+    margin: 5px;
+    background-color: #f9f9f9;
+    border-radius: 8px; /* 리스트 아이템 모서리를 둥글게 */
+    display: flex;
+    justify-content: space-between; /* 체크박스와 삭제 버튼을 양쪽으로 배치 */
+    align-items: center; /* 수직 가운데 정렬 */
+    border: 1px solid black; /* 리스트 아이템에 테두리 추가 */
+  }
+  
+  .homeLists li p {
+    margin: 0;
+  }

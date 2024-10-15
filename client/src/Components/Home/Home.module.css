@@ -5,6 +5,7 @@
   height: 100vh;
   margin-left: 200px;
   box-sizing: border-box;
+  
 }
 
 .homeMain {
@@ -29,36 +30,36 @@
   grid-column: 1 / 2;
   grid-row: 1 / 3;
   background-color: #f7f7f7;
-  border-radius: 8px;
-  height: 90vh;
+  height: 88vh;
   padding: 10px;
   overflow-y: auto;
   display: flex;
   flex-direction: column;
   flex-grow: 1;
+  border: 4px solid #AFD3E2;
 }
 
 .noticeAndTime {
   grid-column: 2 / 3;
   grid-row: 1 / 2;
   background-color: #f7f7f7;
-  border-radius: 8px;
   padding: 10px;
   display: flex;
   flex-direction: column;
   flex-grow: 1;
+  border: 4px solid #AFD3E2;
 }
 
 .todoCheckList {
   grid-column: 2 / 3;
   grid-row: 2 / 3;
   background-color: #f7f7f7;
-  border-radius: 8px;
   padding: 10px;
   display: flex;
   flex-direction: column;
   flex-grow: 1;
-  height: 65vh;
+  height: 63.2vh;
+  border: 4px solid #AFD3E2;
 }
 
 h2 {
@@ -94,7 +95,7 @@ h2 {
 
 .homeCalendarList {
   background-color: #f7f7f7;
-  border-radius: 8px;
+
   padding: 20px;
   overflow-y: auto;
   display: flex;
@@ -104,7 +105,6 @@ h2 {
 
 .noticeAndTime {
   background-color: #f7f7f7;
-  border-radius: 8px;
   padding: 20px;
   display: flex;
   flex-direction: column;
@@ -113,7 +113,6 @@ h2 {
 
 .todoCheckList {
   background-color: #f7f7f7;
-  border-radius: 8px;
   padding: 20px;
   display: flex;
   flex-direction: column;

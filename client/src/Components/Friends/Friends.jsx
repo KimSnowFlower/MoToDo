@@ -7,7 +7,7 @@ const socket = io('http://localhost:5000');
 
 const Friends = () => {
     const [friends, setFriends] = useState([]);
-    const [userInfo, setUserInfo] = useState({ id: '', name: '' });
+    const [userInfo, setUserInfo] = useState({ id: '', name: '' , student_id: ''});
     const [inputMessage, setInputMessage] = useState('');
     const [selectedFriend, setSelectedFriend] = useState(null);
     const [chatHistory, setChatHistory] = useState([]);
@@ -30,7 +30,8 @@ const Friends = () => {
             }
 
             const data = await response.json();
-            setUserInfo({ id: data.id, name: data.name });
+            setUserInfo({ id: data.id, name: data.name, student_id: data.student_id });
+            console.log('User Info:', data);
         } catch (error) {
             console.error('사용자 정보 가져오기 실패:', error);
             setErrorMessage(error.message);
@@ -209,6 +210,12 @@ const Friends = () => {
             }
         }
     };    
+    
+    const handleKeyDown = (e) => {
+        if (e.key === 'Enter') {
+            sendMessage();
+        }
+    };
 
     return (
         <div className={styles.totalPage}>
@@ -216,7 +223,7 @@ const Friends = () => {
     <div className={styles.friendsMain}>
         <div className={styles.userFriendsContainer}>
             <div className={styles.userInfo}>
-                <span>{userInfo.name ? userInfo.name : "X"}의 친구들</span>
+                <span>{userInfo.student_id ? userInfo.student_id : "X"} {userInfo.name ? userInfo.name : "X"}</span>
                 <div className={styles.buttons}>
                     <button className={styles.addFriendButton}>
                         <img src={require('../Assets/add_button.png')} alt="Add Friend" className={styles.buttonImage} />
@@ -245,7 +252,7 @@ const Friends = () => {
 
         <div className={styles.chatContainer}>
             <div className={styles.chatHeader}>
-                {selectedFriend ? `Chat with ${selectedFriend.name}` : "친구를 선택하세요"}
+                <span class="text" >{selectedFriend ? `Chat with ${selectedFriend.name}` : "친구를 선택하세요"}</span>
             </div>
             <div className={styles.chatMessages}>
                 {chatHistory.length > 0 ? (
@@ -263,6 +270,7 @@ const Friends = () => {
                     type="text"
                     value={inputMessage}
                     onChange={(e) => setInputMessage(e.target.value)}
+                    onKeyDown={handleKeyDown}
                     placeholder="메시지를 입력하세요..."
                     className={styles.inputField}
                 />

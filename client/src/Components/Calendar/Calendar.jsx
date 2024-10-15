@@ -303,7 +303,7 @@ const Calendar = () => {
       setSelectedEvent(null);
       closeModal();
     } catch (error) {
-      console.error('Error deleting event:', error); // 오류 로그 추가
+      console.error('Error deleting event:', error);
     }
   };
   

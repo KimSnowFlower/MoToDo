@@ -381,13 +381,22 @@ app.get('/api/userInfo', authenticateToken, async (req, res) => {
   const userId = req.user.id;
 
   try {
-    const [userInfoResults] = await db.query('SELECT id, name FROM users WHERE id = ?', [userId]);
+    // student_id 필드도 함께 선택
+    const [userInfoResults] = await db.query(
+      'SELECT id, name, student_id FROM users WHERE id = ?', 
+      [userId]
+    );
 
     if (!userInfoResults.length) {
       return res.status(404).json({ error: 'User not found' });
     }
 
-    res.json({ id: userInfoResults[0].id, name: userInfoResults[0].name });
+    // student_id 포함해서 응답 반환
+    res.json({
+      id: userInfoResults[0].id,
+      name: userInfoResults[0].name,
+      student_id: userInfoResults[0].student_id
+    });
   } catch (error) {
     console.error('Error fetching user info:', error);
     res.status(500).json({ error: 'Error fetching user info', details: error.message });
