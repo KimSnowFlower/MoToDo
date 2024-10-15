@@ -68,6 +68,7 @@ const ToDo = () => {
   const handleDeleteNote = async (id) => {
     const token = localStorage.getItem('jwtToken');
     const noteToDelete = notes.find(note => note.id === id);
+    setNotes((prevNotes) => prevNotes.filter((note) => note.id !== id));
   
     try {
       const response = await axios.delete(`http://localhost:5000/api/todos/${id}`, {
@@ -77,11 +78,6 @@ const ToDo = () => {
         },
       });
 
-      if (response.status !== 200) { 
-        throw new Error('Failed to delete to do');
-      }
-
-      setNotes((prevNotes) => prevNotes.filter((note) => note.id !== id));
     } catch (error) {
       console.error("Error deleting note:", error); // 콘솔에 에러 출력
       setError(error.message);
@@ -124,6 +120,7 @@ const ToDo = () => {
           </li>
         ))}
       </ul>
+      {console.log("Current notes:", notes)}
     </div>
   );  
 };
