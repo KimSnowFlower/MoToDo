@@ -112,6 +112,7 @@ const Group = () => {
             }
         } else {
             setMessage("그룹을 선택하세요.");
+            // 와우
         }
     };       
 
