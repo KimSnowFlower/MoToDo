@@ -81,7 +81,7 @@ const ToDo = () => {
         throw new Error('Failed to delete to do');
       }
 
-      setNotes(notes.filter((note) => note.id !== id));
+      fetchNotes();
     } catch (error) {
       console.error("Error deleting note:", error); // 콘솔에 에러 출력
       setError(error.message);
@@ -124,7 +124,6 @@ const ToDo = () => {
           </li>
         ))}
       </ul>
-      {console.log("Current notes:", notes)}
     </div>
   );  
 };
