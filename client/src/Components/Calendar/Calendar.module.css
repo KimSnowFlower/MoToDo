@@ -28,7 +28,6 @@
   margin-left:9vw;
 }
 
-
 .calendarHeader {
   display: flex;
   justify-content: space-between;
@@ -52,13 +51,29 @@
 }
 
 .calendarDay {
-  display: flex;
+  position: relative; /* 내부 요소를 절대 위치로 배치 가능 */
   border: 1px solid rgba(20, 108, 148, 0.2);
-  background-color: transparent; 
-  font-size: 1.2rem;
-  transition: background-color 0.3s, box-shadow 0.3s;
+  background-color: transparent;
   cursor: pointer;
-  padding-left: 5px;
+  padding: 5px; /* 여백 조정 */
+  height: 100%; /* 셀 크기 유지 */
+  box-sizing: border-box;
+}
+
+.calendarDay span.date {
+  position: absolute;
+  top: 5px;  /* 셀 위쪽 여백 */
+  left: 5px; /* 셀 왼쪽 여백 */
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+
+.eventTitle {
+  font-size: 14px; 
+  margin-top: 4px;
+  padding: 2px 4px;
+  color: white;
+  border-radius: 4px;
 }
 
 
@@ -77,16 +92,6 @@
   color: #146C94;
   font-size: 1.5rem;
   text-align: center;
-}
-
-
-.eventTitle {
-  font-size: 14px; 
-  margin-top: 4px;
-  padding: 2px 4px;
-  background-color: rgba(255, 182, 193, 0.6);
-  color: white;
-  border-radius: 4px;
 }
 
 .iconContainer {

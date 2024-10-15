@@ -177,6 +177,8 @@ app.get('/api/home', authenticateToken, async (req, res) => {
 app.post('/api/events', authenticateToken, async (req, res) => {
   const user_id = req.user.id;
   const { title, description, start_date, end_date, all_day, color } = req.body;
+  console.log(user_id) 
+  console.log(req.user.id) 
 
   const query = `
       INSERT INTO calendar (user_id, title, description, start_date, end_date, all_day, color, created_at, updated_at)

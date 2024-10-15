@@ -86,18 +86,22 @@ const Calendar = () => {
   };  
 
   const convertTo24HourFormat = (timeString) => {
-    const [period, time] = timeString.split(' ');
-    if (!period || !time) {
-      console.error('Invalid time format:', timeString);
-      return '00:00:00';
+    if (!timeString || !timeString.includes(' ')) {
+      console.warn('Invalid or empty time input, setting default: 00:00:00');
+      return '00:00:00'; // 기본값 반환
     }
+  
+    const [period, time] = timeString.split(' ');
     let [hour, minute] = time.split(':').map(Number);
+  
     if (period === '오후' && hour !== 12) hour += 12;
     if (period === '오전' && hour === 12) hour = 0;
-    if (!timeString) {
-      console.error('Invalid time input:', timeString);
-      return '00:00:00';
+  
+    if (isNaN(hour) || isNaN(minute)) {
+      console.error('Invalid time format:', timeString);
+      return '00:00:00'; // 오류 시 기본값 반환
     }
+  
     return `${hour.toString().padStart(2, '0')}:${minute.toString().padStart(2, '0')}:00`;
   };
 
@@ -105,6 +109,10 @@ const Calendar = () => {
   const closeModal = () => {
     setShowModal(false);
     setSelectedEvent(null);
+    setEventTitle('');
+    setEventContent('');
+    setEventTime('오전 12:00'); // 초기화
+    setSelectedColor('#FFFF00'); // 기본 색상으로 리셋
   };
   const closeMoreModal = () => setShowMoreModal(false);
 
@@ -154,9 +162,10 @@ const Calendar = () => {
         title: eventTitle,
         description: eventContent,
         start_date: formatDateToMySQL(selectedDate),
-        end_date: formatDateToMySQL(selectedDate), 
-        all_day: 1, 
-        color: selectedColor
+        end_date: formatDateToMySQL(selectedDate),
+        all_day: 1,
+        color: selectedColor, // 색상 필드 저장
+        time: convertTo24HourFormat(eventTime), // 시간 필드 포함
       };
   
       try {
@@ -181,30 +190,32 @@ const Calendar = () => {
           time: convertTo24HourFormat(eventTime)
         };
   
-        setEvents(prevEvents => ({
+        setEvents((prevEvents) => ({
           ...prevEvents,
-          [dateKey]: prevEvents[dateKey]
-            ? [...prevEvents[dateKey], newEventDetail].sort((a, b) => a.time.localeCompare(b.time))
-            : [newEventDetail]
+          [dateKey]: [...(prevEvents[dateKey] || []), newEventDetail]
+            .sort((a, b) => a.time.localeCompare(b.time)), // 시간 순 정렬
         }));
   
         closeModal();
       } catch (error) {
         console.error('Error saving event:', error);
-      } finally {
-        console.log("실행종료");
       }
     }
   };  
 
   const handleEventClick = (day, event) => {
-    setSelectedDate(new Date(currentYear, currentMonth, day));
-    setSelectedEvent(event);
-    setEventTitle(event.title);
-    setEventTime(event.time);
-    setEventContent(event.content);
-    setSelectedColor(event.color);
-    openModal();
+    console.log('Selected event:', event); // 선택된 이벤트 확인용 로그
+  
+    setSelectedDate(new Date(currentYear, currentMonth, day)); // 선택된 날짜 설정
+    setSelectedEvent(event); // 선택된 이벤트 설정
+  
+    // 이벤트 데이터로 모달의 필드 설정
+    setEventTitle(event.title || ''); 
+    setEventTime(event.time || '오전 12:00');
+    setEventContent(event.description || ''); // 이벤트 내용 설정
+    setSelectedColor(event.color || '#FFFF00');
+  
+    openModal(); // 모달 열기
   };
 
   const handleMoreClick = (day) => {
@@ -220,62 +231,84 @@ const Calendar = () => {
   };
 
   const handleEventUpdate = async () => {
-    if (selectedDate && selectedEvent) {
-      const dateKey = `${selectedDate.getFullYear()}-${selectedDate.getMonth() + 1}-${selectedDate.getDate()}`;
-  
-      const updatedEventDetails = {
-        title: eventTitle,
-        description: eventContent,
-        start_date: selectedEvent.start_date, // 기존의 시작 날짜를 유지
-        end_date: selectedEvent.end_date,     // 기존의 종료 날짜를 유지
-        all_day: selectedEvent.all_day,       // 기존의 전일 여부 유지
-        color: selectedColor,                  // 색상 업데이트
-      };
-  
-      try {
-        const token = localStorage.getItem('jwtToken');
-        await axios.put(`http://localhost:5000/api/events/${selectedEvent.id}`, updatedEventDetails, {
-          headers: {
-            Authorization: `Bearer ${token}`, // JWT 토큰 추가
-          },
-        });
-  
-        setEvents((prevEvents) => {
-          const updatedEvents = prevEvents[dateKey].map((event) =>
-            event.id === selectedEvent.id
-              ? { ...event, ...updatedEventDetails } // 업데이트된 이벤트 데이터로 대체
-              : event
-          );
-          return {
-            ...prevEvents,
-            [dateKey]: updatedEvents,
-          };
-        });
-  
-        setSelectedEvent(null);
-        closeModal();
-      } catch (error) {
-        console.error('Error updating event:', error);
-      }
+    if (!selectedEvent) {
+      console.error('No event selected for update.');
+      return;
     }
-  };  
+  
+    console.log('Updating event:', selectedEvent); // 이벤트 확인용 로그
+  
+    const updatedEventDetails = {
+      ...selectedEvent,
+      title: eventTitle,
+      description: eventContent,
+      color: selectedColor,
+      time: convertTo24HourFormat(eventTime || '오전 12:00'),
+    };
+  
+    try {
+      const token = localStorage.getItem('jwtToken');
+      console.log('Sending update request with:', updatedEventDetails); // 요청 데이터 확인
+  
+      const response = await axios.put(
+        `http://localhost:5000/api/events/${selectedEvent.id}`,
+        updatedEventDetails,
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+  
+      console.log('Update response:', response.data); // 응답 데이터 확인
+  
+      const dateKey = `${selectedDate.getFullYear()}-${selectedDate.getMonth() + 1}-${selectedDate.getDate()}`;
+      setEvents((prevEvents) => {
+        const updatedEvents = prevEvents[dateKey].map((event) =>
+          event.id === selectedEvent.id ? updatedEventDetails : event
+        );
+        return { ...prevEvents, [dateKey]: updatedEvents };
+      });
+  
+      setSelectedEvent(null);
+      setEventTime('오전 12:00');
+      closeModal();
+    } catch (error) {
+      console.error('Error updating event:', error); // 오류 로그 추가
+    }
+  };
+  
 
   const handleEventDelete = async () => {
-    if (selectedEvent) {
-      try {
-        const token = localStorage.getItem('jwtToken'); // JWT 토큰 가져오기
-        await axios.delete(`http://localhost:5000/api/events/${selectedEvent.id}`, {
-          headers: {
-            Authorization: `Bearer ${token}`, // JWT 토큰 추가
-          },
-        });
-        fetchEvents(); // 이벤트 목록 새로고침
-        closeModal(); // 모달 닫기
-      } catch (error) {
-        console.error('Error deleting event:', error);
-      }
+    if (!selectedEvent) {
+      console.error('No event selected for deletion.');
+      return;
     }
-  };  
+  
+    console.log('Deleting event:', selectedEvent); // 삭제할 이벤트 확인용 로그
+  
+    try {
+      const token = localStorage.getItem('jwtToken');
+      const response = await axios.delete(
+        `http://localhost:5000/api/events/${selectedEvent.id}`,
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+  
+      console.log('Delete response:', response.data); // 삭제 응답 로그
+  
+      const dateKey = `${selectedDate.getFullYear()}-${selectedDate.getMonth() + 1}-${selectedDate.getDate()}`;
+      setEvents((prevEvents) => {
+        const filteredEvents = prevEvents[dateKey].filter(
+          (event) => event.id !== selectedEvent.id
+        );
+        return { ...prevEvents, [dateKey]: filteredEvents };
+      });
+  
+      setSelectedEvent(null);
+      closeModal();
+    } catch (error) {
+      console.error('Error deleting event:', error); // 오류 로그 추가
+    }
+  };
+  
+  
+  
 
   const handleIconClick = (e, day) => {
     e.stopPropagation();
@@ -347,16 +380,7 @@ const Calendar = () => {
                     handleEventClick(day, event);
                   }}
                   style={{
-                    backgroundColor: event.color,
-                    color: 'white',
-                    padding: '5px 20px',
-                    borderRadius: '4px',
-                    marginTop: '40px',
-                    marginRight: '3px',
-                    fontSize: '0.9rem',
-                    lineHeight: '1.2',
-                    position: 'absolute',
-                    top: `${index * 30}px`,
+                   backgroundColor: event.color
                   }}
                 >
                   {event.title}
@@ -365,7 +389,7 @@ const Calendar = () => {
             {events[dateKey].length > maxVisibleEvents && (
               <div
                 className={styles.moreEvents}
-                style={{ marginTop: '65px' }} 
+                style={{}} 
                 onClick={(e) => {
                   e.stopPropagation();
                   handleMoreClick(day);
