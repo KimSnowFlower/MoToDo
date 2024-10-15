@@ -117,6 +117,7 @@ const Group = () => {
     };       
 
     useEffect(() => {
+        setIsGroupJoined(false);
         fetchGroups();
     }, []);
 
@@ -177,11 +178,13 @@ const Group = () => {
                 <div className={styles.mainGroupContainer}>
                     <div className={styles.toDoContainer}>
                         <h2>{currentGroupName} To-Do Check List</h2>
-                        {/* To-Do 리스트 컴포넌트 또는 로직 추가 */}
+                        <div className={styles.toDoContent}>
+                        </div>
                     </div>
                     <div className={styles.noticeContainer}>
                         <h2>{currentGroupName} Notice</h2>
-                        {/* Notice 컴포넌트 또는 로직 추가 */}
+                        <div className={styles.noticeContent}>
+                        </div>
                     </div>
                 </div>
             )}

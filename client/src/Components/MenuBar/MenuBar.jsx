@@ -41,11 +41,10 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   height: 100vh;
-  
 `;
 
 const Menu = styled.nav`
-  background-color: #f4f4f4;
+  background-color: #white;
   color: #333;
   width: 200px;
   height: 100%;
@@ -78,7 +77,7 @@ const NavList = styled.ul`
 `;
 
 const NavItem = styled(Link)`
-  background-color: #f4f4f4;
+  background-color: #white;
   border-radius: 0.75em;
   color: #333;
   display: flex;
@@ -90,8 +89,8 @@ const NavItem = styled(Link)`
   text-decoration: none;
 
   &:hover {
-    background-color: hsla(0, 0%, 100%, 0.1);
-    color: #333;
+    background-color: #146C94;
+    color: #FAFAFA;
   }
 
   .icon {
