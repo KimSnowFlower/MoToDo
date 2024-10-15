@@ -4,7 +4,7 @@
   align-items: center;
   width: calc(100vw - 200px);
   height: 100vh;
-  background-color: #19A7C3; 
+  background-color: #FAFAFA; 
   box-sizing: border-box;
   overflow: hidden;
   
@@ -13,12 +13,10 @@
 .calendarContainer {
   display: grid;
   grid-template-rows: auto auto; 
-  width: 100%;
+  width: calc(100% - 200px);
   max-width: 1500px;
   padding:20px;
-  border: 2px solid #AFD3E2;
   background-color: #FAFAFA; 
-  box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.1);
   box-sizing: border-box;
   transition: all 0.3s ease-in-out;
   height: 100vh; 
@@ -35,7 +33,7 @@
   font-weight: 700;
   color: #146C94;
   background-color: transparent; 
-  border-bottom: 2px solid #AFD3E2;
+  border-bottom: 3px solid #AFD3E2;
 }
 
 .moveMonthButton{
@@ -63,7 +61,7 @@
 
 .calendarDay {
   position: relative;
-  border: 1px solid #AFD3E2;
+  border: 3px solid #AFD3E2; /* outline 대신 border 사용 */
   background-color: transparent;
   cursor: pointer;
   padding: 5px;
@@ -94,7 +92,7 @@
 }
 
 .calendarDayEmpty {
-  border: 1px solid #AFD3E2;
+  outline: 3px solid #AFD3E2;
   background: transparent;
 }
 

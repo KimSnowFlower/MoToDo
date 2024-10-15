@@ -3,7 +3,7 @@ import axios from 'axios';
 import styles from './Home.module.css'; // CSS 모듈
 import MenuBar from '../MenuBar/MenuBar'; // MenuBar 임포트
 import ToDo from '../ToDo/ToDo'; // ToDo 컴포넌트 임포트
-import Schedule from '../Schedule/Schedule';
+
 const Home = () => {
   const [data, setData] = useState({ calendar: [] });
   const [error, setError] = useState(null);
@@ -41,8 +41,21 @@ const Home = () => {
                 <span className={styles.emptyMessage}>이번 달은 일정이 없어요!!</span>
               ) : (
                 <table>
+                  <thead>
+                    <tr>
+                      <th>Day</th>
+                      <th>Title</th>
+                      <th>Comment</th>
+                    </tr>
+                  </thead>
                   <tbody>
-                  <th><Schedule /></th>
+                    {data.calendar.map((event, index) => (
+                      <tr key={index}>
+                        <td>{event.start_date}</td>
+                        <td>{event.title}</td>
+                        <td>{event.description}</td>
+                      </tr>
+                    ))}
                   </tbody>
                 </table>
               )}

@@ -26,6 +26,7 @@
     "react-modal": "^3.16.1",
     "react-router-dom": "^6.24.1",
     "react-scripts": "5.0.1",
+    "react-toastify": "^10.0.6",
     "socket.io-client": "^4.8.0",
     "stream-browserify": "^3.0.0",
     "stream-http": "^3.2.0",
