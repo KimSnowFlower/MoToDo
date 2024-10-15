@@ -177,12 +177,18 @@ const Group = () => {
             ) : (
                 <div className={styles.mainGroupContainer}>
                     <div className={styles.toDoContainer}>
-                        <h2>{currentGroupName} To-Do Check List</h2>
+                        <div className={styles.toDoHeader}>
+                            <h2>{currentGroupName} To-Do Check List</h2>
+                            <button className={styles.addButton}></button>
+                        </div>
                         <div className={styles.toDoContent}>
                         </div>
                     </div>
                     <div className={styles.noticeContainer}>
-                        <h2>{currentGroupName} Notice</h2>
+                        <div className={styles.noticeHeader}>
+                            <h2>{currentGroupName} Notice</h2>
+                            <button className={styles.addButton}></button>
+                        </div>
                         <div className={styles.noticeContent}>
                         </div>
                     </div>

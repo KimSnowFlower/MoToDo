@@ -94,6 +94,7 @@ button:disabled {
 .noticeContainer {
     width: 80vh; 
     min-height: 90vh;
+    background-color: white;
     border: 5px solid #19A7C3;
     border-radius: 15px;
     padding: 10px;
@@ -108,13 +109,37 @@ button:disabled {
     margin-right: 0; 
 }
 
-.toDoContainer h2, .noticeContainer h2 {
-    text-align: center;
-    font-size: 24px;
-    font-weight: bold;
+.toDoHeader, .noticeHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     border-bottom: 3px solid #19A7C3;
     padding-bottom: 10px;
     margin-bottom: 20px;
+}
+
+.toDoHeader h2, .noticeHeader h2 {
+    margin: 0;
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.addButton {
+    width: 40px;
+    height: 40px;
+    background-color: white;
+    background-image: url('../Assets/add_button.png');
+    background-size: contain; 
+    background-repeat: no-repeat; 
+    background-position: center; 
+    border-radius: 10px;
+    border: 3px solid #AFD3E2;
+    cursor: pointer; 
+}
+
+.addButton:hover {
+    border: 3px solid dodgerblue;
+    cursor: pointer;
 }
 
 .toDoContent, .noticeContent {
