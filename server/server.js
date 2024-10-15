@@ -177,8 +177,6 @@ app.get('/api/home', authenticateToken, async (req, res) => {
 app.post('/api/events', authenticateToken, async (req, res) => {
   const user_id = req.user.id;
   const { title, description, start_date, end_date, all_day, color } = req.body;
-  console.log(user_id) 
-  console.log(req.user.id) 
 
   const query = `
       INSERT INTO calendar (user_id, title, description, start_date, end_date, all_day, color, created_at, updated_at)
@@ -257,7 +255,6 @@ app.get('/api/stickys', authenticateToken, async (req, res) => {
     try {
         const [stickyResults] = await db.query('SELECT * FROM sticky WHERE user_id = ?', [userId]);
 
-        console.log(stickyResults);
         res.json({ sticky: stickyResults });
     } catch (error) {
         console.error('Error fetching sticky notes:', error);
@@ -271,12 +268,12 @@ app.post('/api/stickys', authenticateToken, async (req, res) => {
   const { content, position_x, position_y, width, height } = req.body;
 
   try {
-      // SQL 쿼리에서 8개의 열에 대해 8개의 값을 정확하게 전달
       const sql = `INSERT INTO sticky (user_id, content, position_x, position_y, width, height, created_at, updated_at) 
                    VALUES (?, ?, ?, ?, ?, ?, NOW(), NOW())`;
       const [stickyResults] = await db.query(sql, [userId, content, position_x, position_y, width, height]);
       
-      // 성공 시 추가된 Sticky 노트의 정보를 반환
+      console.log(stickyResults);
+     
       res.status(201).json({ sticky: stickyResults });
   } catch (error) {
       console.error('Error creating sticky note:', error);
@@ -335,7 +332,8 @@ app.get('/api/todos', authenticateToken, async (req, res) => {
   try {
     const sql = 'SELECT id, content FROM todos WHERE user_id = ?'; // id도 가져오도록 수정
     const [rows] = await db.query(sql, [userId]);
-    res.json(rows); 
+
+    res.json({ todos: rows }); 
   } catch (error) {
     console.error('Error fetching to-do items:', error);
     res.status(500).json({ error: 'Failed to fetch to-do items' }); 
@@ -345,20 +343,19 @@ app.get('/api/todos', authenticateToken, async (req, res) => {
 // 새로운 To-Do 항목 추가하기 -> To Do.jsx
 app.post('/api/todos', authenticateToken, async (req, res) => {
   const userId = req.user.id; 
-  const { content } = req.body;
+  const { content }  = req.body;
 
   try {
     const sql = 'INSERT INTO todos (user_id, content, created_at, updated_at) VALUES (?, ?, NOW(), NOW())';
-    const result = await db.query(sql, [userId, content]);
+    const [result] = await db.query(sql, [userId, content]);
 
-    // 새로 생성된 항목 반환
     const newTodo = {
-      id: result.insertId, // 새로 생성된 ID
-      user_id: userId,
+      id: result.insertId,
+      userId: userId,
       content: content,
     };
 
-    res.status(201).json(newTodo); // 새로 추가된 항목 반환
+    res.status(201).json({ newTodo: newTodo }); // 새로 추가된 항목 반환
   } catch (error) {
     console.error('Error creating to-do item:', error);
     res.status(500).json({ error: 'Failed to create to-do item' }); 
@@ -367,14 +364,14 @@ app.post('/api/todos', authenticateToken, async (req, res) => {
 
 // 특정 To-Do 항목 삭제하기 -> To Do.jsx
 app.delete('/api/todos/:id', (req, res) => {
-  const { id } = req.params; // URL에서 전달된 id 가져오기
+  const { id } = req.params; // URL에서 전달된 id 가져오기'
+
   db.query('DELETE FROM todos WHERE id = ?', [id], (error, results) => {
     if (error) {
       console.error('Error deleting todo:', error); 
       return res.status(500).json({ error: error.message });
     }
 
-    // 삭제 후 항상 성공 응답
     res.status(200).json({ message: 'Todo item deleted successfully' }); // 성공 시 응답
   });
 });

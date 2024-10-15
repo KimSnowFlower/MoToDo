@@ -17,9 +17,13 @@ const ToDo = () => {
       const response = await axios.get('http://localhost:5000/api/todos', {
         headers: {
           Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json'
         },
       });
-      setNotes(response.data); // 서버에서 가져온 노트 데이터
+
+      const data = response.data.todos;
+
+      setNotes(data); // 서버에서 가져온 노트 데이터
     } catch (error) {
       setError(error.message);
     } finally {
@@ -33,47 +37,54 @@ const ToDo = () => {
   }, []);
 
   const handleAddNote = async () => {
-    if (newNote.trim()) {
-      try {
-        const token = localStorage.getItem('jwtToken');
-        const response = await axios.post('http://localhost:5000/api/todos', {
-          content: newNote,
-        }, {
+    const token = localStorage.getItem('jwtToken');
+
+    const newTodo = {
+      content: newNote,
+    };
+
+    try {
+      const response = await axios.post('http://localhost:5000/api/todos', 
+        newTodo,
+        {
           headers: {
             Authorization: `Bearer ${token}`,
+            'Content-Type': 'application/json'
           },
-        });
+        }
+      );
+
+        const createdNote = response.data.newTodo;
 
         // 새로 추가된 노트를 상태에 추가
-        setNotes((prevNotes) => [...prevNotes, response.data]); // 서버에서 반환한 새로 추가된 노트 사용
+        setNotes((prevNotes) => [...prevNotes, createdNote]);
         setNewNote('');
         setShowInput(false); // 입력 후 입력창 숨기기
       } catch (error) {
         setError(error.message);
       }
-    }
   };
 
   const handleDeleteNote = async (id) => {
-    // 삭제할 노트의 내용을 찾기
+    const token = localStorage.getItem('jwtToken');
     const noteToDelete = notes.find(note => note.id === id);
-
-    console.log(id);
   
     try {
-      const token = localStorage.getItem('jwtToken');
-      await axios.delete(`http://localhost:5000/api/todos/${id}`, {
+      const response = await axios.delete(`http://localhost:5000/api/todos/${id}`, {
         headers: {
           Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json'
         },
       });
-  
-      fetchNotes();
 
+      if (response.status !== 200) { 
+        throw new Error('Failed to delete to do');
+      }
+
+      setNotes(notes.filter((note) => note.id !== id));
     } catch (error) {
       console.error("Error deleting note:", error); // 콘솔에 에러 출력
       setError(error.message);
-      // 에러 발생 시 삭제된 항목을 다시 복구하는 로직을 추가
       setNotes((prevNotes) => [...prevNotes, noteToDelete]); // 원래 노트를 복구
     }
   };  
@@ -113,6 +124,7 @@ const ToDo = () => {
           </li>
         ))}
       </ul>
+      {console.log("Current notes:", notes)}
     </div>
   );  
 };

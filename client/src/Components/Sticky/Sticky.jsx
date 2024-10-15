@@ -26,7 +26,6 @@ export default function StickyNotesApp() {
 
             const data = response.data.sticky; // stickyResults 배열 출력
 
-            console.log(data);
             setNotes(data); // 상태에 노트 저장
         } catch (error) {
             console.error('Error fetching sticky notes:', error);
@@ -35,7 +34,7 @@ export default function StickyNotesApp() {
 
     const addNote = async () => {
         const token = localStorage.getItem('jwtToken');
-        console.log("토큰 얻음")
+
         const newNote = {
             content: '', 
             position_x: 50,
@@ -43,7 +42,6 @@ export default function StickyNotesApp() {
             width: 100, 
             height: 100
         };
-        console.log("노트 생성")
 
         try {
             const response = await axios.post('http://localhost:5000/api/stickys', 
