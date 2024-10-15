@@ -5,11 +5,13 @@ import styles from './Group.module.css';
 
 const Group = () => {
     const [groups, setGroups] = useState([]);
-    const [selectedGroup, setSelectedGroup] = useState(""); // 선택된 그룹 초기값을 빈 문자열로 설정
-    const [createGroup, setCreateGroup] = useState(false); // 그룹 생성 상태
-    const [newGroupName, setNewGroupName] = useState(""); // 새로운 그룹 이름
+    const [selectedGroup, setSelectedGroup] = useState("");
+    const [createGroup, setCreateGroup] = useState(false);
+    const [newGroupName, setNewGroupName] = useState("");
     const [message, setMessage] = useState("");
-    const [isGroupJoined, setIsGroupJoined] = useState(false); // 그룹 접속 여부
+    const [isGroupJoined, setIsGroupJoined] = useState(false);
+    const [currentGroupName, setCurrentGroupName] = useState("");
+
 
     // 그룹 목록을 가져오는 함수
     const fetchGroups = async () => {
@@ -19,6 +21,7 @@ const Group = () => {
             const response = await axios.get("http://localhost:5000/api/groups", {
                 headers: {
                     Authorization: `Bearer ${token}`,
+                    'Content-Type': 'application/json'
                 }
             });
 
@@ -26,7 +29,7 @@ const Group = () => {
                 setMessage("가입할 수 있는 그룹이 없습니다. 그룹을 생성하세요.");
             } else {
                 setGroups(response.data);
-                setMessage(""); // 성공 시 메시지 초기화
+                setMessage("");
             }
         } catch (error) {
             console.error("그룹 목록을 가져오는 데 오류가 발생했습니다.");
@@ -93,12 +96,17 @@ const Group = () => {
     };
 
     const handleJoinGroup = () => {
+        console.log(Number(selectedGroup));
+
         if (selectedGroup) {
             const group = groups.find(g => g.id === Number(selectedGroup));
+
+            console.log(group.name);
             
             if (group) {
                 setMessage(`${group.name}에 접속합니다.`);
-                setIsGroupJoined(true); // 그룹 접속 성공
+                setCurrentGroupName(group.name);
+                setIsGroupJoined(true);
             } else {
                 setMessage("선택된 그룹이 없습니다.");
             }
@@ -146,7 +154,7 @@ const Group = () => {
                     </div>
                 ) : (
                     <div className={styles.createGroupContainer}>
-                        <h1>새 그룹 생성</h1>
+                        <h1>Create Group</h1>
                         <input
                             type="text"
                             placeholder="그룹 이름을 입력하세요"
@@ -154,19 +162,24 @@ const Group = () => {
                             onChange={(e) => setNewGroupName(e.target.value)}
                             className={styles.groupInput}
                         />
-                        <button className={styles.createGroupButton} onClick={handleCreateGroup} disabled={!newGroupName}>
+                        <div className={styles.buttonContainer}>
+                            <button className={styles.createGroupButton} onClick={handleCreateGroup} disabled={!newGroupName}>
                             그룹 생성 완료
-                        </button>
+                            </button>
+                            <button className={styles.cancelButton} onClick={() => setCreateGroup(false)}>
+                            취소
+                            </button>
+                        </div>
                     </div>
                 )
-            ) : ( // 그룹에 접속했을 때
+            ) : (
                 <div className={styles.mainGroupContainer}>
                     <div className={styles.toDoContainer}>
-                        <h2>To-Do List</h2>
+                        <h2>{currentGroupName} To-Do Check List</h2>
                         {/* To-Do 리스트 컴포넌트 또는 로직 추가 */}
                     </div>
                     <div className={styles.noticeContainer}>
-                        <h2>Notice</h2>
+                        <h2>{currentGroupName} Notice</h2>
                         {/* Notice 컴포넌트 또는 로직 추가 */}
                     </div>
                 </div>
