@@ -61,33 +61,64 @@ const Calendar = () => {
   const fetchEvents = async () => {
     const token = localStorage.getItem('jwtToken');
     try {
-        const response = await axios.get(`http://localhost:5000/api/events`, {
-            headers: {
-                Authorization: `Bearer ${token}`, 
-                'Content-Type': 'application/json'
-            }
+      const response = await axios.get(`http://localhost:5000/api/events`, {
+        headers: {
+          Authorization: `Bearer ${token}`, 
+          'Content-Type': 'application/json'
+        }
+      });
+  
+      const fetchedEvents = response.data.events;
+      const userId = response.data.userId;
+  
+      const eventsMap = {};
+  
+      fetchedEvents.forEach(event => {
+        // UTC 시간을 KST 형식으로 변환
+        const startDateKST = new Date(event.start_date).toLocaleString('en-KR', {
+          timeZone: 'Asia/Seoul',
+          year: 'numeric',
+          month: '2-digit',
+          day: '2-digit',
+          hour: '2-digit',
+          minute: '2-digit',
+          second: '2-digit'
         });
-
-        const fetchedEvents = response.data.events;
-        const userId = response.data.userId;
-
-        const eventsMap = {};
-
-        fetchedEvents.forEach(event => {
-            const dateKey = new Date(event.start_date).toISOString().split('T')[0];
-            if (!eventsMap[dateKey]) {
-                eventsMap[dateKey] = [];
-            }
-
-            eventsMap[dateKey].push(event);
+        
+        // 필요한 경우 다른 필드도 변환할 수 있습니다.
+        // 예를 들어 end_date도 변환하려면 아래 코드 추가
+        const endDateKST = new Date(event.end_date).toLocaleString('en-KR', {
+          timeZone: 'Asia/Seoul',
+          year: 'numeric',
+          month: '2-digit',
+          day: '2-digit',
+          hour: '2-digit',
+          minute: '2-digit',
+          second: '2-digit'
         });
-
-        setUserInfo(userId);
-        setEvents(eventsMap);
+  
+        // KST로 변환한 시간을 event에 추가
+        const kstEvent = {
+          ...event,
+          start_date: startDateKST,
+          end_date: endDateKST
+        };
+  
+        const dateKey = startDateKST.split(' ')[0]; // KST 형식에서 날짜만 추출
+        if (!eventsMap[dateKey]) {
+          eventsMap[dateKey] = [];
+        }
+  
+        eventsMap[dateKey].push(kstEvent);
+      });
+      console.log(eventsMap)
+      setUserInfo(userId);
+      setEvents(eventsMap);
     } catch (error) {
-        console.error('Error fetching events:', error);
+      console.error('Error fetching events:', error);
     }
-  };  
+  };
+   
 
   const convertTo24HourFormat = (timeString) => {
     if (!timeString || !timeString.includes(' ')) {
@@ -161,17 +192,22 @@ const Calendar = () => {
 
   const handleSaveEvent = async () => {
     if (selectedDate) {
-      const dateKey = `${selectedDate.getFullYear()}-${selectedDate.getMonth() + 1}-${selectedDate.getDate()}`;
+      const selectedDateTime = new Date(selectedDate);
+      const [hours, minutes] = convertTo24HourFormat(eventTime).split(':').map(Number);
+      selectedDateTime.setHours(hours, minutes);
+
+      const dateKey = `${selectedDateTime.getFullYear()}-${selectedDateTime.getMonth() + 1}-${selectedDateTime.getDate()}`;
+
       const eventDetail = {
-        title: eventTitle,
-        description: eventContent,
-        start_date: formatDateToMySQL(selectedDate),
-        end_date: formatDateToMySQL(selectedDate),
-        all_day: 1,
-        color: selectedColor, // 색상 필드 저장
-        time: convertTo24HourFormat(eventTime), // 시간 필드 포함
+            title: eventTitle,
+            time: convertTo24HourFormat(eventTime),
+            description: eventContent,
+            start_date: formatDateToMySQL(selectedDateTime), // 시간 포함
+            end_date: formatDateToMySQL(selectedDateTime), // 시간 포함
+            all_day: 1,
+            color: selectedColor,
       };
-  
+      console.log('Saving event with time:', eventDetail.time);
       try {
         const token = localStorage.getItem('jwtToken');
         
@@ -199,7 +235,6 @@ const Calendar = () => {
           [dateKey]: [...(prevEvents[dateKey] || []), newEventDetail]
             .sort((a, b) => a.time.localeCompare(b.time)), // 시간 순 정렬
         }));
-  
         closeModal();
       } catch (error) {
         console.error('Error saving event:', error);
@@ -236,47 +271,70 @@ const Calendar = () => {
 
   const handleEventUpdate = async () => {
     if (!selectedEvent) {
-      console.error('No event selected for update.');
-      return;
+        console.error('No event selected for update.');
+        return;
     }
-  
+
     console.log('Updating event:', selectedEvent); // 이벤트 확인용 로그
-  
+
+    // 선택한 날짜와 시간 조합
+    const selectedDateTime = new Date(selectedDate);
+    const [hours, minutes] = convertTo24HourFormat(eventTime || '오전 12:00').split(':').map(Number);
+    selectedDateTime.setHours(hours, minutes);
+
+    // 업데이트할 이벤트 세부사항 정의
     const updatedEventDetails = {
-      ...selectedEvent,
-      title: eventTitle,
-      description: eventContent,
-      color: selectedColor,
-      time: convertTo24HourFormat(eventTime || '오전 12:00'),
+        ...selectedEvent,
+        title: eventTitle,
+        description: eventContent,
+        color: selectedColor,
+        time: convertTo24HourFormat(eventTime || '오전 12:00'),
+        start_date: formatDateToMySQL(selectedDateTime), // 시작 시간
+        end_date: formatDateToMySQL(selectedDateTime), // 종료 시간
     };
-  
+
     try {
-      const token = localStorage.getItem('jwtToken');
-      console.log('Sending update request with:', updatedEventDetails); // 요청 데이터 확인
-  
-      await axios.put(
-        `http://localhost:5000/api/events/${selectedEvent.id}`,
-        updatedEventDetails,
-        { headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' } }
-      );
-  
-      const dateKey = `${selectedDate.getFullYear()}-${selectedDate.getMonth() + 1}-${selectedDate.getDate()}`;
-      setEvents((prevEvents) => {
-        const updatedEvents = prevEvents[dateKey].map((event) =>
-          event.id === selectedEvent.id ? updatedEventDetails : event
+        const token = localStorage.getItem('jwtToken');
+        console.log('Sending update request with:', updatedEventDetails); // 요청 데이터 확인
+
+        await axios.put(
+            `http://localhost:5000/api/events/${selectedEvent.id}`,
+            updatedEventDetails,
+            { headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' } }
         );
-        return { ...prevEvents, [dateKey]: updatedEvents };
-      });
-  
-      setSelectedEvent(null);
-      setEventTime('오전 12:00');
-      closeModal();
+
+        const dateKey = `${selectedDateTime.getFullYear()}-${selectedDateTime.getMonth() + 1}-${selectedDateTime.getDate()}`;
+        setEvents((prevEvents) => {
+            const updatedEvents = prevEvents[dateKey].map((event) =>
+                event.id === selectedEvent.id ? updatedEventDetails : event
+            );
+            return { ...prevEvents, [dateKey]: updatedEvents };
+        });
+
+        setSelectedEvent(null);
+        setEventTime('오전 12:00');
+        closeModal();
     } catch (error) {
-      console.error('Error updating event:', error); // 오류 로그 추가
+        console.error('Error updating event:', error); // 오류 로그 추가
     }
-  };
+};
   
 
+
+
+  const handleIconClick = (e, day) => {
+    e.stopPropagation();
+    const dateKey = `${currentYear}-${currentMonth + 1}-${day}`;
+  
+    // 아이콘 인덱스를 업데이트합니다.
+    setIconIndexes(prevIndexes => ({
+      ...prevIndexes,
+      [dateKey]: (prevIndexes[dateKey] === undefined || prevIndexes[dateKey] === -1) 
+        ? 0 
+        : (prevIndexes[dateKey] + 1) % icons.length
+    }));
+  };
+  
   const handleEventDelete = async () => {
     if (!selectedEvent) {
       console.error('No event selected for deletion.');
@@ -299,6 +357,15 @@ const Calendar = () => {
         const filteredEvents = prevEvents[dateKey].filter(
           (event) => event.id !== selectedEvent.id
         );
+  
+        // 만약 그 날의 이벤트가 없어지면 아이콘 인덱스도 초기화
+        if (filteredEvents.length === 0) {
+          setIconIndexes(prevIndexes => ({
+            ...prevIndexes,
+            [dateKey]: -1 // 아이콘을 기본 상태로 설정
+          }));
+        }
+  
         return { ...prevEvents, [dateKey]: filteredEvents };
       });
   
@@ -307,15 +374,6 @@ const Calendar = () => {
     } catch (error) {
       console.error('Error deleting event:', error);
     }
-  };
-
-  const handleIconClick = (e, day) => {
-    e.stopPropagation();
-    const dateKey = `${currentYear}-${currentMonth + 1}-${day}`;
-    setIconIndexes(prevIndexes => ({
-      ...prevIndexes,
-      [dateKey]: (prevIndexes[dateKey] === undefined || prevIndexes[dateKey] === -1) ? 0 : (prevIndexes[dateKey] + 1) % icons.length
-    }));
   };
 
   const handleEventEditFromMoreModal = (event) => {
