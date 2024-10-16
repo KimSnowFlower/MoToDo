@@ -46,7 +46,7 @@ const Container = styled.div`
 const Menu = styled.nav`
   background-color: #white;
   color: #333;
-  width: 200px;
+  width: 10%;
   height: 100%;
   position: fixed;
   top: 0;
@@ -66,7 +66,7 @@ const LogoContainer = styled.div`
 `;
 
 const Logo = styled.img`
-  width: 200px;
+  width: 100%;
   height: auto;
 `;
 
@@ -95,9 +95,9 @@ const NavItem = styled(Link)`
 
   .icon {
     display: block;
-    width: 2em; /* 아이콘 크기를 키우기 위해 width 값을 증가시켰습니다 */
-    height: 2em; /* 아이콘 크기를 키우기 위해 height 값을 증가시켰습니다 */
-    margin-right: 1em; /* 아이콘과 텍스트 간격을 늘리기 위해 값을 조정했습니다 */
+    width: 2em; 
+    height: 2em; 
+    margin-right: 1em;
   }
 
   span {

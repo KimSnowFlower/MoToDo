@@ -1,11 +1,11 @@
 .totalPage {
   display: flex;
   flex-direction: row;
-  width: calc(100vw - 200px);
+  width: 90%;
   height: 100vh;
-  margin-left: 200px;
+  margin-left: 10%;
   box-sizing: border-box;
-  
+  border-left: 3px solid black;
 }
 
 .homeMain {
