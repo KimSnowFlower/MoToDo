@@ -63,9 +63,11 @@ const Calendar = () => {
     try {
         const response = await axios.get(`http://localhost:5000/api/events`, {
             headers: {
-                Authorization: `Bearer ${token}` // JWT 토큰 추가
+                Authorization: `Bearer ${token}`, // JWT 토큰 추가
+                'Content-Type': 'application/json'  // Content-Type 헤더 수정
             }
         });
+        console.log("가져오기 성공!")
 
         const fetchedEvents = response.data;
         const eventsMap = {};

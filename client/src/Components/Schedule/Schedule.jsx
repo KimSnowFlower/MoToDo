@@ -53,9 +53,10 @@ const Schedule = () => {
       {!loading && !error && (
         <ul className={styles.homeLists}>
           <li>
-            <p><strong>Date:</strong> {scheduleInfo.start_date}</p>
-            <p><strong>Title:</strong> {scheduleInfo.title}</p>
-            <p><strong>Description:</strong> {scheduleInfo.description}</p>
+            <p> <strong>Date:</strong> {scheduleInfo.start_date} <strong>Title:</strong> {scheduleInfo.title}</p>
+          </li>
+          <li>
+          <span><strong>Description:</strong> {scheduleInfo.description}</span>
           </li>
         </ul>
       )}

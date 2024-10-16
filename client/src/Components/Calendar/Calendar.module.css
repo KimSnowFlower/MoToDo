@@ -4,7 +4,7 @@
   align-items: center;
   width: calc(100vw - 200px);
   height: 100vh;
-  background-color: #FAFAFA; 
+  background-color: transparent;
   box-sizing: border-box;
   overflow: hidden;
   
@@ -16,12 +16,13 @@
   width: calc(100% - 200px);
   max-width: 1500px;
   padding:20px;
-  background-color: #FAFAFA; 
+  background-color: transparent;
   box-sizing: border-box;
   transition: all 0.3s ease-in-out;
   height: 100vh; 
   max-height: 1100px; 
   margin-left:6.5vw;
+  border: 4px solid #19A7C3;
 }
 
 .calendarHeader {

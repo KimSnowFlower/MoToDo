@@ -28,7 +28,7 @@
     justify-content: space-between; /* 수평 방향으로 정렬 */
     align-items: center; /* 수직 가운데 정렬 */
     height: 10%; /* 상단 10% 사용 */
-    margin-bottom: 10px; /* 친구 목록과의 간격 */
+    place-content: center;
     font-weight: 700;
     font-Size: 20px;
     color: #146C94;

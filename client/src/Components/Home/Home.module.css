@@ -37,6 +37,7 @@
   flex-direction: column;
   flex-grow: 1;
   border: 5px solid #19A7C3;
+  border-radius: 15px;
 }
 
 .noticeAndTime {
@@ -48,6 +49,7 @@
   flex-direction: column;
   flex-grow: 1;
   border: 5px solid #19A7C3;
+  border-radius: 15px;
 }
 
 .todoCheckList {
@@ -60,6 +62,7 @@
   flex-grow: 1;
   height: 63.2vh;
   border: 5px solid #19A7C3;
+  border-radius: 15px;
 }
 
 h2 {
