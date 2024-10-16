@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios'; // axios를 import 합니다.
 import MenuBar from '../MenuBar/MenuBar';
 import styles from './Group.module.css';
-import GourpToDo from '../GroupToDo/GroupToDo';
+import GroupToDo from '../GroupToDo/GroupToDo';
 
 const Group = () => {
     const [groups, setGroups] = useState([]);

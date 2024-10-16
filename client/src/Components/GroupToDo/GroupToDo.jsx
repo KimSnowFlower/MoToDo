@@ -7,6 +7,7 @@ const GroupToDo = ({groupName}) => {
     const [error, setError] = useState(null);
     const [newNote, setNewNote] = useState('');
     const [loading, setLoading] = useState(false);
+    const [showInput, setShowInput] = useState(false);
 
     // fetch 함수
     const fetchNotes = async () => {
@@ -56,6 +57,7 @@ const GroupToDo = ({groupName}) => {
 
             setNotes((prevNotes) => [...prevNotes, createdNote]);
             setNewNote('');
+            setShowInput(false);
         } catch(error) {
             setError(error.message);
         }
@@ -83,19 +85,33 @@ const GroupToDo = ({groupName}) => {
         <div className={styles.groupTodoContainer}>
             <div className={styles.header}>
                 <h2 className={styles.headerTitle}>{groupName} Check List </h2>
-                <button className={styles.addButton}></button>
+                <button className={styles.addButton} onClick={() => setShowInput(!showInput)}></button>
             </div>
 
             {loading}
 
-            <div className={styles.noteLists}>
+            <ul className={styles.todoLists}>
                 {notes.map((note) => (
                     <li key={note.id}>
                         <input type="checkbox"/>
                         <p>{note.content}</p>
-                        <button onClick={() => handleDeletNote(notei.d)}>Delete</button>
+                        <button onClick={() => handleDeletNote(note.id)}>Delete</button>
                     </li>
                 ))}
+            </ul>
+
+            <div className={styles.inputContainer}>
+                {showInput && (
+                    <div className={styles.inputWrapper}>
+                        <input
+                            type="text"
+                            value={newNote}
+                            onChange={(e) => setNewNote(e.target.value)}
+                            placeholder="Add a new note"
+                        />
+                        <button onClick={handleAddNote}>Add</button>
+                    </div>
+                )}
             </div>
         </div>
     );
