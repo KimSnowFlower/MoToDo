@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios'; // axios를 import 합니다.
 import MenuBar from '../MenuBar/MenuBar';
 import styles from './Group.module.css';
-import GroupTodo from '../GroupToDo/GroupToDo';
+import GourpToDo from '../GroupToDo/GroupToDo';
 
 const Group = () => {
     const [groups, setGroups] = useState([]);
@@ -101,8 +101,6 @@ const Group = () => {
 
         if (selectedGroup) {
             const group = groups.find(g => g.id === Number(selectedGroup));
-
-            console.log(group.name);
             
             if (group) {
                 setMessage(`${group.name}에 접속합니다.`);
@@ -177,10 +175,7 @@ const Group = () => {
             ) : (
                 <div className={styles.mainGroupContainer}>
                     <div className={styles.toDoContainer}>
-                        <div className={styles.toDoHeader}>
-                            <h2>{currentGroupName} To-Do Check List</h2>
-                            <button className={styles.addButton}></button>
-                        </div>
+                        <GroupToDo groupName={currentGroupName}/>
                         <div className={styles.toDoContent}>
                         </div>
                     </div>

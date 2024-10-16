@@ -79,7 +79,6 @@ const ToDo = () => {
       });
 
     } catch (error) {
-      console.error("Error deleting note:", error); // 콘솔에 에러 출력
       setError(error.message);
       setNotes((prevNotes) => [...prevNotes, noteToDelete]); // 원래 노트를 복구
     }
@@ -120,7 +119,6 @@ const ToDo = () => {
           </li>
         ))}
       </ul>
-      {console.log("Current notes:", notes)}
     </div>
   );  
 };
