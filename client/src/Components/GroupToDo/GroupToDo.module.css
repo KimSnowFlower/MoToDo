@@ -53,7 +53,6 @@
     height: 90%; /* 전체 높이의 70% 차지 */
     border-radius: 10px;
     margin-bottom: 20px; /* 아래쪽 여백 */
-    border: 5px solid black;
 }
 
 .todoLists li {
@@ -92,7 +91,6 @@
     display: flex;
     justify-content: space-between;
     box-sizing: border-box;
-    border: 5px solid black;
 }
 
 .inputWrapper {

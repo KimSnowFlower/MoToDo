@@ -2,12 +2,13 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import styles from './GroupToDo.module.css';
 
-const GroupToDo = ({groupName}) => {
+const GroupToDo = ({groupName, groupId}) => {
     const [notes, setNotes] = useState([]);
     const [error, setError] = useState(null);
     const [newNote, setNewNote] = useState('');
     const [loading, setLoading] = useState(false);
     const [showInput, setShowInput] = useState(false);
+
 
     // fetch 함수
     const fetchNotes = async () => {
@@ -15,15 +16,18 @@ const GroupToDo = ({groupName}) => {
 
         try {
             const token = localStorage.getItem('jwtToken');
-            const response = await axios.get('http://locahost:5000/api/groupTodos', {
+            const response = await axios.get('http://localhost:5000/api/groupTodos', {
                 headers: {
                     Authorization: `Bearer ${token}`,
                     'Content-Type': 'application/json'
                 },
+                params: {
+                    groupId: groupId,
+                }
             });
-            //const data = response.data.gTodo;
+            const data = response.data.gTodo;
 
-            //setNotes(response.data.gTodo);
+            setNotes(data);
         } catch(error) {
             setError(error.message);
         } finally {
@@ -38,13 +42,12 @@ const GroupToDo = ({groupName}) => {
     const handleAddNote = async () => {
         const token = localStorage.getItem('jwtToken');
 
-        const newTodo = {
-            content: newNote,
-        };
-
         try {
             const response = await axios.post('http://localhost:5000/api/groupTodos',
-                newTodo,
+                {
+                    groupId: groupId,
+                    content: newNote,
+                },
                 {
                     headers: {
                         Authorization: `Bearer ${token}`,
@@ -70,12 +73,12 @@ const GroupToDo = ({groupName}) => {
 
         try {
             await axios.delete(`http://localhost:5000/api/groupTodos/${id}`,{
-              headers: {
+                headers: {
                     Authorization: `Bearer ${token}`,
                     'Content-Type': 'application/json'
                 },
             });
-        } catch(eror) {
+        } catch(error) {
             setError(error.message);
             setNotes((prevNotes) => [...prevNotes, noteToDelete]);
         }

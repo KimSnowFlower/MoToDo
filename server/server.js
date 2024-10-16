@@ -363,7 +363,7 @@ app.post('/api/todos', authenticateToken, async (req, res) => {
 });
 
 // 특정 To-Do 항목 삭제하기 -> To Do.jsx
-app.delete('/api/todos/:id', (req, res) => {
+app.delete('/api/todos/:id', authenticateToken, async (req, res) => {
   const { id } = req.params; // URL에서 전달된 id 가져오기'
 
   db.query('DELETE FROM todos WHERE id = ?', [id], (error, results) => {
@@ -463,19 +463,15 @@ app.post('/api/saveMessage', authenticateToken, async (req, res) => {
 
 // 새로운 채팅 방 생성 -> Friends.jsx
 app.post('/api/chatRoom', authenticateToken, async (req, res) => {
-  const { userIds } = req.body; // 채팅에 참여할 사용자 ID 배열
-  const userId = req.user.id; // 현재 사용자 ID
-
-  console.log(userIds);
+  const { userIds } = req.body; 
+  const userId = req.user.id; 
 
   try {
-    // 새 채팅 방 생성
-    const sql = 'INSERT INTO chats (user_id, friend_id, created_at) VALUES (?, ?, NOW())'; // user_id와 friend_id 모두 추가
-    const friendId = userIds[0]; // 예를 들어 첫 번째 친구 ID 사용
-    const [result] = await db.query(sql, [userId, friendId]); // userId와 friendId를 SQL 쿼리에 전달
+    const sql = 'INSERT INTO chats (user_id, friend_id, created_at) VALUES (?, ?, NOW())';
+    const friendId = userIds[0]; 
+    const [result] = await db.query(sql, [userId, friendId]); 
     const chatRoomId = result.insertId;
 
-    // 참여할 친구와의 관계 설정 (채팅 방에 추가)
     const friendInsertPromises = userIds.map(friendId => {
       return db.query('INSERT INTO chats (user_id, friend_id, created_at) VALUES (?, ?, NOW())', [chatRoomId, friendId]);
     });
@@ -572,6 +568,60 @@ app.get('/api/checkGroupCode/:code', async (req, res) => {
     console.error('Error checking group code:', error);
     res.status(500).json({ error: 'Failed to check group code' });
   }
+});
+
+// Group To-Do
+// Group To-Do 항목 가져오기
+app.get('/api/groupTodos', authenticateToken, async (req, res) => {
+  const userId = req.user.id;
+  const groupId = req.query.groupId;
+
+  try {
+    const sql = 'SELECT group_id, user_id, content FROM group_todos WHERE group_id =? AND user_id = ?';
+    const [result] = await db.query(sql, [groupId, userId]);
+
+    res.status(201).json({ gTodo: result});
+  } catch (error){
+    console.error('Error fetching Group to-do items:', error);
+    res.status(500).json({ error: 'Failed to fetch Group to-do itmes' });
+  }
+});
+
+// Group To-Do 항목 추가하기
+app.post('/api/groupTodos', authenticateToken, async (req, res) => {
+  const userId = req.user.id;
+  const { groupId, content } = req.body;
+
+  try {
+    const sql = 'INSERT INTO group_todos (group_id, user_id, content, created_at, updated_at) VALUES (?, ?, ?, NOW(), NOW())';
+    const [result] = await db.query(sql, [groupId, userId, content]); 
+
+    const newTodo = {
+      id: result.insertId,
+      groupId: groupId,
+      userId: userId,
+      content: content,
+    };
+
+    res.status(201).json({ newTodo: newTodo });
+  } catch (error) {
+    console.error('Error creating Group to-do items', error);
+    res.status(500).json({ error: 'Failed to create Group to-do item'});
+  }
+});
+
+// Group To-Do 항목 삭제하기
+app.delete('/api/groupTodos/:id', authenticateToken, async (req, res) => {
+  const { id } = req.params;
+
+  db.query('DELETE FROM group_todos WHERE id = ?', [id], (error, result) => {
+    if(error) {
+      console.error('Error deleting Group todo:', error);
+      return res.status(500).json({ error: error.message });
+    }
+
+    res.status(200).json({ message: 'Group Todo item deleted successfully' });
+  });
 });
 
 // 서버 포트 설정

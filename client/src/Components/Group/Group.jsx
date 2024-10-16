@@ -97,7 +97,6 @@ const Group = () => {
     };
 
     const handleJoinGroup = () => {
-        console.log(Number(selectedGroup));
 
         if (selectedGroup) {
             const group = groups.find(g => g.id === Number(selectedGroup));
@@ -111,7 +110,6 @@ const Group = () => {
             }
         } else {
             setMessage("그룹을 선택하세요.");
-            // 와우
         }
     };       
 
@@ -175,7 +173,7 @@ const Group = () => {
             ) : (
                 <div className={styles.mainGroupContainer}>
                     <div className={styles.toDoContainer}>
-                        <GroupToDo groupName={currentGroupName}/>
+                        <GroupToDo groupName={currentGroupName} groupId={selectedGroup}/>
                         <div className={styles.toDoContent}>
                         </div>
                     </div>
