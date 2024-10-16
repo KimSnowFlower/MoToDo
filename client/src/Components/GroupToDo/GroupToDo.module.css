@@ -1,0 +1,27 @@
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 3px solid #19A7C3;
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+}
+
+.headerTitle {
+    margin: 0;
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.addButton {
+    width: 40px;
+    height: 40px;
+    background-color: white;
+    background-image: url('../Assets/add_button.png');
+    background-size: contain; 
+    background-repeat: no-repeat; 
+    background-position: center; 
+    border-radius: 10px;
+    border: 3px solid #AFD3E2;
+    cursor: pointer; 
+}
