@@ -152,10 +152,8 @@ app.get('/api/home', authenticateToken, async (req, res) => {
   const userId = req.user.id;
 
   try {
-    // 현재 월 가져오기
     const currentMonth = new Date().getMonth() + 1;
 
-    // 현재 월에 해당하는 캘린더 이벤트만 선택
     const [calendarResults] = await db.query(
       'SELECT * FROM calendar WHERE user_id = ? AND MONTH(start_date) = ?',
       [userId, currentMonth]
@@ -173,6 +171,22 @@ app.get('/api/home', authenticateToken, async (req, res) => {
 });
 
 // Calendar
+// 이벤트 확인 -> Calendar.jsx
+app.get('/api/events', authenticateToken, async (req, res) => {
+  const userId = req.user.id;
+
+  const query = 'SELECT * FROM calendar WHERE user_id = ?';
+
+  try {
+    const [results] = await db.query(query, [userId]);
+
+    res.status(201).json({events: results, userId: userId});
+  } catch (error) {
+    console.error('Error fetching events:', error);
+    res.status(500).json({ error: 'Error fetching events', details: error.message});
+  };  
+});
+
 // 이벤트 저장 -> Calendar.jsx
 app.post('/api/events', authenticateToken, async (req, res) => {
   const user_id = req.user.id;
@@ -191,28 +205,12 @@ app.post('/api/events', authenticateToken, async (req, res) => {
   return res.json({ saveEventId: calendarEvents });
 });
 
-// 이벤트 확인 -> Calendar.jsx
-app.get('/api/events', authenticateToken, (req, res) => {
-  const userId = req.user.id; // 로그인한 사용자의 ID
-
-  const query = `
-      SELECT * FROM calendar 
-      WHERE user_id = ?`; // 날짜 조건 제거
-
-  db.query(query, [userId], (err, results) => {
-      if (err) {
-          console.error('Database error:', err);
-          return res.status(500).send('Error fetching events');
-      }
-      
-      res.send(results); // 결과 반환
-  });
-});
-
 // 이벤트 수정 -> Calendar.jsx
-app.put('/api/events/:id', authenticateToken, (req, res) => {
+app.put('/api/events/:id', authenticateToken, async (req, res) => {
   const { id } = req.params.id;
   const { title, description, start_date, end_date, all_day, color } = req.body;
+
+  console.log(title, description, start_date, end_date, all_day, color);
 
   // 필수 필드 확인
   if (!title || !start_date || !end_date) {
@@ -223,28 +221,35 @@ app.put('/api/events/:id', authenticateToken, (req, res) => {
       UPDATE calendar
       SET title = ?, description = ?, start_date = ?, end_date = ?, all_day = ?, color = ?
       WHERE id = ?`;
-  
-  db.query(query, [title, description, start_date, end_date, all_day, color, id], (err) => {
-      if (err) {
-          console.error('Database error:', err);
-          return res.status(500).send('Error updating event');
-      }
-      res.send('Event updated');
-  });
+
+  try {
+    const sql = 'UPDATE calendar SET title = ?, description = ?, start_date = ?, end_date = ?, all_day =? , color = ? WHERE id = ?';
+    const [results] = await db.query(sql, [title, description, start_date, end_date, all_day, color, id]);
+
+    res.status(201).json({updateEvent: results});
+  } catch(error) {
+    console.error('Database error:', err);
+    return res.status(500).send('Error updating event');
+  }
 });
 
 // 이벤트 삭제 -> Calendar.jsx
-app.delete('/api/events/:id', authenticateToken, (req, res) => {
+app.delete('/api/events/:id', authenticateToken, async (req, res) => {
   const id = req.params.id; // URL에서 이벤트 ID 가져오기
   const userId = req.user.id; // 로그인한 사용자의 ID
 
-  const query = `DELETE FROM calendar WHERE id = ? AND user_id = ?`; // user_id도 조건에 추가
+  try {
+    const sql = 'DELETE FROM calendar WHERE id = ? AND user_id = ?';
+    const [result] = await db.query(sql, [id, userId]);
 
-  db.query(query, [id, userId], (err, result) => {
-    if (err) return res.status(500).send('Error deleting event');
-    if (result.affectedRows === 0) return res.status(404).send('Event not found or not authorized to delete');
-    res.send('Event deleted');
-  });
+    if (result.affectedRows === 0) {
+      return res.status(404).json({ error: 'Sticky note not found or not authorized to delete' });
+    }
+
+    res.json({ message: 'Sticky note deleted successfully' });
+  } catch (error) {
+    res.status(500).send('Error deleting event');
+  }
 });
 
 // Sticky

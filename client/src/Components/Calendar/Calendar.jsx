@@ -63,13 +63,14 @@ const Calendar = () => {
     try {
         const response = await axios.get(`http://localhost:5000/api/events`, {
             headers: {
-                Authorization: `Bearer ${token}`, // JWT 토큰 추가
-                'Content-Type': 'application/json'  // Content-Type 헤더 수정
+                Authorization: `Bearer ${token}`, 
+                'Content-Type': 'application/json'
             }
         });
-        console.log("가져오기 성공!")
 
-        const fetchedEvents = response.data;
+        const fetchedEvents = response.data.events;
+        const userId = response.data.userId;
+
         const eventsMap = {};
 
         fetchedEvents.forEach(event => {
@@ -77,10 +78,11 @@ const Calendar = () => {
             if (!eventsMap[dateKey]) {
                 eventsMap[dateKey] = [];
             }
+
             eventsMap[dateKey].push(event);
         });
 
-        setUserInfo({ id: response.data.user_id }); // response.data로 변경
+        setUserInfo(userId);
         setEvents(eventsMap);
     } catch (error) {
         console.error('Error fetching events:', error);
@@ -252,13 +254,11 @@ const Calendar = () => {
       const token = localStorage.getItem('jwtToken');
       console.log('Sending update request with:', updatedEventDetails); // 요청 데이터 확인
   
-      const response = await axios.put(
+      await axios.put(
         `http://localhost:5000/api/events/${selectedEvent.id}`,
         updatedEventDetails,
-        { headers: { Authorization: `Bearer ${token}` } }
+        { headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' } }
       );
-  
-      console.log('Update response:', response.data); // 응답 데이터 확인
   
       const dateKey = `${selectedDate.getFullYear()}-${selectedDate.getMonth() + 1}-${selectedDate.getDate()}`;
       setEvents((prevEvents) => {
@@ -308,9 +308,6 @@ const Calendar = () => {
       console.error('Error deleting event:', error);
     }
   };
-  
-  
-  
 
   const handleIconClick = (e, day) => {
     e.stopPropagation();
