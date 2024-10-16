@@ -31,7 +31,6 @@ const Home = () => {
       <MenuBar />
       <div className={styles.homeMain}>
         <div className={styles.contentContainer}>
-          {/* Calendar */}
           <div className={styles.homeCalendarList}>
             <h2>Calendar</h2>
             <div className={styles.tableWrap}>
@@ -61,14 +60,12 @@ const Home = () => {
               )}
             </div>
           </div>
-          {/* 우측 상단 Notice and Time */}
           <div className={styles.noticeAndTime}>
             <h2>Notice and Time</h2>
             <p>No notices available.</p>
           </div>
-          {/* 우측 하단 To-do와 Check List */}
           <div className={styles.todoCheckList}>
-            <ToDo /> {/* ToDo 컴포넌트를 호출 */}
+            <ToDo />
           </div>
         </div>
       </div>
