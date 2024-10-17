@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { BiSolidHeart } from "react-icons/bi";
 import { PiCakeDuotone } from "react-icons/pi";
 import { IoAirplane } from "react-icons/io5";
@@ -54,9 +54,15 @@ const Calendar = () => {
     return `${period} ${formattedHour}:${minute.toString().padStart(2, '0')}`;
   });
 
+  const hasFetched = useRef(false);
+
   useEffect(() => {
-    fetchEvents();
-  }, [currentYear, currentMonth]);
+    if (!hasFetched.current) {
+      fetchEvents();  // 컴포넌트 로드 시 이벤트 불러오기
+      hasFetched.current = true;
+    }
+  }, [currentYear, currentMonth]);  // 연/월이 바뀔 때마다 이벤트 불러오기
+
 
   const fetchEvents = async () => {
     const token = localStorage.getItem('jwtToken');
@@ -111,14 +117,20 @@ const Calendar = () => {
   
         eventsMap[dateKey].push(kstEvent);
       });
-      console.log(eventsMap)
+      console.log("이벤트 저장 확인",eventsMap)
       setUserInfo(userId);
       setEvents(eventsMap);
     } catch (error) {
       console.error('Error fetching events:', error);
     }
   };
-   
+  
+  const formatDateToMMDDYYYY = (year, month, day) => {
+    // 월은 0부터 시작하므로 1을 더해야 함
+    const formattedMonth = (month + 1).toString().padStart(2, '0'); // 두 자리 숫자로 변환
+    const formattedDay = day.toString().padStart(2, '0'); // 두 자리 숫자로 변환
+    return `${formattedMonth}/${formattedDay}/${year}`; // MM/DD/YYYY 형식으로 반환
+  };
 
   const convertTo24HourFormat = (timeString) => {
     if (!timeString || !timeString.includes(' ')) {
@@ -152,7 +164,7 @@ const Calendar = () => {
   const closeMoreModal = () => setShowMoreModal(false);
 
   const handleDateClick = (day) => {
-    const dateKey = `${currentYear}-${currentMonth + 1}-${day}`;
+    const dateKey = formatDateToMMDDYYYY(currentYear, currentMonth, day);
     setSelectedDate(new Date(currentYear, currentMonth, day));
     const event = events[dateKey] || { title: '', time: '00:00', content: '' };
     setEventTitle(event.title);
@@ -195,39 +207,47 @@ const Calendar = () => {
       const selectedDateTime = new Date(selectedDate);
       const [hours, minutes] = convertTo24HourFormat(eventTime).split(':').map(Number);
       selectedDateTime.setHours(hours, minutes);
-
-      const dateKey = `${selectedDateTime.getFullYear()}-${selectedDateTime.getMonth() + 1}-${selectedDateTime.getDate()}`;
-
+  
+      const dateKey = formatDateToMMDDYYYY(selectedDateTime.getFullYear(), selectedDateTime.getMonth(), selectedDateTime.getDate());
+  
+      const startDateFormatted = formatDateToMySQL(selectedDateTime);
+      const endDateFormatted = formatDateToMySQL(selectedDateTime);
+  
+      // 로그 추가
+      console.log('Formatted start date for MySQL:', startDateFormatted);
+      console.log('Formatted end date for MySQL:', endDateFormatted);
+  
       const eventDetail = {
-            title: eventTitle,
-            time: convertTo24HourFormat(eventTime),
-            description: eventContent,
-            start_date: formatDateToMySQL(selectedDateTime), // 시간 포함
-            end_date: formatDateToMySQL(selectedDateTime), // 시간 포함
-            all_day: 1,
-            color: selectedColor,
+        title: eventTitle,
+        time: convertTo24HourFormat(eventTime),
+        description: eventContent,
+        start_date: startDateFormatted, // 시간 포함
+        end_date: endDateFormatted, // 시간 포함
+        all_day: 1,
+        color: selectedColor,
       };
+  
       console.log('Saving event with time:', eventDetail.time);
+      console.log('dateKey:', dateKey); // dateKey 확인
+  
       try {
         const token = localStorage.getItem('jwtToken');
-        
+  
         // axios로 POST 요청
         const response = await axios.post('http://localhost:5000/api/events', eventDetail, {
           headers: {
             Authorization: `Bearer ${token}`,
-            'Content-Type': 'application/json'  // Content-Type 헤더 수정
+            'Content-Type': 'application/json',
           },
         });
   
-        // response.data로 바로 데이터 접근
         const data = response.data;
-  
-        const savedEventId = data.saveEventId.insertId;  // 백엔드에서 반환한 ID 사용
+        const savedEventId = data.saveEventId.insertId; // 백엔드에서 반환한 ID 사용
   
         const newEventDetail = {
           id: savedEventId,
           ...eventDetail,
-          time: convertTo24HourFormat(eventTime)
+          time: convertTo24HourFormat(eventTime),
         };
   
         setEvents((prevEvents) => ({
@@ -240,7 +260,8 @@ const Calendar = () => {
         console.error('Error saving event:', error);
       }
     }
-  };  
+  };
+   
 
   const handleEventClick = (day, event) => {
     console.log('Selected event:', event); // 선택된 이벤트 확인용 로그
@@ -258,7 +279,7 @@ const Calendar = () => {
   };
 
   const handleMoreClick = (day) => {
-    const dateKey = `${currentYear}-${currentMonth + 1}-${day}`;
+    const dateKey = formatDateToMMDDYYYY(currentYear, currentMonth, day);
     const eventsForDay = events[dateKey] || [];
     
     if (eventsForDay.length > 0) {
@@ -303,7 +324,7 @@ const Calendar = () => {
             { headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' } }
         );
 
-        const dateKey = `${selectedDateTime.getFullYear()}-${selectedDateTime.getMonth() + 1}-${selectedDateTime.getDate()}`;
+        const dateKey = formatDateToMMDDYYYY(selectedDateTime.getFullYear(), selectedDateTime.getMonth(), selectedDateTime.getDate());
         setEvents((prevEvents) => {
             const updatedEvents = prevEvents[dateKey].map((event) =>
                 event.id === selectedEvent.id ? updatedEventDetails : event
@@ -324,7 +345,7 @@ const Calendar = () => {
 
   const handleIconClick = (e, day) => {
     e.stopPropagation();
-    const dateKey = `${currentYear}-${currentMonth + 1}-${day}`;
+    const dateKey = formatDateToMMDDYYYY(currentYear, currentMonth, day);
   
     // 아이콘 인덱스를 업데이트합니다.
     setIconIndexes(prevIndexes => ({
@@ -340,7 +361,9 @@ const Calendar = () => {
       console.error('No event selected for deletion.');
       return;
     }
-  
+    const selectedDateTime = new Date(selectedDate);
+    const [hours, minutes] = convertTo24HourFormat(eventTime || '오전 12:00').split(':').map(Number);
+    selectedDateTime.setHours(hours, minutes);
     console.log('Deleting event:', selectedEvent); // 삭제할 이벤트 확인용 로그
   
     try {
@@ -352,7 +375,7 @@ const Calendar = () => {
   
       console.log('Delete response:', response.data); // 삭제 응답 로그
   
-      const dateKey = `${selectedDate.getFullYear()}-${selectedDate.getMonth() + 1}-${selectedDate.getDate()}`;
+      const dateKey = formatDateToMMDDYYYY(selectedDateTime.getFullYear(), selectedDateTime.getMonth(), selectedDateTime.getDate());
       setEvents((prevEvents) => {
         const filteredEvents = prevEvents[dateKey].filter(
           (event) => event.id !== selectedEvent.id
@@ -402,7 +425,7 @@ const Calendar = () => {
   }
 
   for (let day = 1; day <= daysInMonth; day++) {
-    const dateKey = `${currentYear}-${currentMonth + 1}-${day}`;
+    const dateKey = formatDateToMMDDYYYY(currentYear, currentMonth, day);
     const hasEvents = !!events[dateKey];
     const dayOfWeek = new Date(currentYear, currentMonth, day).getDay();
     const color = (dayOfWeek === 0) ? dayColors.Sun : (dayOfWeek === 6) ? dayColors.Sat : dayColors.default;
