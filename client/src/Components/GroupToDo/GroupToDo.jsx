@@ -6,6 +6,7 @@ const GroupToDo = ({groupName, groupId}) => {
     const [notes, setNotes] = useState([]);
     const [error, setError] = useState(null);
     const [newNote, setNewNote] = useState('');
+    const [isChecked, setIsChecked] = useState([])
     const [loading, setLoading] = useState(false);
     const [showInput, setShowInput] = useState(false);
 
@@ -27,8 +28,6 @@ const GroupToDo = ({groupName, groupId}) => {
             });
             const data = response.data.gTodo;
 
-            console.log(data);
-
             setNotes(data);
         } catch(error) {
             setError(error.message);
@@ -42,6 +41,8 @@ const GroupToDo = ({groupName, groupId}) => {
     }, []);
 
     const handleAddNote = async () => {
+        if (!newNote.trim()) return; // 빈 노트 방지
+
         const token = localStorage.getItem('jwtToken');
 
         try {
@@ -49,6 +50,7 @@ const GroupToDo = ({groupName, groupId}) => {
                 {
                     groupId: groupId,
                     content: newNote,
+                    completed: false,
                 },
                 {
                     headers: {
@@ -60,8 +62,6 @@ const GroupToDo = ({groupName, groupId}) => {
 
             const createdNote = response.data.newTodo;
 
-            console.log(createdNote);
-
             setNotes((prevNotes) => [...prevNotes, createdNote]);
             setNewNote('');
             setShowInput(false);
@@ -70,7 +70,7 @@ const GroupToDo = ({groupName, groupId}) => {
         }
     };
 
-    const handleDeletNote = async (id) => {
+    const handleDeleteNote = async (id) => {
         const token = localStorage.getItem('jwtToken');
         const noteToDelete = notes.find(note => note.id === id);
         setNotes((prevNotes) => prevNotes.filter((note) => note.id !== id));
@@ -88,6 +88,36 @@ const GroupToDo = ({groupName, groupId}) => {
         }
     }
 
+    const handleToggleComplete= async (id) => {
+        const note = notes.find(note => note.id === id);
+        const updatedNote = { ...note, completed: !note.completed };
+
+        setNotes((prevNotes) =>
+            prevNotes.map((note) =>
+                note.id === id ? updatedNote : note
+        ));
+
+        const token = localStorage.getItem('jwtToken');
+
+        try {
+            await axios.patch(`http://localhost:5000/api/groupTodos/${id}`, { 
+                completed: updatedNote.completed 
+                }, { 
+                    headers: { 
+                        Authorization: `Bearer ${token}`, 
+                        'Content-Type': 'application/json' 
+                    } 
+                }
+            );
+        } catch (error) {
+            setError(error.message);
+            setNotes((prevNotes) =>
+                prevNotes.map((note) =>
+                    note.id === id ? { ...note, completed: !updatedNote.completed } : note
+            ));
+        }
+    };
+
     return (
         <div className={styles.groupTodoContainer}>
             <div className={styles.header}>
@@ -100,10 +130,15 @@ const GroupToDo = ({groupName, groupId}) => {
             <ul className={styles.todoLists}>
                 {notes.map((note) => (
                     <li key={note.id}>
-                        <input type="checkbox"/>
-                        <p>{note.content}</p>
-                        <button onClick={() => handleDeletNote(note.id)}>Delete</button>
-                    </li>
+                    <input
+                        className={styles.noteCheckBox}
+                        type="checkbox"
+                        checked={note.completed}
+                        onChange={() => handleToggleComplete(note.id)}
+                    />
+                    <p className={note.completed ? styles.completed : styles.noteContent}>{note.content}</p>
+                    <button className={styles.deleteButton} onClick={() => handleDeleteNote(note.id)}></button>
+                </li>
                 ))}
             </ul>
 
@@ -111,12 +146,13 @@ const GroupToDo = ({groupName, groupId}) => {
                 {showInput && (
                     <div className={styles.inputWrapper}>
                         <input
+                            className={styles.taskInput}
                             type="text"
                             value={newNote}
                             onChange={(e) => setNewNote(e.target.value)}
-                            placeholder="Add a new note"
+                            placeholder="Add New Task"
                         />
-                        <button onClick={handleAddNote}>Add</button>
+                        <button className={styles.sendButton} onClick={handleAddNote}/>
                     </div>
                 )}
             </div>

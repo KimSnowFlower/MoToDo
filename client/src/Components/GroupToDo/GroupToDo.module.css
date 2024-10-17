@@ -39,7 +39,7 @@
     cursor: pointer; 
 }
 
-.addButton:hover {
+.addButton:hover, .sendButton:hover {
     border: 3px solid dodgerblue;
     cursor: pointer;
 }
@@ -58,7 +58,7 @@
 .todoLists li {
     padding: 10px;
     margin: 5px;
-    background-color: #f9f9f9;
+    background-color: #146C94;
     border-radius: 8px;
     display: flex;
     justify-content: space-between;
@@ -67,13 +67,52 @@
     margin-bottom: 20px;
 }
 
-.todoLists li p {
-    margin: 0;
+.todoLists li input {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%; /* 원형 체크박스 */
+    border: 2px solid #AFD3E2;
+    background-color: #FAFAFA;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 0;
+    transition: 0.2s;
+    appearance: none; /* 기본 체크박스 스타일 제거 */
+    margin-right: 8px;
+    flex-shrink: 0;
+    margin-top: 4px;
 }
 
-.todoLists li button {
-    background-color: red;
+.todoLists li input:hover {
+    border-color: #4FB1C2;
+    box-shadow: 0 0 0 3px rgba(79, 177, 194, 0.3);
+}
+  
+.todoLists li input:checked {
+    background-image: url('../Assets/color_check.png');
+    background-size: 20px;
+    border: 2px solid #19A7C3;
+    background-color: #146C94;
+}
+
+.noteContent {
     color: white;
+    transition: color 0.2s, text-decoration 0.2s;
+}
+
+.completed {
+    color: rgba(255, 255, 255, 0.5);
+    text-decoration: line-through;
+}
+
+.deleteButton {
+    width: 25px;
+    height: 25px;
+    background-color: #146C94;
+    background-image: url('../Assets/delete_button_red_color.png');
+    background-size: contain; 
+    background-repeat: no-repeat; 
+    background-position: center; 
     border: none;
     padding: 5px 10px;
     cursor: pointer;
@@ -86,20 +125,44 @@
 .inputContainer {
     height: 10%;
     padding: 10px;
-    background-color: #f7f7f7;
-    border-top: 1px solid #ddd;
+    background-color: white;
+    border-top: 3px solid #19A7C3;
     display: flex;
     justify-content: space-between;
     box-sizing: border-box;
 }
 
 .inputWrapper {
+    height: 100%;
+    font-size: 14px;
     display: flex;
     align-items: center;
     flex-grow: 1;
 }
 
-.inputWrapper input {
-    flex-grow: 1;
-    margin-right: 10px;
+.taskInput {
+    width: 100%;
+    height: 70%;
+    padding: 0 4px;
+    outline: none;
+    border-right: none;
+    border-radius: 0;
+    border: 3px solid #AFD3E2;
+    background-color: transparent;
+    margin-right: 12px;
+    color: black;
+    box-shadow: none;
+}
+
+.sendButton {
+    width: 40px;
+    height: 40px;
+    background-color: white;
+    background-image: url('../Assets/send_button.png');
+    background-size: contain; 
+    background-repeat: no-repeat; 
+    background-position: center; 
+    border-radius: 10px;
+    border: 3px solid #AFD3E2;
+    cursor: pointer; 
 }

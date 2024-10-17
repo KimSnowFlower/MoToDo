@@ -582,7 +582,7 @@ app.get('/api/groupTodos', authenticateToken, async (req, res) => {
   const groupId = req.query.groupId;
 
   try {
-    const sql = 'SELECT id, group_id, user_id, content FROM group_todos WHERE group_id =? AND user_id = ?';
+    const sql = 'SELECT id, group_id, user_id, content, completed FROM group_todos WHERE group_id =? AND user_id = ?';
     const [results] = await db.query(sql, [groupId, userId]);
 
     res.status(201).json({ gTodo: results });
@@ -595,17 +595,18 @@ app.get('/api/groupTodos', authenticateToken, async (req, res) => {
 // Group To-Do 항목 추가하기
 app.post('/api/groupTodos', authenticateToken, async (req, res) => {
   const userId = req.user.id;
-  const { groupId, content } = req.body;
+  const { groupId, content, completed } = req.body;
 
   try {
-    const sql = 'INSERT INTO group_todos (group_id, user_id, content, created_at, updated_at) VALUES (?, ?, ?, NOW(), NOW())';
-    const [result] = await db.query(sql, [groupId, userId, content]); 
+    const sql = 'INSERT INTO group_todos (group_id, user_id, content, completed, created_at, updated_at) VALUES (?, ?, ?, ?, NOW(), NOW())';
+    const [result] = await db.query(sql, [groupId, userId, content, completed]); 
 
     const newTodo = {
       id: result.insertId,
       groupId: groupId,
       userId: userId,
       content: content,
+      completed: completed,
     };
 
     res.status(201).json({ newTodo: newTodo });
@@ -627,6 +628,25 @@ app.delete('/api/groupTodos/:id', authenticateToken, async (req, res) => {
 
     res.status(200).json({ message: 'Group Todo item deleted successfully' });
   });
+});
+
+// Group To-Do 체크 표시 패치하기
+app.patch('/api/groupTodos/:id', authenticateToken, async (req, res) => {
+  const userId  = req.user.id;
+  const { id } = req.params;
+  const { completed } = req.body;
+
+  try {
+    const sql = 'UPDATE group_todos SET completed = ? WHERE id = ? AND user_Id = ? ';
+    const [results] = await db.query(sql, [completed, id, userId]);
+
+    console.log(results);
+
+    res.status(200).json({ message: 'Group Todo item chekced update successfully' });
+  } catch (error) {
+    console.error('Error patching Group to-do items', error);
+    res.status(500).json({ error: 'Failed to patching Group to-do item'});
+  }
 });
 
 // 서버 포트 설정
