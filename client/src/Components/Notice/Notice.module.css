@@ -1,0 +1,90 @@
+.noticeContainer {
+    position: relative;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    box-sizing: border-box;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: white;
+    padding: 10px;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    border-bottom: 3px solid #19A7C3;
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+}
+
+.headerTitle {
+    margin: 0;
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.noticeLists,
+.inputContainer {
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: 3px solid #146C94;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+}
+
+.noticeLists {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    overflow-y: auto; 
+    flex-grow: 1; 
+}
+
+.addButton {
+    width: 40px;
+    height: 40px;
+    background-color: white;
+    background-image: url('../Assets/add_button.png');
+    background-size: contain; 
+    background-repeat: no-repeat; 
+    background-position: center; 
+    border-radius: 10px;
+    border: 3px solid #AFD3E2;
+    cursor: pointer; 
+}
+
+.addButton:hover, .sendButton:hover {
+    border: 3px solid dodgerblue;
+    cursor: pointer;
+}
+
+.noticeLists li {
+    padding: 10px;
+    margin: 5px;
+    background-color: #146C94;
+    border-radius: 8px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border: 1px solid black;
+    margin-bottom: 20px;
+}
+
+.inputWrapperHeader {
+    position: relative;
+    flex-grow: 3;
+    border: 3px solid black;
+}
+
+.inputWrapperBody {
+    position: relative;
+    height: 70%;
+    border: 3px solid blue;
+}

@@ -13,8 +13,6 @@ const Group = () => {
     const [message, setMessage] = useState("");
     const [isGroupJoined, setIsGroupJoined] = useState(false);
     const [currentGroupName, setCurrentGroupName] = useState("");
-    const [currentPage, setCurrentPage] = useState('');
-
 
     // 그룹 목록을 가져오는 함수
     const fetchGroups = async () => {
@@ -116,9 +114,6 @@ const Group = () => {
     };       
 
     useEffect(() => {
-        setCurrentPage('group');
-
-        console.log(currentPage);
         fetchGroups();
     }, []);
 
@@ -181,7 +176,7 @@ const Group = () => {
                         <GroupToDo groupName={currentGroupName} groupId={selectedGroup}/>
                     </div>
                     <div className={styles.noticeContainer}>
-                        <Notice currentPage={currentPage} groupId={selectedGroup}/>
+                        <Notice groupName={currentGroupName} groupId={selectedGroup}/>
                     </div>
                 </div>
             )}

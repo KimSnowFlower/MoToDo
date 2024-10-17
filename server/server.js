@@ -648,22 +648,14 @@ app.patch('/api/groupTodos/:id', authenticateToken, async (req, res) => {
 // Notice 항목 가져오기
 app.get('/api/notice/:currentPage', authenticateToken, async (req, res) => {
   const userId = req.user.id;
-  const { currentPage } = req.params;
-  const { groupId } = req.body;
-  const [results] = null;
+  const groupId = req.query.groupId;
 
   try {
-    if(currentPage === 'home') {
-      const sql = 'SELECT id, content, author FROM notice WHERE user_id = ?';
-      results = await db.query(sql, [userId]);
-    } else if(currentPage === 'group') {
-      const sql = 'SELECT id, content, author FROM group_notice WHERE group_id = ?';
-      results = await db.query(sql, [groupId]);
-    } else {
-      res.status(500).json({ error: 'Failed matching current page'});
-    }
+    const sql = 'SELECT id, title, content, author FROM notice WHERE user_id = ? AND group_id = ?';
+    results = await db.query(sql, [userId, groupId]);
 
     console.log(results);
+
     res.status(200).json({ notices: results });
   } catch (error) {
     res.status(500).json({ error: 'Failed to fetch Notice items' });
@@ -671,22 +663,15 @@ app.get('/api/notice/:currentPage', authenticateToken, async (req, res) => {
 });
 
 // Notice 항목 추가하기
-app.post('/api/notice/:currentPage', authenticateToken, async (req,res) => {
+app.post('/api/notice/', authenticateToken, async (req,res) => {
   const userId = req.user.id;
-  const { currentPage } = req.params;
   const { groupId, content, author } = req.body;
-  const [results] = null;
 
   try {
-    if(currentPage === 'home') {
-      const sql = 'INSERT INTO notice (user_id, content, created_at, updated_at) VALUES (?, ?, NOW(), NOW())';
-      results = await db.query(sql, [userId, content]);
-    } else if(currentPage === 'group') {
-      const sql = 'INSERT INTO group_notice (user_id, group_id, content, author, created_at, updated_at) VALUES (?, ?, ?, ?, NOW(), NOW())';
-      results = await db.query(sql, [userId, groupId, content, author]);
-    } else {
-      res.status(500).json({ error: 'Failed matching current page' });
-    }
+    const sql = 'INSERT INTO group_notice (user_id, group_id, title, content, author, created_at, updated_at) VALUES (?, ?, ?, ?, ?, NOW(), NOW())';
+    const results = await db.query(sql, [userId, groupId, content, author]);
+
+    console.log(results);
 
     res.status(200).json({ newNotice: results });
   } catch (error) {
@@ -695,20 +680,12 @@ app.post('/api/notice/:currentPage', authenticateToken, async (req,res) => {
 });
 
 // Notice 항목 삭제하기
-app.delete('/api/notice/:currentPage', authenticateToken, async (req, res) => {
-  const { currentPage } = req.params;
-  const { id } = req.body;
+app.delete('/api/notice/:noticeId', authenticateToken, async (req, res) => {
+  const { id } = req.params;
 
   try {
-    if(currentPage === 'home') {
-      const sql = 'DELETE FROM notice WHERE id = ?';
-      await db.query(sql, [id]);
-    } else if(currentPage === 'group') {
-      const sql = 'DELETE FROM group_notice WHERE id = ?';
-      await db.query(sql, [id]);
-    } else {
-      res.status(500).json({ error: 'Failed matching current page' });
-    }
+    const sql = 'DELETE FROM notice WHERE id = ?';
+    await db.query(sql, [id]);
 
     res.status(200).json({ message: 'Notice item deleted successfully' });
   } catch (error) {
@@ -717,21 +694,15 @@ app.delete('/api/notice/:currentPage', authenticateToken, async (req, res) => {
 });
 
 // Notice 항목 패치하기
-app.patch('/api/notice/:currentPage', authenticateToken, async (req, res) => {
-  const userId = req.user.id;
-  const { currentPage } = req.params;
-  const { id, content, groupId } = req.body;
+app.patch('/api/notice/:noticeId', authenticateToken, async (req, res) => {
+  const { id } = req.params;
+  const { title, content, groupId } = req.body;
 
   try {
-    if(currentPage === 'home') {
-      const sql = 'UPDATE notice SET content = ? WHERE id = ? AND user_id = ?';
-      await db.query(sql, [content, id, userId]);
-    } else if(currentPage === 'group') {
-      const sql = 'UPDATE group_notice SET content = ? WHERE id = ? AND user_id =? AND group_id = ?';
-      await db.query(sql, [content, id, userId, groupId]);
-    } else {
-      res.status(500).json({ error: 'Failed matching current page' });
-    }
+    const sql = 'UPDATE notice SET title = ?, content = ? WHERE id = ? AND group_id = ?';
+    await db.query(sql, [title, content, id, groupId]);
+
+    res.status(200).json({ message: 'Notice item updated successfully'});
   } catch (error) {
     res.status(500).json({ error : 'Failed to patching Notice items' });
   }
