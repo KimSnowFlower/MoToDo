@@ -48,11 +48,11 @@
     list-style-type: none;
     padding: 0;
     margin: 0;
-    overflow-y: auto; /* 내용이 많을 경우 스크롤 가능 */
-    flex-grow: 1; /* 남는 공간을 채움 */
-    height: 90%; /* 전체 높이의 70% 차지 */
+    overflow-y: auto; 
+    flex-grow: 1; 
+    height: 90%; 
     border-radius: 10px;
-    margin-bottom: 20px; /* 아래쪽 여백 */
+    margin-bottom: 20px; 
 }
 
 .todoLists li {
@@ -84,7 +84,7 @@
 }
 
 .inputContainer {
-    height: 10%; /* 전체 높이의 30% 차지 */
+    height: 10%;
     padding: 10px;
     background-color: #f7f7f7;
     border-top: 1px solid #ddd;

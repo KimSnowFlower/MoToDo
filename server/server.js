@@ -582,10 +582,10 @@ app.get('/api/groupTodos', authenticateToken, async (req, res) => {
   const groupId = req.query.groupId;
 
   try {
-    const sql = 'SELECT group_id, user_id, content FROM group_todos WHERE group_id =? AND user_id = ?';
-    const [result] = await db.query(sql, [groupId, userId]);
+    const sql = 'SELECT id, group_id, user_id, content FROM group_todos WHERE group_id =? AND user_id = ?';
+    const [results] = await db.query(sql, [groupId, userId]);
 
-    res.status(201).json({ gTodo: result});
+    res.status(201).json({ gTodo: results });
   } catch (error){
     console.error('Error fetching Group to-do items:', error);
     res.status(500).json({ error: 'Failed to fetch Group to-do itmes' });

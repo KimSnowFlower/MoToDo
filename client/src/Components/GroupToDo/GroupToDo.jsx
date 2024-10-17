@@ -27,6 +27,8 @@ const GroupToDo = ({groupName, groupId}) => {
             });
             const data = response.data.gTodo;
 
+            console.log(data);
+
             setNotes(data);
         } catch(error) {
             setError(error.message);
@@ -57,6 +59,8 @@ const GroupToDo = ({groupName, groupId}) => {
             );
 
             const createdNote = response.data.newTodo;
+
+            console.log(createdNote);
 
             setNotes((prevNotes) => [...prevNotes, createdNote]);
             setNewNote('');
