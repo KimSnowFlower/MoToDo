@@ -3,6 +3,7 @@ import axios from 'axios'; // axios를 import 합니다.
 import MenuBar from '../MenuBar/MenuBar';
 import styles from './Group.module.css';
 import GroupToDo from '../GroupToDo/GroupToDo';
+import Notice from '../Notice/Notice';
 
 const Group = () => {
     const [groups, setGroups] = useState([]);
@@ -12,6 +13,7 @@ const Group = () => {
     const [message, setMessage] = useState("");
     const [isGroupJoined, setIsGroupJoined] = useState(false);
     const [currentGroupName, setCurrentGroupName] = useState("");
+    const [currentPage, setCurrentPage] = useState('');
 
 
     // 그룹 목록을 가져오는 함수
@@ -114,6 +116,9 @@ const Group = () => {
     };       
 
     useEffect(() => {
+        setCurrentPage('group');
+
+        console.log(currentPage);
         fetchGroups();
     }, []);
 
@@ -174,16 +179,9 @@ const Group = () => {
                 <div className={styles.mainGroupContainer}>
                     <div className={styles.toDoContainer}>
                         <GroupToDo groupName={currentGroupName} groupId={selectedGroup}/>
-                        <div className={styles.toDoContent}>
-                        </div>
                     </div>
                     <div className={styles.noticeContainer}>
-                        <div className={styles.noticeHeader}>
-                            <h2>{currentGroupName} Notice</h2>
-                            <button className={styles.addButton}></button>
-                        </div>
-                        <div className={styles.noticeContent}>
-                        </div>
+                        <Notice currentPage={currentPage} groupId={selectedGroup}/>
                     </div>
                 </div>
             )}

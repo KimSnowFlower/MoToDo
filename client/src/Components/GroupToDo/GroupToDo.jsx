@@ -6,7 +6,6 @@ const GroupToDo = ({groupName, groupId}) => {
     const [notes, setNotes] = useState([]);
     const [error, setError] = useState(null);
     const [newNote, setNewNote] = useState('');
-    const [isChecked, setIsChecked] = useState([])
     const [loading, setLoading] = useState(false);
     const [showInput, setShowInput] = useState(false);
 
@@ -43,9 +42,8 @@ const GroupToDo = ({groupName, groupId}) => {
     const handleAddNote = async () => {
         if (!newNote.trim()) return; // 빈 노트 방지
 
-        const token = localStorage.getItem('jwtToken');
-
         try {
+            const token = localStorage.getItem('jwtToken');
             const response = await axios.post('http://localhost:5000/api/groupTodos',
                 {
                     groupId: groupId,
@@ -71,11 +69,11 @@ const GroupToDo = ({groupName, groupId}) => {
     };
 
     const handleDeleteNote = async (id) => {
-        const token = localStorage.getItem('jwtToken');
         const noteToDelete = notes.find(note => note.id === id);
         setNotes((prevNotes) => prevNotes.filter((note) => note.id !== id));
 
         try {
+            const token = localStorage.getItem('jwtToken');
             await axios.delete(`http://localhost:5000/api/groupTodos/${id}`,{
                 headers: {
                     Authorization: `Bearer ${token}`,
@@ -97,9 +95,8 @@ const GroupToDo = ({groupName, groupId}) => {
                 note.id === id ? updatedNote : note
         ));
 
-        const token = localStorage.getItem('jwtToken');
-
         try {
+            const token = localStorage.getItem('jwtToken');
             await axios.patch(`http://localhost:5000/api/groupTodos/${id}`, { 
                 completed: updatedNote.completed 
                 }, { 
