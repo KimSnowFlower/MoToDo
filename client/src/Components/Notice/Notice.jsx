@@ -128,11 +128,17 @@ const Notice = ({ groupName, groupId }) => {
                 <ul className={styles.noticeLists}>
                     {notices.map((notice) => (
                         <li key={notice.id}>
-                            <p>{notice.content}</p>
-                            <button
-                                className={styles.deleteButton}
-                                onClick={() => handleDeleteNotice(notice.id)}
-                            > Delete </button>
+                            <div className={styles.noticeHeader}>
+                                <p className={styles.noticeTitle}>{notice.title}</p>
+                                <p className={styles.noticeAuthor}>{notice.author}</p>
+                                <button
+                                    className={styles.deleteButton}
+                                    onClick={() => handleDeleteNotice(notice.id)}
+                                > Delete </button>
+                            </div>
+                            <div className={styles.noticeBody}>
+                                <p>{notice.content}</p>
+                            </div>
                         </li>
                     ))}
                 </ul>

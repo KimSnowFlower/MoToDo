@@ -33,7 +33,6 @@
     left: 0;
     width: 100%;
     height: 100%;
-    border: 3px solid #146C94;
     border-radius: 10px;
     display: flex;
     flex-direction: column;
@@ -69,16 +68,77 @@
     cursor: pointer;
 }
 
-.noticeLists li {
-    padding: 10px;
-    margin: 5px;
-    background-color: #146C94;
-    border-radius: 8px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    border: 1px solid black;
-    margin-bottom: 20px;
+.noticeLists {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    overflow-y: auto; 
+    flex-grow: 1;
+
+    li {
+        height: 20%;
+        margin: 3px;
+        border-radius: 8px;
+        display: flex;
+        margin-bottom: 3px;
+        flex-direction: column;
+        box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.1);
+
+        .noticeHeader {
+            height: 30%;
+            background-color: #146C94;
+            border-top: 3px solid black;
+            border-left: 3px solid black;
+            border-right: 3px solid black;
+            color: white;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            padding: 3px;
+            
+            .noticeTitle {
+                width: 70%;
+                height: 100%;
+                display: flex;
+                align-items: center; 
+                font-size: 14px; 
+            }
+
+            .noticeAuthor {
+                width: 15%;
+                height: 100%;
+                display: flex; 
+                align-items: center; 
+                font-size: 14px;
+            }
+
+            .deleteButton {
+                width: 15%;
+                height: 100%;
+                cursor: pointer;
+                background: transparent;
+                border: none; 
+                color: white;
+                font-weight: bold; 
+                
+                &:hover {
+                    color: #FFB6C1;
+                }
+            }
+        }
+
+        .noticeBody {
+            padding: 5px; 
+            background-color: #f5f5f5;
+            border-radius: 0 0 8px 8px; 
+        }
+    }
+}
+
+.noticeBody {
+    height: 70%;
+    background-color: white;
+    border: 3px solid black;
 }
 
 .inputWrapperHeader {
