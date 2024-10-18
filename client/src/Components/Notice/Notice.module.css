@@ -47,6 +47,10 @@
     flex-grow: 1; 
 }
 
+.inputContainer {
+    align-items: center; 
+}
+
 .addButton {
     width: 40px;
     height: 40px;
@@ -78,13 +82,58 @@
 }
 
 .inputWrapperHeader {
-    position: relative;
-    flex-grow: 3;
+    width: 95%;
+    height: 15%;
     border: 3px solid black;
+    display: flex;
+    justify-content: center; 
+    align-items: center;
+}
+
+.wrapperHeaderTitle, .wrapperBodyTitle {
+    font-weight: bold;
+}
+
+.titleInput {
+    width: 90%;
+    height: 50%;
+    padding: 0 4px;
+    outline: none;
+    border-right: none;
+    border-radius: 0;
+    border: 3px solid #AFD3E2;
+    background-color: transparent;
+    margin-right: 12px;
+    color: black;
+    box-shadow: none;
 }
 
 .inputWrapperBody {
-    position: relative;
+    width: 95%;
     height: 70%;
     border: 3px solid blue;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.taskInput {
+    width: 90%;
+    height: 90%;
+    padding: 0 4px;
+    outline: none;
+    border-right: none;
+    border-radius: 0;
+    border: 3px solid #AFD3E2;
+    background-color: transparent;
+    margin-right: 12px;
+    color: black;
+    box-shadow: none;
+}
+
+.inputWrapperFooter {
+    width: 95%;
+    height: 15%;
+    border: 3px solid black;
 }

@@ -6,6 +6,7 @@ const jwt = require('jsonwebtoken');
 const { body, validationResult } = require('express-validator');
 const http = require('http');
 const socketIo = require('socket.io');
+const { group } = require('console');
 require('dotenv').config(); // 환경 변수 설정
 
 const app = express();
@@ -646,34 +647,42 @@ app.patch('/api/groupTodos/:id', authenticateToken, async (req, res) => {
 
 // Notice
 // Notice 항목 가져오기
-app.get('/api/notice/:currentPage', authenticateToken, async (req, res) => {
+app.get('/api/notice', authenticateToken, async (req, res) => {
   const userId = req.user.id;
   const groupId = req.query.groupId;
 
   try {
     const sql = 'SELECT id, title, content, author FROM notice WHERE user_id = ? AND group_id = ?';
-    results = await db.query(sql, [userId, groupId]);
+    const [results] = await db.query(sql, [userId, groupId]);
 
-    console.log(results);
-
-    res.status(200).json({ notices: results });
+    res.status(201).json({ notices: results });
   } catch (error) {
     res.status(500).json({ error: 'Failed to fetch Notice items' });
   }
 });
 
 // Notice 항목 추가하기
-app.post('/api/notice/', authenticateToken, async (req,res) => {
+app.post('/api/notice', authenticateToken, async (req,res) => {
   const userId = req.user.id;
-  const { groupId, content, author } = req.body;
+  const { groupId, title, content } = req.body;
 
   try {
-    const sql = 'INSERT INTO group_notice (user_id, group_id, title, content, author, created_at, updated_at) VALUES (?, ?, ?, ?, ?, NOW(), NOW())';
-    const results = await db.query(sql, [userId, groupId, content, author]);
+    const searchUser = 'SELECT name FROM users WHERE id = ?'
+    const [author] = await db.query(searchUser, [userId]);
 
-    console.log(results);
+    const sql = 'INSERT INTO notice (user_id, group_id, title, content, author, created_at, updated_at) VALUES (?, ?, ?, ?, ?, NOW(), NOW())';
+    const [results] = await db.query(sql, [userId, groupId, title, content, author[0].name]);
 
-    res.status(200).json({ newNotice: results });
+    const newNotice = {
+      id: results.insertId,
+      groupId: groupId,
+      userId: userId,
+      title: title,
+      content: content,
+      author: author[0].name,
+    }
+
+    res.status(200).json({ newNotice: newNotice });
   } catch (error) {
     res.status(500).json({ error: 'Failed to creating Notice items' });
   }
@@ -681,11 +690,11 @@ app.post('/api/notice/', authenticateToken, async (req,res) => {
 
 // Notice 항목 삭제하기
 app.delete('/api/notice/:noticeId', authenticateToken, async (req, res) => {
-  const { id } = req.params;
+  const { noticeId } = req.params;
 
   try {
     const sql = 'DELETE FROM notice WHERE id = ?';
-    await db.query(sql, [id]);
+    await db.query(sql, [noticeId]);
 
     res.status(200).json({ message: 'Notice item deleted successfully' });
   } catch (error) {

@@ -16,7 +16,7 @@ const Notice = ({ groupName, groupId }) => {
     const fetchNotices = async () => {
         try {
             const token = localStorage.getItem('jwtToken');
-            const response = await axios.get(`http://localhost:5000/api/notice`, {
+            const response = await axios.get('http://localhost:5000/api/notice', {
                 headers: {
                     Authorization: `Bearer ${token}`,
                     'Content-Type': 'application/json',
@@ -25,7 +25,10 @@ const Notice = ({ groupName, groupId }) => {
                     groupId: groupId,
                 }
             });
-            setNotices(response.data.notices);
+
+            const data = response.data.notices;
+
+            setNotices(data);
         } catch (error) {
             setError(error.message);
         }
@@ -36,10 +39,11 @@ const Notice = ({ groupName, groupId }) => {
 
         try {
             const token = localStorage.getItem('jwtToken');
-            const response = await axios.post(`http://localhost:5000/api/notice`, 
+            const response = await axios.post('http://localhost:5000/api/notice', 
                 {
                     groupId: groupId,
-                    content: newNotice,
+                    title: newNotice,
+                    content: noticeContent,
                 },
                 {
                     headers: {
@@ -50,8 +54,10 @@ const Notice = ({ groupName, groupId }) => {
             );
 
             const createdNotice = response.data.newNotice;
+
             setNotices((prevNotices) => [...prevNotices, createdNotice]);
             setNewNotice('');
+            setNoticeContent('');
             setShowInput(false);
         } catch (error) {
             setError(error.message);
@@ -89,7 +95,7 @@ const Notice = ({ groupName, groupId }) => {
             const token = localStorage.getItem('jwtToken');
             await axios.patch(`http://localhost:5000/api/notice/${noticeId}`, 
                 {
-                    content: updatedNotice.content, // 오타 수정 (contend → content)
+                    content: updatedNotice.content,
                     groupId: groupId,
                 },
                 {
@@ -126,39 +132,43 @@ const Notice = ({ groupName, groupId }) => {
                             <button
                                 className={styles.deleteButton}
                                 onClick={() => handleDeleteNotice(notice.id)}
-                            >
-                                Delete
-                            </button>
+                            > Delete </button>
                         </li>
                     ))}
                 </ul>
             ) : (
                 <div className={styles.inputContainer}>
-                    <div className={styles.inputWrapper}>
-                        <div className={styles.inputWrapperHeader}>
-                            <p>Title</p>
-                            <input
-                                className={styles.titleInput}
-                                placeholder="Enter title"
-                                value={newNotice}
-                                onChange={(e) => setNewNotice(e.target.value)}
-                            />
-                            <button
-                                className={styles.sendButton}
-                                onClick={handleAddNotice}
-                            >
-                                Add
-                            </button>
-                        </div>
-                        <div className={styles.inputWrapperBody}>
-                            <p>Content</p>
-                            <input
-                                className={styles.taskInput}
-                                placeholder="Enter content"
-                                value={noticeContent}
-                                onChange={(e) => setNoticeContent(e.target.value)}
-                            />
-                        </div>
+                    <div className={styles.inputWrapperHeader}>
+                        <p className={styles.wrapperHeaderTitle}>Title</p>
+                        <input
+                            className={styles.titleInput}
+                            placeholder="Enter title"
+                            value={newNotice}
+                            onChange={(e) => setNewNotice(e.target.value)}
+                        />
+                    </div>
+                    <div className={styles.inputWrapperBody}>
+                        <p className={styles.wrapperBodyTitle}>Content</p>
+                        <input
+                            className={styles.taskInput}
+                            placeholder="Enter content"
+                            value={noticeContent}
+                            onChange={(e) => setNoticeContent(e.target.value)}
+                        />
+                    </div>
+                    <div className={styles.inputWrapperFooter}>
+                        <button
+                            className={styles.sendButton}
+                            onClick={handleAddNotice}
+                        > Send </button>
+                        <button
+                            className={styles.udpateButton}
+                            onClick={handleUpdateNotice}
+                        > Update </button>
+                        <button
+                            className={styles.closeButton}
+                            onClick={() => setShowInput(!showInput)}
+                        > Close </button>
                     </div>
                 </div>
             )}
