@@ -1,8 +1,8 @@
 .noticeContainer {
     position: relative;
-    padding: 20px;
     display: flex;
     flex-direction: column;
+    height: 100%;
     height: 100%;
     box-sizing: border-box;
 }
@@ -18,7 +18,6 @@
     z-index: 10;
     border-bottom: 3px solid #19A7C3;
     padding-bottom: 10px;
-    margin-bottom: 20px;
 }
 
 .headerTitle {
@@ -64,7 +63,7 @@
 }
 
 .addButton:hover, .sendButton:hover {
-    border: 3px solid dodgerblue;
+    border: 3px solid #146C94;
     cursor: pointer;
 }
 
@@ -145,50 +144,62 @@
 .inputWrapperHeader {
     width: 95%;
     height: 15%;
-    border: 3px solid black;
     display: flex;
-    justify-content: center; 
+    justify-content: flex-start;
     align-items: center;
+    gap: 10px;
 }
 
-.wrapperHeaderTitle, .wrapperBodyTitle {
+.wrapperHeaderTitle {
+    font-size: 16px;
     font-weight: bold;
+    margin: 0;
+    line-height: 1.5;
 }
 
 .titleInput {
-    width: 90%;
-    height: 50%;
-    padding: 0 4px;
+    width: calc(100% - 10px - 16px);
+    height: 30%;
     outline: none;
     border-right: none;
     border-radius: 0;
-    border: 3px solid #AFD3E2;
+    border: 3px solid #19A7C3;
     background-color: transparent;
-    margin-right: 12px;
     color: black;
     box-shadow: none;
+    padding: 2px; 
+    font-size: 12px;
+    line-height: 1.5; 
 }
 
 .inputWrapperBody {
     width: 95%;
     height: 70%;
-    border: 3px solid blue;
     display: flex;
     justify-content: center;
     align-items: center;
     flex-direction: column;
 }
 
+.wrapperBodyTitle {
+    width: 100%;
+    height: 10%;
+    font-size: 16px;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+}
+
 .taskInput {
-    width: 90%;
+    width: 100%;
     height: 90%;
-    padding: 0 4px;
     outline: none;
+    padding: 0;
     border-right: none;
     border-radius: 0;
-    border: 3px solid #AFD3E2;
+    border: 3px solid #19A7C3;
     background-color: transparent;
-    margin-right: 12px;
     color: black;
     box-shadow: none;
 }
@@ -196,5 +207,27 @@
 .inputWrapperFooter {
     width: 95%;
     height: 15%;
-    border: 3px solid black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
 }
+
+.uploadButton, .updateButton, .closeButton {
+    padding: 10px 20px;
+    margin: 5px;
+    font-size: 12px;
+    border: none;
+    background-color: #146C94;
+    color: white;
+    cursor: pointer;
+    transition: background 0.3s;
+    display: inline-block;
+    border-radius: 8px;
+}
+
+.uploadButton:hover, 
+.updateButton:hover, 
+.closeButton:hover {
+    background-color: #AFD3E2;
+  }

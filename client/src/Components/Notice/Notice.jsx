@@ -164,11 +164,11 @@ const Notice = ({ groupName, groupId }) => {
                     </div>
                     <div className={styles.inputWrapperFooter}>
                         <button
-                            className={styles.sendButton}
+                            className={styles.uploadButton}
                             onClick={handleAddNotice}
                         > Send </button>
                         <button
-                            className={styles.udpateButton}
+                            className={styles.updateButton}
                             onClick={handleUpdateNotice}
                         > Update </button>
                         <button

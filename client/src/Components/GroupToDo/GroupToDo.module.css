@@ -1,8 +1,8 @@
 .groupTodoContainer {
-    padding: 20px;
     display: flex;
     flex-direction: column;
-    height: 100%; 
+    height: 100%;
+    width: 100%;
     box-sizing: border-box;
 }
 
@@ -14,10 +14,8 @@
     padding: 10px;
     position: sticky; 
     top: 0; 
-    z-index: 10; 
-    border-bottom: 3px solid #19A7C3;
+    z-index: 10;
     padding-bottom: 10px;
-    margin-bottom: 20px;
 }
 
 .headerTitle {
@@ -40,44 +38,38 @@
 }
 
 .addButton:hover, .sendButton:hover {
-    border: 3px solid dodgerblue;
+    border: 3px solid #146C94;
     cursor: pointer;
 }
 
 .todoLists {
     list-style-type: none;
-    padding: 0;
-    margin: 0;
     overflow-y: auto; 
     flex-grow: 1; 
-    height: 90%; 
-    border-radius: 10px;
-    margin-bottom: 20px; 
+    height: 100%;
+    border: 3px solid #19A7C3;
 }
 
 .todoLists li {
-    padding: 10px;
-    margin: 5px;
-    background-color: #146C94;
-    border-radius: 8px;
+    height: 7%;
+    background-color: #FAFAFA;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    border: 1px solid black;
-    margin-bottom: 20px;
+    border-top : 1px solid #eef0f5;
 }
 
 .todoLists li input {
     width: 24px;
     height: 24px;
-    border-radius: 50%; /* 원형 체크박스 */
+    border-radius: 50%;
     border: 2px solid #AFD3E2;
     background-color: #FAFAFA;
     background-repeat: no-repeat;
     background-position: center;
     background-size: 0;
     transition: 0.2s;
-    appearance: none; /* 기본 체크박스 스타일 제거 */
+    appearance: none;
     margin-right: 8px;
     flex-shrink: 0;
     margin-top: 4px;
@@ -96,25 +88,24 @@
 }
 
 .noteContent {
-    color: white;
+    color: black;
     transition: color 0.2s, text-decoration 0.2s;
 }
 
 .completed {
-    color: rgba(255, 255, 255, 0.5);
+    color: rgba(0, 0, 0, 0.5);
     text-decoration: line-through;
 }
 
 .deleteButton {
     width: 25px;
     height: 25px;
-    background-color: #146C94;
-    background-image: url('../Assets/close_button.png');
+    background-color: #FAFAFA;
+    background-image: url('../Assets/close_button_red.png');
     background-size: contain; 
     background-repeat: no-repeat; 
     background-position: center; 
     border: none;
-    padding: 5px 10px;
     cursor: pointer;
 }
 
@@ -126,18 +117,12 @@
     height: 10%;
     padding: 10px;
     background-color: white;
-    border-top: 3px solid #19A7C3;
     display: flex;
     justify-content: space-between;
     box-sizing: border-box;
-}
-
-.inputWrapper {
-    height: 100%;
-    font-size: 14px;
-    display: flex;
     align-items: center;
     flex-grow: 1;
+    font-size: 14px;
 }
 
 .taskInput {

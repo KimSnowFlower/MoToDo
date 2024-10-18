@@ -7,7 +7,6 @@ const GroupToDo = ({groupName, groupId}) => {
     const [error, setError] = useState(null);
     const [newNote, setNewNote] = useState('');
     const [loading, setLoading] = useState(false);
-    const [showInput, setShowInput] = useState(false);
 
 
     // fetch 함수
@@ -62,7 +61,6 @@ const GroupToDo = ({groupName, groupId}) => {
 
             setNotes((prevNotes) => [...prevNotes, createdNote]);
             setNewNote('');
-            setShowInput(false);
         } catch(error) {
             setError(error.message);
         }
@@ -119,7 +117,6 @@ const GroupToDo = ({groupName, groupId}) => {
         <div className={styles.groupTodoContainer}>
             <div className={styles.header}>
                 <h2 className={styles.headerTitle}>{groupName} Check List </h2>
-                <button className={styles.addButton} onClick={() => setShowInput(!showInput)}></button>
             </div>
 
             {loading}
@@ -140,19 +137,15 @@ const GroupToDo = ({groupName, groupId}) => {
             </ul>
 
             <div className={styles.inputContainer}>
-                {showInput && (
-                    <div className={styles.inputWrapper}>
-                        <input
-                            className={styles.taskInput}
-                            type="text"
-                            value={newNote}
-                            onChange={(e) => setNewNote(e.target.value)}
-                            placeholder="Add New Task"
-                        />
-                        <button className={styles.sendButton} onClick={handleAddNote}/>
-                    </div>
-                )}
-            </div>
+                <input
+                    className={styles.taskInput}
+                        type="text"
+                        value={newNote}
+                        onChange={(e) => setNewNote(e.target.value)}
+                        placeholder="Add New Task"
+                    />
+                    <button className={styles.sendButton} onClick={handleAddNote}/>
+                </div>
         </div>
     );
 }
