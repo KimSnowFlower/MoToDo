@@ -130,7 +130,7 @@ const Notice = ({ groupName, groupId }) => {
                         <li key={notice.id}>
                             <div className={styles.noticeHeader}>
                                 <p className={styles.noticeTitle}>{notice.title}</p>
-                                <p className={styles.noticeAuthor}>{notice.author}</p>
+                                <p className={styles.noticeAuthor}>작성자: {notice.author}</p>
                                 <button
                                     className={styles.deleteButton}
                                     onClick={() => handleDeleteNotice(notice.id)}

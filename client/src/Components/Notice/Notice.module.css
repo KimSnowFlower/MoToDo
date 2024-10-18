@@ -90,6 +90,7 @@
             border-top: 3px solid black;
             border-left: 3px solid black;
             border-right: 3px solid black;
+            border-radius: 8px 8px 0px 0px; 
             color: white;
             font-weight: bold;
             display: flex;
@@ -122,15 +123,15 @@
                 font-weight: bold; 
                 
                 &:hover {
-                    color: #FFB6C1;
+                    color: #FF0000;
                 }
             }
         }
 
         .noticeBody {
             padding: 5px; 
-            background-color: #f5f5f5;
-            border-radius: 0 0 8px 8px; 
+            background-color: #FAFAFA;
+            border-radius: 0px 0px 8px 8px; 
         }
     }
 }
