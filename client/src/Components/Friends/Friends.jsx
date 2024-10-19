@@ -218,24 +218,21 @@ const Friends = () => {
     };
 
     return (
-        <div className={styles.totalPage}>
-    <MenuBar />
-    <div className={styles.friendsMain}>
-        <div className={styles.userFriendsContainer}>
-            <div className={styles.userInfo}>
-                <span>{userInfo.student_id ? userInfo.student_id : "X"} {userInfo.name ? userInfo.name : "X"}</span>
-                <div className={styles.buttons}>
-                    <button className={styles.addFriendButton}>
-                        <img src={require('../Assets/add_button.png')} alt="Add Friend" className={styles.buttonImage} />
-                    </button>
-                    <button className={styles.searchFriendButton}>
-                        <img src={require('../Assets/search_button.png')} alt="Search Friend" className={styles.buttonImage} />
-                    </button>
+    <div className={styles.totalPage}>
+        <MenuBar />
+        <div className={styles.friendsMain}>
+            <div className={styles.userFriendsContainer}>
+                <div className={styles.userInfo}>
+                    <span>{userInfo.student_id ? userInfo.student_id : "X"} {userInfo.name ? userInfo.name : "X"}</span>
+                    <div className={styles.buttons}>
+                        <button className={styles.searchFriendButton}>
+                            <img src={require('../Assets/search_button.png')} alt="Search Friend" className={styles.buttonImage} />
+                        </button>
+                    </div>
                 </div>
-            </div>
-            <div className={styles.friendsList}>
-                {friends.length > 0 ? (
-                    friends.map((friend) => (
+                <div className={styles.friendsList}>
+                    {friends.length > 0 ? (
+                        friends.map((friend) => (
                         <div 
                             key={friend.id} 
                             className={`${styles.friendItem} ${selectedFriend?.id === friend.id ? styles.selected : ''}`} 
@@ -245,41 +242,41 @@ const Friends = () => {
                         </div>
                     ))
                 ) : (
-                    <div className={styles.noFriends}>친구가 없습니다.</div>
+                        <div className={styles.noFriends}>친구가 없습니다.</div>
                 )}
             </div>
         </div>
 
-        <div className={styles.chatContainer}>
-            <div className={styles.chatHeader}>
-                <span class="text" >{selectedFriend ? `Chat with ${selectedFriend.name}` : "친구를 선택하세요"}</span>
+            <div className={styles.chatContainer}>
+                <div className={styles.chatHeader}>
+                    <span>{selectedFriend ? `Chat with ${selectedFriend.name}` : "친구를 선택하세요"}</span>
+                </div>
+                <div className={styles.chatMessages}>
+                    {chatHistory.length > 0 ? (
+                        chatHistory.map((msg, index) => (
+                            <div key={index} className={`${styles.message} ${msg.sender_id === userInfo.id ? styles.myMessage : styles.theirMessage}`}>
+                                <strong>{msg.sender_id === userInfo.id ? userInfo.name : selectedFriend?.name}:</strong> {msg.message}
+                            </div>
+                        ))
+                    ) : (
+                        <div className={styles.noMessages}>채팅 메시지가 없습니다.</div>
+                    )}
+                </div>
+                <div className={styles.inputContainer}>
+                    <input
+                        type="text"
+                        value={inputMessage}
+                        onChange={(e) => setInputMessage(e.target.value)}
+                        onKeyDown={handleKeyDown}
+                        placeholder="메시지를 입력하세요..."
+                        className={styles.inputField}
+                    />
+                    <button onClick={sendMessage} className={styles.sendButton}>전송</button>
+                </div>
+                {errorMessage && <div className={styles.errorMessage}>{errorMessage}</div>}
             </div>
-            <div className={styles.chatMessages}>
-                {chatHistory.length > 0 ? (
-                    chatHistory.map((msg, index) => (
-                        <div key={index} className={`${styles.message} ${msg.sender_id === userInfo.id ? styles.myMessage : styles.theirMessage}`}>
-                            <strong>{msg.sender_id === userInfo.id ? userInfo.name : selectedFriend?.name}:</strong> {msg.message}
-                        </div>
-                    ))
-                ) : (
-                    <div className={styles.noMessages}>채팅 메시지가 없습니다.</div>
-                )}
-            </div>
-            <div className={styles.inputContainer}>
-                <input
-                    type="text"
-                    value={inputMessage}
-                    onChange={(e) => setInputMessage(e.target.value)}
-                    onKeyDown={handleKeyDown}
-                    placeholder="메시지를 입력하세요..."
-                    className={styles.inputField}
-                />
-                <button onClick={sendMessage} className={styles.sendButton}>전송</button>
-            </div>
-            {errorMessage && <div className={styles.errorMessage}>{errorMessage}</div>}
         </div>
     </div>
-</div>
     );
 };
 

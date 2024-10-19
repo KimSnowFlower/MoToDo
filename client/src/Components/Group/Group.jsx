@@ -185,7 +185,6 @@ const Group = () => {
         const group = groups.find(g => g.id === groupId);
         
         if (group) {
-            setMessage(`${group.name}에 접속합니다.`);
             setSelectedGroup(groupId);
         } else {
             setMessage("선택된 그룹이 없습니다.");
@@ -332,7 +331,7 @@ const Group = () => {
                     </div>
                 )}
 
-                {message && <p className={styles.message}>{message}</p>}
+                {message}
             </div>
         </div>
     );
