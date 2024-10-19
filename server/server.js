@@ -336,7 +336,7 @@ app.get('/api/todos', authenticateToken, async (req, res) => {
   const userId = req.user.id;
 
   try {
-    const sql = 'SELECT id, content FROM todos WHERE user_id = ?'; // id도 가져오도록 수정
+    const sql = 'SELECT id, content, completed FROM todos WHERE user_id = ?'; // id도 가져오도록 수정
     const [rows] = await db.query(sql, [userId]);
 
     res.json({ todos: rows }); 
@@ -349,16 +349,17 @@ app.get('/api/todos', authenticateToken, async (req, res) => {
 // 새로운 To-Do 항목 추가하기 -> To Do.jsx
 app.post('/api/todos', authenticateToken, async (req, res) => {
   const userId = req.user.id; 
-  const { content }  = req.body;
+  const { content, completed }  = req.body;
 
   try {
-    const sql = 'INSERT INTO todos (user_id, content, created_at, updated_at) VALUES (?, ?, NOW(), NOW())';
-    const [result] = await db.query(sql, [userId, content]);
+    const sql = 'INSERT INTO todos (user_id, content, created_at, updated_at, completed) VALUES (?, ?, NOW(), NOW(), ?)';
+    const [result] = await db.query(sql, [userId, content, completed]);
 
     const newTodo = {
       id: result.insertId,
       userId: userId,
       content: content,
+      completed, completed,
     };
 
     res.status(201).json({ newTodo: newTodo }); // 새로 추가된 항목 반환
@@ -366,6 +367,23 @@ app.post('/api/todos', authenticateToken, async (req, res) => {
     console.error('Error creating to-do item:', error);
     res.status(500).json({ error: 'Failed to create to-do item' }); 
   }
+});
+
+// To-Do Completed 패칭
+app.patch('/api/todos/:id', authenticateToken, async (req,res) => {
+    const userId = req.user.id;
+    const { id } = req.params;
+    const { completed } = req .body;
+
+    try {
+      const sql = 'UPDATE todos SET completed = ? WHERE id = ? AND user_id = ? ';
+      await db.query(sql, [completed, id, userId]);
+  
+      res.status(200).json({ message: 'Todo item chekced update successfully' });
+    } catch (error) {
+      console.error('Error patching to-do items', error);
+      res.status(500).json({ error: 'Failed to patching to-do item' });
+    }
 });
 
 // 특정 To-Do 항목 삭제하기 -> To Do.jsx

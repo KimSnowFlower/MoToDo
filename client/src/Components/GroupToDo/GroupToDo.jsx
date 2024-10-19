@@ -116,7 +116,7 @@ const GroupToDo = ({groupName, groupId}) => {
     return (
         <div className={styles.groupTodoContainer}>
             <div className={styles.header}>
-                <h2 className={styles.headerTitle}>{groupName} Check List </h2>
+                <h2 className={styles.headerTitle}>{groupName} To Do </h2>
             </div>
 
             {loading}
@@ -143,9 +143,9 @@ const GroupToDo = ({groupName, groupId}) => {
                         value={newNote}
                         onChange={(e) => setNewNote(e.target.value)}
                         placeholder="Add New Task"
-                    />
-                    <button className={styles.sendButton} onClick={handleAddNote}>등록</button>
-                </div>
+                />
+                <button className={styles.sendButton} onClick={handleAddNote}>등록</button>
+            </div>
         </div>
     );
 }

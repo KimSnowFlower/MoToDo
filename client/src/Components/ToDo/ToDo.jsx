@@ -6,7 +6,6 @@ const ToDo = () => {
   const [notes, setNotes] = useState([]); // 초기값을 빈 배열로 설정
   const [error, setError] = useState(null);
   const [newNote, setNewNote] = useState('');
-  const [showInput, setShowInput] = useState(false); // 입력창 표시 여부
   const [loading, setLoading] = useState(false); // 로딩 상태 추가
 
   // 노트 데이터 fetch 함수
@@ -37,15 +36,15 @@ const ToDo = () => {
   }, []);
 
   const handleAddNote = async () => {
-    const token = localStorage.getItem('jwtToken');
-
-    const newTodo = {
-      content: newNote,
-    };
+    if (!newNote.trim()) return; // 빈 노트 방지
 
     try {
+      const token = localStorage.getItem('jwtToken');
       const response = await axios.post('http://localhost:5000/api/todos', 
-        newTodo,
+        {
+          content: newNote,
+          completed: false,
+        },
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -56,10 +55,8 @@ const ToDo = () => {
 
         const createdNote = response.data.newTodo;
 
-        // 새로 추가된 노트를 상태에 추가
         setNotes((prevNotes) => [...prevNotes, createdNote]);
         setNewNote('');
-        setShowInput(false); // 입력 후 입력창 숨기기
       } catch (error) {
         setError(error.message);
       }
@@ -71,7 +68,7 @@ const ToDo = () => {
     setNotes((prevNotes) => prevNotes.filter((note) => note.id !== id));
   
     try {
-      const response = await axios.delete(`http://localhost:5000/api/todos/${id}`, {
+      await axios.delete(`http://localhost:5000/api/todos/${id}`, {
         headers: {
           Authorization: `Bearer ${token}`,
           'Content-Type': 'application/json'
@@ -80,45 +77,73 @@ const ToDo = () => {
 
     } catch (error) {
       setError(error.message);
-      setNotes((prevNotes) => [...prevNotes, noteToDelete]); // 원래 노트를 복구
+      setNotes((prevNotes) => [...prevNotes, noteToDelete]);
     }
   };  
+
+  const handleToggleComplete= async (id) => {
+    const note = notes.find(note => note.id === id);
+    const updatedNote = { ...note, completed: !note.completed };
+
+    setNotes((prevNotes) =>
+        prevNotes.map((note) =>
+            note.id === id ? updatedNote : note
+    ));
+
+    try {
+        const token = localStorage.getItem('jwtToken');
+        await axios.patch(`http://localhost:5000/api/todos/${id}`, { 
+            completed: updatedNote.completed 
+            }, { 
+                headers: { 
+                    Authorization: `Bearer ${token}`, 
+                    'Content-Type': 'application/json' 
+                } 
+            }
+        );
+    } catch (error) {
+        setError(error.message);
+        setNotes((prevNotes) =>
+            prevNotes.map((note) =>
+                note.id === id ? { ...note, completed: !updatedNote.completed } : note
+        ));
+    }
+  };
 
   return (
     <div className={styles.todoContainer}>
       <div className={styles.header}>
-        <h2>To Do - Check List</h2>
-        <button onClick={() => setShowInput(!showInput)} className={styles.addButton}>
-          +
-        </button>
+        <h2 className={styles.headerTitle}>To Do</h2>
       </div>
       
-      {loading && <p>Loading...</p>} {/* 로딩 상태 표시 */}
-      {error && <p style={{ color: 'red' }}>{error}</p>} {/* 에러 메시지 표시 */}
+      {loading && <p>Loading...</p>}
+      {error && <p style={{ color: 'red' }}>{error}</p>}
+
+      <ul className={styles.todoLists}>
+          {notes.map((note) => (
+            <li key={note.id}>
+              <input
+                  className={styles.noteCheckBox} 
+                  type="checkbox" 
+                  checked={note.complted}
+                  onChange={() => handleToggleComplete(note.id)}
+              />
+              <p className={note.completed ? styles.completed : styles.noteContent}>{note.content}</p>
+              <button className={styles.deleteButton} onClick={() => handleDeleteNote(note.id)}></button>
+            </li>
+          ))}
+      </ul>
 
       <div className={styles.inputContainer}>
-        {showInput && (
-          <div className={styles.inputWrapper}>
-            <input
+          <input
+              className={styles.taskInput}
               type="text"
               value={newNote}
               onChange={(e) => setNewNote(e.target.value)}
-              placeholder="Add a new note"
-            />
-            <button onClick={handleAddNote}>Add</button>
-          </div>
-        )}
+              placeholder="Add New Task"
+          />
+          <button className={styles.sendButton} onClick={handleAddNote}>등록</button>
       </div>
-
-      <ul className={styles.homeLists}>
-        {notes.map((note) => (
-          <li key={note.id}>
-            <input type="checkbox" />
-            <p>{note.content}</p>
-            <button onClick={() => handleDeleteNote(note.id)}>Delete</button>
-          </li>
-        ))}
-      </ul>
     </div>
   );  
 };

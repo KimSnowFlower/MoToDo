@@ -6,6 +6,7 @@
   margin-left: 10%;
   box-sizing: border-box;
   border-left: 3px solid black;
+  background: #FAFAFA;
 }
 
 .homeMain {
@@ -55,13 +56,11 @@
 .todoCheckList {
   grid-column: 2 / 3;
   grid-row: 2 / 3;
-  background-color: #f7f7f7;
   padding: 10px;
   display: flex;
   flex-direction: column;
   flex-grow: 1;
   height: 63.2vh;
-  border: 5px solid #19A7C3;
   border-radius: 15px;
 }
 
@@ -98,7 +97,6 @@ h2 {
 
 .homeCalendarList {
   background-color: #f7f7f7;
-
   padding: 20px;
   overflow-y: auto;
   display: flex;
@@ -115,7 +113,7 @@ h2 {
 }
 
 .todoCheckList {
-  background-color: #f7f7f7;
+  background-color: white;
   padding: 20px;
   display: flex;
   flex-direction: column;
