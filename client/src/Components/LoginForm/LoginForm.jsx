@@ -60,6 +60,7 @@ const LoginForm = () => {
           <div className={styles['register-link']}>
             <p>Don't have an account? <a href="/register">Register</a></p>
           </div>
+          <div></div>
         </form>
       </div>
     </div>
