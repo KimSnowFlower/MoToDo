@@ -563,11 +563,7 @@ app.post('/api/createGroup', authenticateToken, async (req, res) => {
 
   try {
     const [result] = await db.query(sql, [code, name, userId]);
-    const [joinGroup] = await db.query(sql2, [result.insertId, userId]);
-
-    console.log('User ID:', userId);
-    console.log('Group creation result:', result);
-    console.log("JoinGroup: ", joinGroup);
+    await db.query(sql2, [result.insertId, userId]);
 
     res.status(201).json({ success: true, groupId: result.insertId });
   } catch (error) {
@@ -588,6 +584,66 @@ app.get('/api/checkGroupCode/:code', async (req, res) => {
   } catch (error) {
     console.error('Error checking group code:', error);
     res.status(500).json({ error: 'Failed to check group code' });
+  }
+});
+
+// 그룹 가입 API -> Group.jsx
+app.post('/api/joinGroup', authenticateToken, async (req, res) => {
+  const userId = req.user.id; // 현재 로그인한 사용자 ID
+  const { groupId: joinGroupCode } = req.body; // 클라이언트로부터 그룹 코드를 받음
+
+  // 그룹 코드에 해당하는 그룹 정보 조회
+  const sql = `SELECT id FROM groups WHERE code = ?`;
+  const sqlInsertMember = `INSERT INTO group_members (group_id, user_id, joined_at) VALUES (?, ?, NOW())`;
+
+  try {
+    const [groupRows] = await db.query(sql, [joinGroupCode]);
+
+    if (groupRows.length === 0) {
+      return res.status(404).json({ error: '그룹을 찾을 수 없습니다.' }); // 그룹이 존재하지 않음
+    }
+
+    const foundGroupId = groupRows[0].id; // 그룹 ID를 찾기 위해 foundGroupId라는 새 변수 사용
+
+    // 그룹 멤버로 추가
+    await db.query(sqlInsertMember, [foundGroupId, userId]);
+
+    res.status(201).json({ success: true, groupId: foundGroupId });
+  } catch (error) {
+    console.error('Error joining group:', error);
+    res.status(500).json({ error: '그룹 가입에 실패했습니다.' });
+  }
+});
+
+// 그룹 탈퇴 API -> Group.jsx
+app.delete('/api/groups', authenticateToken, async (req, res) => {
+  const userId = req.user.id; 
+  const { groupId } = req.body; // 클라이언트로부터 그룹 코드를 받음
+
+  // 그룹 코드에 해당하는 그룹 정보 조회
+  const sql = `SELECT id FROM groups WHERE code = ?`;
+  const sqlDeleteMember = `DELETE FROM group_members WHERE group_id = ? AND user_id = ?`;
+
+  try {
+      const [groupRows] = await db.query(sql, [groupId]);
+
+      if (groupRows.length === 0) {
+          return res.status(404).json({ error: '그룹을 찾을 수 없습니다.' }); // 그룹이 존재하지 않음
+      }
+
+      const groupIdFromDb = groupRows[0].id; // 변수 이름 변경
+
+      // 그룹 멤버 삭제
+      const [deleteResult] = await db.query(sqlDeleteMember, [groupIdFromDb, userId]);
+
+      if (deleteResult.affectedRows === 0) {
+          return res.status(404).json({ error: '그룹에서 탈퇴할 수 없습니다. 사용자 정보를 확인해주세요.' });
+      }
+
+      res.status(200).json({ success: true });
+  } catch (error) {
+      console.error('Error dropping group:', error);
+      res.status(500).json({ error: '그룹 탈퇴에 실패했습니다.' });
   }
 });
 

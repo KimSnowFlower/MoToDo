@@ -9,64 +9,98 @@
 }
 
 .groupContainer {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.modalContainer {
+    width: 35%;
+    height: 35%;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center; 
     background-color: white;
-    width: 35%;
-    height: 35%;
-    border: 5px solid #19A7C3;
     border-radius: 15px;
 }
 
-.groupSelect {
-    margin-top: 10px;
-    padding: 10px; 
-    font-size: 16px;
+.modalHeader {
     width: 100%;
-    max-width: 300px;
+    height: 20%; 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #1E586C;
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px;
+    color: white;
+    margin-bottom: 5px;
+    text-align: center;
+    font-size: 2rem;
+    font-weight: bold;
 }
 
-.message {
-    margin-top: 10px; 
-    color: red; 
-}
-
-.joinButtonContainer {
-    margin-top: 20px;
+.modalBody {
+    width: 100%;
+    height: 80%;
     display: flex;
     justify-content: space-between;
-    gap: 10px;
+    align-items: center;
 }
 
-.createGroupButton, .connectButton, .cancelButton {
-    padding: 10px 15px; 
-    font-size: 16px;
-    cursor: pointer; 
-    background-color: #007bff; 
-    color: white; 
-    border: none; 
-    border-radius: 5px; 
-    width: 20vh;
-}
-
-.createGroupContainer {
+.groupLists {
+    width: 80%; 
+    height: 100%;
     display: flex;
     flex-direction: column;
     justify-content: center;
-    align-items: center; 
-    width: 100%;
+    align-items: center;
+    overflow-y: auto;
+    border-radius: 15px;
+}
+
+.groupItem {
+    width: 70%;
+    height: 15%;
+    background-color: #E6E6E6;
+    border-radius: 15px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    font-weight: bold;
+    cursor: pointer;
+    margin: 3px auto; 
+    transition: background-color 0.3s;
+}
+
+.groupItem:hover {
+    background-color: #35C2DB;
 }
 
 .buttonContainer {
-    margin-top: 20px;
+    width: 20%; 
+    height: 100%;
     display: flex;
-    justify-content: space-between;
-    gap: 10px;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 10px; 
+    border-left: 5px solid #E6E6E6;
 }
 
-.groupInput { 
+.inputWrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto;
+}
+
+.groupInput {
     padding: 10px; 
     font-size: 16px; 
     width: 100%;
@@ -78,7 +112,25 @@
     appearance: none;
 }
 
-button:disabled {
+.buttonContainer button {
+    width: 100px;
+    padding: 10px;
+    font-size: 16px;
+    cursor: pointer; 
+    background-color: #1785A3; 
+    color: white; 
+    border: none; 
+    border-radius: 5px; 
+    transition: background-color 0.3s;
+}
+
+.buttonContainer button:hover {
+    background-color: #35C2DB; 
+}
+
+.createGroupButton:disabled,
+.joinGroupButton:disabled,
+.dropGroupButton:disabled {
     background-color: #cccccc; 
     cursor: not-allowed; 
 }
@@ -86,7 +138,6 @@ button:disabled {
 .mainGroupContainer {
     display: flex;
     justify-content: space-between; 
-    padding: 20px;
 }
 
 .toDoContainer,
@@ -105,41 +156,4 @@ button:disabled {
 
 .noticeContainer {
     margin-right: 0; 
-}
-
-.noticeHeader {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    border-bottom: 3px solid #19A7C3;
-    padding-bottom: 10px;
-    margin-bottom: 20px;
-}
-
-.noticeHeader h2 {
-    margin: 0;
-    font-size: 24px;
-    font-weight: bold;
-}
-
-.addButton {
-    width: 40px;
-    height: 40px;
-    background-color: white;
-    background-image: url('../Assets/add_button.png');
-    background-size: contain; 
-    background-repeat: no-repeat; 
-    background-position: center; 
-    border-radius: 10px;
-    border: 3px solid #AFD3E2;
-    cursor: pointer; 
-}
-
-.addButton:hover {
-    border: 3px solid dodgerblue;
-    cursor: pointer;
-}
-
-.toDoContent, .noticeContent {
-    padding: 10px;
 }
