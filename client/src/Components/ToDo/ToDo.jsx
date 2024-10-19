@@ -116,8 +116,7 @@ const ToDo = () => {
         <h2 className={styles.headerTitle}>To Do</h2>
       </div>
       
-      {loading && <p>Loading...</p>}
-      {error && <p style={{ color: 'red' }}>{error}</p>}
+      {loading}
 
       <ul className={styles.todoLists}>
           {notes.map((note) => (
@@ -125,7 +124,7 @@ const ToDo = () => {
               <input
                   className={styles.noteCheckBox} 
                   type="checkbox" 
-                  checked={note.complted}
+                  checked={note.completed}
                   onChange={() => handleToggleComplete(note.id)}
               />
               <p className={note.completed ? styles.completed : styles.noteContent}>{note.content}</p>
