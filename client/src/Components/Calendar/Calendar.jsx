@@ -462,7 +462,7 @@ const Calendar = () => {
               {icons[currentIconIndex]}
             </div>
             {eventList
-            .slice(0, maxVisibleEvents) // 표시할 최대 이벤트 수
+              .slice(0, events[dateKey].length > maxVisibleEvents ? 1 : maxVisibleEvents)
             .map((event, index) => (
           <div
             key={index}
