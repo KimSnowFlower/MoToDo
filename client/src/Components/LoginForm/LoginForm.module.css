@@ -15,8 +15,6 @@ html, body {
 .background {
     flex: 1;
     background-image: url('../Assets/motodo_main.jpg');
-    /*background-color: #146c94;
-    background-size: cover;*/
 }
 
 .wrapper {
