@@ -6,7 +6,7 @@
     box-sizing: border-box;
 }
 
-.groupName {
+.header {
     height: 40px;
     display: flex;
     justify-content: space-between;
@@ -19,18 +19,30 @@
     border-bottom: 3px solid #19A7C3;
     padding-bottom: 10px;
     color: #0A0A0A;
-    margin-bottom: 3px;
+}
+
+.headerTitle {
+    margin-bottom: 0px;
     font-size: 24px;
     font-weight: bold;
 }
 
-.noticeLists {
-    width: 100%;
-    height: 100%;
-    border-radius: 12px;
+.noticeListsContainer {
     display: flex;
     flex-direction: column;
-    background: #FFFFFF;
+    list-style-type: none;
+    overflow-y: auto;
+    flex-grow: 1;
+    padding-top: 5px;
+}
+
+.noticeLists {
+    display: flex;
+    flex-direction: column;
+    list-style-type: none;
+    overflow-y: auto;
+    flex-grow: 1;
+    padding-top: 5px;
 }
 
 .noticeOption {
@@ -39,6 +51,7 @@
     border-radius: 8px;
     padding: 5px;
     position: relative;
+    background-color: white;
     border: 2px solid #D6D6D6;
     margin-bottom: 5px;
 }
@@ -68,6 +81,7 @@
 }
 
 .noticeHeader {
+    width: 100%;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -77,7 +91,7 @@
 }
 
 .noticeTitle {
-    width: 70%;
+    flex-grow: 1;
     color: #3268FF;
     font-family: "Open Sans";
     font-size: 16px;
@@ -93,6 +107,7 @@
     background-repeat: no-repeat;
     background-position: center;
     border: none;
+    margin-left: 5px; /* 버튼 간의 간격을 설정 */
 }
 
 .updateButton:hover {
@@ -108,6 +123,7 @@
     background-repeat: no-repeat;
     background-position: center;
     border: none;
+    margin-left: 5px; /* 버튼 간의 간격을 설정 */
 }
 
 .deleteButton:hover {
@@ -119,6 +135,126 @@
     font-family: "Open Sans";
     font-size: 14px;
     font-weight: 400;
+}
+
+.showInputButton {
+    width: 120px;
+    height: 40px;
+    background: #3578FF;
+    border: 2px solid #3578FF;
+    border-radius: 4px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white; 
+    font-family: "Open Sans";
+    font-size: 14px;
+    font-weight: 600;
+    margin: 0 auto;
+    margin-bottom: 10px;
+}
+
+.showInputButton:hover {
+    border: #35C2DB;
+    background: #35C2DB;
+}
+
+.buttonText {
+    flex-shrink: 1;
+    white-space: nowrap;
+    font-family: "Open Sans";
+    font-size: 14px;
+    font-weight: 600;
+    color: white;
+}
+
+.inputContainer {
+    width: 100%;
+    height: 100%;
+    flex-grow: 1;
+    padding-top: 5px;
+}
+
+.inputHeader {
+    width: 100%;
+    height: 7%;
+    border-bottom: 2px solid #D6D6D6;
+}
+
+.inputHeaderText {
+    font-family: "Open Sans";
+    font-size: 36px;
+    font-weight: 600;
+}
+
+.titleInputContainer {
+    width: 97%;
+    height: 3%;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 8px;
+    border-bottom: 2px solid #D6D6D6;
+    padding: 10px;
+}
+
+.titleInputText {
+    margin: 10px;
+}
+
+.titleInput {
+    width: 90%;
+    border: none;
+}
+
+.contentContainer {
+    width: 100%;
+    height: 75%;
+    display: flex;
+    border-bottom: 2px solid #D6D6D6;
+}
+
+.buttonContainer {
+    width: 100%;
+    height: 10%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+}
+
+.uploadButton {
+    width: 120px;
+    height: 40px;
+    background: #3578FF;
+    border: 2px solid #3578FF;
+    border-radius: 4px;
+    color: white; 
+    font-family: "Open Sans";
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.closeButton {
+    width: 120px;
+    height: 40px;
+    background: #1E586C;
+    border: 2px solid #1E586C;
+    border-radius: 4px;
+    color: white; 
+    font-family: "Open Sans";
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.uploadButton:hover {
+    border: #35C2DB;
+    background: #35C2DB;
+}
+
+.closeButton:hover {
+    border: #1785A3;
+    background: #1785A3;
 }
 
 .error {

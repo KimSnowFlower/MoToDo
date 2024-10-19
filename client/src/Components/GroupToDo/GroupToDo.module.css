@@ -116,10 +116,10 @@
 }
 
 .taskInput {
-    flex-grow: 1;
+    width: 85%;
     padding: 8px;
-    border: 3px solid #19A7C3;
-    border-radius: 4px;
+    border: none;
+    border-bottom: 3px solid #19A7C3;
     font-size: 16px;
     z-index: 1; 
 }
@@ -136,18 +136,18 @@
 }
 
 .sendButton {
-    width: 40px;
+    width: 10%;
     height: 40px;
-    background-color: white;
-    background-image: url('../Assets/send_button.png');
+    color: white;
     background-size: contain; 
     background-repeat: no-repeat; 
     background-position: center; 
     border-radius: 10px;
-    border: 3px solid #19A7C3;
-    cursor: pointer; 
+    background: #3578FF;
+    border: 3px solid #3578FF;
 }
 
 .sendButton:hover {
+    background: #35C2DB;
     border: 3px solid #35C2DB;
 }

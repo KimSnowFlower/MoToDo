@@ -144,7 +144,7 @@ const GroupToDo = ({groupName, groupId}) => {
                         onChange={(e) => setNewNote(e.target.value)}
                         placeholder="Add New Task"
                     />
-                    <button className={styles.sendButton} onClick={handleAddNote}/>
+                    <button className={styles.sendButton} onClick={handleAddNote}>등록</button>
                 </div>
         </div>
     );

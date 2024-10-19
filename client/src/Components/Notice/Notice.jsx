@@ -114,45 +114,64 @@ const Notice = ({ groupName, groupId }) => {
 
     return (
         <div className={styles.noticeContainer}>
-            <div className={styles.groupName}>
-                {groupName} Notices
+            <div className={styles.header}>
+                <h2 className={styles.headerTitle}>{groupName} Notices </h2>
             </div>
-            <div className={styles.noticeLists}>
-                {notices.map(notice => (
-                    <div key={notice.id} className={styles.noticeOption}>
-                        <div className={styles.noticeAuthor}>
-                            <div className={styles.author}>{notice.author}</div>
-                        </div>
-                        <div className={styles.notice}>
-                            <div className={styles.noticeHeader}>
-                                <div className={styles.noticeTitle}>{notice.title}</div>
-                                <button className={styles.updateButton} onClick={() => handleUpdateNotice(notice.id)}></button>
-                                <button className={styles.deleteButton} onClick={() => handleDeleteNotice(notice.id)}></button>
-                            </div>
-                            <div className={styles.noticeContent}>{notice.content}</div>
-                        </div>
+
+            {showInput ? (
+                <div className={styles.inputContainer}>
+                    <div className={styles.inputHeader}>
+                        <p className={styles.inputHeaderText}>글쓰기</p>
                     </div>
-                ))}
-            </div>
-            {showInput && (
-                <div>
-                    <input 
-                        type="text" 
-                        placeholder="Notice Title" 
-                        value={newNotice} 
-                        onChange={(e) => setNewNotice(e.target.value)} 
-                    />
-                    <textarea 
-                        placeholder="Notice Content" 
-                        value={noticeContent} 
-                        onChange={(e) => setNoticeContent(e.target.value)} 
-                    />
-                    <button onClick={handleAddNotice}>Add Notice</button>
+                    <div className={styles.titleInputContainer}>
+                        <p className={styles.titleInputText}>제목</p>
+                        <input 
+                            className={styles.titleInput}
+                            type="text" 
+                            placeholder="제목을 입력해 주세요!" 
+                            value={newNotice} 
+                            onChange={(e) => setNewNotice(e.target.value)} 
+                        />
+                    </div>
+                    <div className={styles.contentContainer}>
+                        <textarea 
+                            className={styles.contentInput}
+                            placeholder="자세하게 내용을 입력해 주세요!" 
+                            value={noticeContent} 
+                            onChange={(e) => setNoticeContent(e.target.value)} 
+                        />
+                    </div>
+                    <div className={styles.buttonContainer}>
+                        <button className={styles.uploadButton} onClick={handleAddNotice}>등록하기</button>
+                        <button className={styles.closeButton} onClick={() => setShowInput(!showInput)}>취소</button>
+                    </div>
+                </div>
+            ) : (
+                <div className={styles.noticeListsContainer}>
+                    <ul className={styles.noticeLists}>
+                        {notices.map(notice => (
+                            <li key={notice.id} className={styles.noticeOption}>
+                                <div className={styles.noticeAuthor}>
+                                    <div className={styles.author}>{notice.author}</div>
+                                </div>
+                                    <div className={styles.notice}>
+                                        <div className={styles.noticeHeader}>
+                                        <div className={styles.noticeTitle}>{notice.title}
+                                        </div>
+                                        <button className={styles.updateButton} onClick={() => handleUpdateNotice(notice.id)}></button>
+                                        <button className={styles.deleteButton} onClick={() => handleDeleteNotice(notice.id)}></button>
+                                    </div>
+                                        <div className={styles.noticeContent}>{notice.content}</div>
+                                </div>
+                            </li>
+                        ))}
+                    </ul>
+                    <button className={styles.showInputButton} onClick={() => setShowInput(!showInput)}>
+                        <div className={styles.buttonText}>글쓰기</div>
+                    </button>
                 </div>
             )}
-            <button onClick={() => setShowInput(!showInput)}>
-                {showInput ? 'Cancel' : 'Add Notice'}
-            </button>
+    
             {error && <div className={styles.error}>{error}</div>}
         </div>
     );
