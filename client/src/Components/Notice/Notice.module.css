@@ -1,233 +1,127 @@
 .noticeContainer {
-    position: relative;
+    width: 100%;
+    height: 100%;
     display: flex;
     flex-direction: column;
-    height: 100%;
-    height: 100%;
     box-sizing: border-box;
 }
 
-.header {
+.groupName {
+    height: 40px;
     display: flex;
     justify-content: space-between;
     align-items: center;
     background-color: white;
     padding: 10px;
-    position: sticky;
-    top: 0;
+    position: sticky; 
+    top: 0; 
     z-index: 10;
     border-bottom: 3px solid #19A7C3;
     padding-bottom: 10px;
-}
-
-.headerTitle {
-    margin: 0;
+    color: #0A0A0A;
+    margin-bottom: 3px;
     font-size: 24px;
     font-weight: bold;
 }
 
-.noticeLists,
-.inputContainer {
-    top: 0;
-    left: 0;
+.noticeLists {
     width: 100%;
     height: 100%;
-    border-radius: 10px;
+    border-radius: 12px;
     display: flex;
     flex-direction: column;
+    background: #FFFFFF;
 }
 
-.noticeLists {
-    list-style-type: none;
-    padding: 0;
-    margin: 0;
-    overflow-y: auto; 
-    flex-grow: 1; 
-}
-
-.inputContainer {
-    align-items: center; 
-}
-
-.addButton {
-    width: 40px;
-    height: 40px;
-    background-color: white;
-    background-image: url('../Assets/add_button.png');
-    background-size: contain; 
-    background-repeat: no-repeat; 
-    background-position: center; 
-    border-radius: 10px;
-    border: 3px solid #AFD3E2;
-    cursor: pointer; 
-}
-
-.addButton:hover, .sendButton:hover {
-    border: 3px solid #146C94;
-    cursor: pointer;
-}
-
-.noticeLists {
-    list-style-type: none;
-    padding: 0;
-    margin: 0;
-    overflow-y: auto; 
-    flex-grow: 1;
-
-    li {
-        height: 20%;
-        margin: 3px;
-        border-radius: 8px;
-        display: flex;
-        margin-bottom: 3px;
-        flex-direction: column;
-        box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.1);
-
-        .noticeHeader {
-            height: 30%;
-            background-color: #146C94;
-            border-top: 3px solid black;
-            border-left: 3px solid black;
-            border-right: 3px solid black;
-            border-radius: 8px 8px 0px 0px; 
-            color: white;
-            font-weight: bold;
-            display: flex;
-            align-items: center;
-            padding: 3px;
-            
-            .noticeTitle {
-                width: 70%;
-                height: 100%;
-                display: flex;
-                align-items: center; 
-                font-size: 14px; 
-            }
-
-            .noticeAuthor {
-                width: 15%;
-                height: 100%;
-                display: flex; 
-                align-items: center; 
-                font-size: 14px;
-            }
-
-            .deleteButton {
-                width: 15%;
-                height: 100%;
-                cursor: pointer;
-                background: transparent;
-                border: none; 
-                color: white;
-                font-weight: bold; 
-                
-                &:hover {
-                    color: #FF0000;
-                }
-            }
-        }
-
-        .noticeBody {
-            padding: 5px; 
-            background-color: #FAFAFA;
-            border-radius: 0px 0px 8px 8px; 
-        }
-    }
-}
-
-.noticeBody {
-    height: 70%;
-    background-color: white;
-    border: 3px solid black;
-}
-
-.inputWrapperHeader {
-    width: 95%;
+.noticeOption {
+    display: flex;
     height: 15%;
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;
-    gap: 10px;
-}
-
-.wrapperHeaderTitle {
-    font-size: 16px;
-    font-weight: bold;
-    margin: 0;
-    line-height: 1.5;
-}
-
-.titleInput {
-    width: calc(100% - 10px - 16px);
-    height: 30%;
-    outline: none;
-    border-right: none;
-    border-radius: 0;
-    border: 3px solid #19A7C3;
-    background-color: transparent;
-    color: black;
-    box-shadow: none;
-    padding: 2px; 
-    font-size: 12px;
-    line-height: 1.5; 
-}
-
-.inputWrapperBody {
-    width: 95%;
-    height: 70%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-}
-
-.wrapperBodyTitle {
-    width: 100%;
-    height: 10%;
-    font-size: 16px;
-    font-weight: bold;
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
-}
-
-.taskInput {
-    width: 100%;
-    height: 90%;
-    outline: none;
-    padding: 0;
-    border-right: none;
-    border-radius: 0;
-    border: 3px solid #19A7C3;
-    background-color: transparent;
-    color: black;
-    box-shadow: none;
-}
-
-.inputWrapperFooter {
-    width: 95%;
-    height: 15%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 10px;
-}
-
-.uploadButton, .updateButton, .closeButton {
-    padding: 10px 20px;
-    margin: 5px;
-    font-size: 12px;
-    border: none;
-    background-color: #146C94;
-    color: white;
-    cursor: pointer;
-    transition: background 0.3s;
-    display: inline-block;
     border-radius: 8px;
+    padding: 5px;
+    position: relative;
+    border: 2px solid #D6D6D6;
+    margin-bottom: 5px;
 }
 
-.uploadButton:hover, 
-.updateButton:hover, 
-.closeButton:hover {
-    background-color: #AFD3E2;
-  }
+.noticeAuthor {
+    width: 50px;
+    height: 50px;
+}
+
+.author {
+    width: 50px;
+    height: 50px;
+    border-radius: 999px;
+    background: #D9E8FF;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: bold;
+    font-size: 14px;
+}
+
+.notice {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    padding-left: 10px;
+}
+
+.noticeHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 3px;
+    border-bottom: 3px solid #D6D6D6;
+    gap: 5px;
+}
+
+.noticeTitle {
+    width: 70%;
+    color: #3268FF;
+    font-family: "Open Sans";
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.updateButton {
+    width: 20px;
+    height: 20px;
+    background-image: url('../Assets/edit_button.png');
+    background-color: white;
+    background-size: cover; 
+    background-repeat: no-repeat;
+    background-position: center;
+    border: none;
+}
+
+.updateButton:hover {
+    background-image: url('../Assets/edit_button_hover.png');
+}
+
+.deleteButton {
+    width: 20px;
+    height: 20px;
+    background-image: url('../Assets/delete_button.png');
+    background-color: white;
+    background-size: cover; 
+    background-repeat: no-repeat;
+    background-position: center;
+    border: none;
+}
+
+.deleteButton:hover {
+    background-image: url('../Assets/delete_button_red_color.png');
+}
+
+.noticeContent {
+    color: #292929;
+    font-family: "Open Sans";
+    font-size: 14px;
+    font-weight: 400;
+}
+
+.error {
+    color: red;
+    font-size: 14px;
+}

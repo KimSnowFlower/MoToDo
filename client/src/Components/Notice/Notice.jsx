@@ -27,7 +27,6 @@ const Notice = ({ groupName, groupId }) => {
             });
 
             const data = response.data.notices;
-
             setNotices(data);
         } catch (error) {
             setError(error.message);
@@ -54,7 +53,6 @@ const Notice = ({ groupName, groupId }) => {
             );
 
             const createdNotice = response.data.newNotice;
-
             setNotices((prevNotices) => [...prevNotices, createdNotice]);
             setNewNotice('');
             setNoticeContent('');
@@ -89,7 +87,8 @@ const Notice = ({ groupName, groupId }) => {
         setNotices((prevNotices) =>
             prevNotices.map((notice) =>
                 notice.id === noticeId ? updatedNotice : notice
-        ));
+            )
+        );
 
         try {
             const token = localStorage.getItem('jwtToken');
@@ -108,76 +107,53 @@ const Notice = ({ groupName, groupId }) => {
         } catch (error) {
             setError(error.message);
             setNotices((prevNotices) =>
-                prevNotices.map((notice) =>
-                    notice.id === noticeId ? { ...notice, content: noticeContent } : notice
-            ));
+                prevNotices.map((notice) => notice.id === noticeId ? notice : notice)
+            );
         }
     };
 
     return (
         <div className={styles.noticeContainer}>
-            <div className={styles.header}>
-                <h2 className={styles.headerTitle}>{groupName} Notice</h2>
-                <button
-                    className={styles.addButton}
-                    onClick={() => setShowInput(!showInput)}
-                ></button>
+            <div className={styles.groupName}>
+                {groupName} Notices
             </div>
-
-            {!showInput ? (
-                <ul className={styles.noticeLists}>
-                    {notices.map((notice) => (
-                        <li key={notice.id}>
+            <div className={styles.noticeLists}>
+                {notices.map(notice => (
+                    <div key={notice.id} className={styles.noticeOption}>
+                        <div className={styles.noticeAuthor}>
+                            <div className={styles.author}>{notice.author}</div>
+                        </div>
+                        <div className={styles.notice}>
                             <div className={styles.noticeHeader}>
-                                <p className={styles.noticeTitle}>{notice.title}</p>
-                                <p className={styles.noticeAuthor}>작성자: {notice.author}</p>
-                                <button
-                                    className={styles.deleteButton}
-                                    onClick={() => handleDeleteNotice(notice.id)}
-                                > Delete </button>
+                                <div className={styles.noticeTitle}>{notice.title}</div>
+                                <button className={styles.updateButton} onClick={() => handleUpdateNotice(notice.id)}></button>
+                                <button className={styles.deleteButton} onClick={() => handleDeleteNotice(notice.id)}></button>
                             </div>
-                            <div className={styles.noticeBody}>
-                                <p>{notice.content}</p>
-                            </div>
-                        </li>
-                    ))}
-                </ul>
-            ) : (
-                <div className={styles.inputContainer}>
-                    <div className={styles.inputWrapperHeader}>
-                        <p className={styles.wrapperHeaderTitle}>Title</p>
-                        <input
-                            className={styles.titleInput}
-                            placeholder="Enter title"
-                            value={newNotice}
-                            onChange={(e) => setNewNotice(e.target.value)}
-                        />
+                            <div className={styles.noticeContent}>{notice.content}</div>
+                        </div>
                     </div>
-                    <div className={styles.inputWrapperBody}>
-                        <p className={styles.wrapperBodyTitle}>Content</p>
-                        <input
-                            className={styles.taskInput}
-                            placeholder="Enter content"
-                            value={noticeContent}
-                            onChange={(e) => setNoticeContent(e.target.value)}
-                        />
-                    </div>
-                    <div className={styles.inputWrapperFooter}>
-                        <button
-                            className={styles.uploadButton}
-                            onClick={handleAddNotice}
-                        > Send </button>
-                        <button
-                            className={styles.updateButton}
-                            onClick={handleUpdateNotice}
-                        > Update </button>
-                        <button
-                            className={styles.closeButton}
-                            onClick={() => setShowInput(!showInput)}
-                        > Close </button>
-                    </div>
+                ))}
+            </div>
+            {showInput && (
+                <div>
+                    <input 
+                        type="text" 
+                        placeholder="Notice Title" 
+                        value={newNotice} 
+                        onChange={(e) => setNewNotice(e.target.value)} 
+                    />
+                    <textarea 
+                        placeholder="Notice Content" 
+                        value={noticeContent} 
+                        onChange={(e) => setNoticeContent(e.target.value)} 
+                    />
+                    <button onClick={handleAddNotice}>Add Notice</button>
                 </div>
             )}
+            <button onClick={() => setShowInput(!showInput)}>
+                {showInput ? 'Cancel' : 'Add Notice'}
+            </button>
+            {error && <div className={styles.error}>{error}</div>}
         </div>
     );
 };

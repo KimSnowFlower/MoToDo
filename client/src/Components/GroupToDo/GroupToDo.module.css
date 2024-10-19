@@ -1,12 +1,13 @@
 .groupTodoContainer {
-    display: flex;
-    flex-direction: column;
     height: 100%;
     width: 100%;
+    display: flex;
+    flex-direction: column;
     box-sizing: border-box;
 }
 
 .header {
+    height: 40px;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -15,7 +16,9 @@
     position: sticky; 
     top: 0; 
     z-index: 10;
+    border-bottom: 3px solid #19A7C3;
     padding-bottom: 10px;
+    color: #0A0A0A;
 }
 
 .headerTitle {
@@ -24,119 +27,112 @@
     font-weight: bold;
 }
 
-.addButton {
-    width: 40px;
-    height: 40px;
-    background-color: white;
-    background-image: url('../Assets/add_button.png');
-    background-size: contain; 
-    background-repeat: no-repeat; 
-    background-position: center; 
-    border-radius: 10px;
-    border: 3px solid #AFD3E2;
-    cursor: pointer; 
-}
-
-.addButton:hover, .sendButton:hover {
-    border: 3px solid #146C94;
-    cursor: pointer;
-}
-
 .todoLists {
     list-style-type: none;
-    overflow-y: auto; 
-    flex-grow: 1; 
-    height: 100%;
-    border: 3px solid #19A7C3;
+    overflow-y: auto;
+    flex-grow: 1;
 }
 
 .todoLists li {
     height: 7%;
-    background-color: #FAFAFA;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    border-top : 1px solid #eef0f5;
-}
-
-.todoLists li input {
-    width: 24px;
-    height: 24px;
-    border-radius: 50%;
-    border: 2px solid #AFD3E2;
-    background-color: #FAFAFA;
-    background-repeat: no-repeat;
-    background-position: center;
-    background-size: 0;
-    transition: 0.2s;
-    appearance: none;
-    margin-right: 8px;
-    flex-shrink: 0;
-    margin-top: 4px;
-}
-
-.todoLists li input:hover {
-    border-color: #4FB1C2;
-    box-shadow: 0 0 0 3px rgba(79, 177, 194, 0.3);
-}
-  
-.todoLists li input:checked {
-    background-image: url('../Assets/color_check.png');
-    background-size: 20px;
-    border: 2px solid #19A7C3;
-    background-color: #146C94;
-}
-
-.noteContent {
-    color: black;
-    transition: color 0.2s, text-decoration 0.2s;
-}
-
-.completed {
-    color: rgba(0, 0, 0, 0.5);
-    text-decoration: line-through;
-}
-
-.deleteButton {
-    width: 25px;
-    height: 25px;
-    background-color: #FAFAFA;
-    background-image: url('../Assets/close_button_red.png');
-    background-size: contain; 
-    background-repeat: no-repeat; 
-    background-position: center; 
-    border: none;
-    cursor: pointer;
-}
-
-.todoLists li input[type="checkbox"] {
-    margin-right: 10px;
-}
-
-.inputContainer {
-    height: 10%;
-    padding: 10px;
+    color: #292929;
     background-color: white;
     display: flex;
     justify-content: space-between;
-    box-sizing: border-box;
     align-items: center;
+    border-bottom: 1px solid #eef0f5;
+    padding-left: 5px;
+}
+
+.noteCheckBox {
+    width: 24px;
+    height: 24px;
+    appearance: none; 
+    -webkit-appearance: none;
+    border-radius: 50%;
+    border: 2px solid #D6D6D6;
+    background-color: #FAFAFA;
+    margin-right: 8px;
+    flex-shrink: 0;
+    margin-top: 4px;
+    cursor: pointer;
+}
+
+.noteCheckBox:hover {
+    border-color: #4FB1C2;
+    box-shadow: 0 0 0 3px rgba(79, 177, 194, 0.3);
+}
+
+.noteCheckBox:checked {
+    background-image: url('../Assets/color_check.png');
+    background-size: 20px;
+    background-position: center;
+    background-color: #35C2DB;
+    background-repeat: no-repeat;
+    border: #35C2DB;
+}
+
+.completed {
     flex-grow: 1;
-    font-size: 14px;
+    margin: 0;
+    font-size: 16px;
+    text-align: left;
+    padding-left: 10px;
+    text-decoration: line-through;
+    color: #999;
+}
+
+.noteContent {
+    flex-grow: 1;
+    margin: 0;
+    font-size: 16px;
+    text-align: left;
+    padding-left: 10px;
+}
+
+.deleteButton {
+    width: 20px;
+    height: 20px;
+    background-image: url('../Assets/delete_button.png');
+    background-color: white;
+    background-size: cover; 
+    background-repeat: no-repeat;
+    background-position: center;
+    border: none;
+}
+
+.deleteButton:hover {
+    background-image: url('../Assets/delete_button_red_color.png');
+}
+
+.inputContainer {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    background-color: white;
+    border-top: 3px solid #19A7C3;
+    gap: 5px;
+    position: relative;
 }
 
 .taskInput {
-    width: 100%;
-    height: 70%;
-    padding: 0 4px;
-    outline: none;
-    border-right: none;
-    border-radius: 0;
-    border: 3px solid #AFD3E2;
-    background-color: transparent;
-    margin-right: 12px;
-    color: black;
-    box-shadow: none;
+    flex-grow: 1;
+    padding: 8px;
+    border: 3px solid #19A7C3;
+    border-radius: 4px;
+    font-size: 16px;
+    z-index: 1; 
+}
+
+.inputContainer::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 0; 
+    pointer-events: none; 
 }
 
 .sendButton {
@@ -148,6 +144,10 @@
     background-repeat: no-repeat; 
     background-position: center; 
     border-radius: 10px;
-    border: 3px solid #AFD3E2;
+    border: 3px solid #19A7C3;
     cursor: pointer; 
+}
+
+.sendButton:hover {
+    border: 3px solid #35C2DB;
 }
