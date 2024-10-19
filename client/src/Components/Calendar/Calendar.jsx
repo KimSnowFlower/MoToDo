@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { BiSolidHeart } from "react-icons/bi";
 import { PiCakeDuotone } from "react-icons/pi";
 import { IoAirplane } from "react-icons/io5";
@@ -30,6 +30,8 @@ const Calendar = () => {
   const [sortByTime, setSortByTime] = useState(true);
   const [selectedColor, setSelectedColor] = useState('#FFFF00');
   const [userInfo, setUserInfo] = useState({ user_id: ''});
+  const [isLoading, setIsLoading] = useState(true);  // 로딩 상태 추가
+
 
   const daysInWeek = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
   const firstDayOfMonth = new Date(currentYear, currentMonth, 1).getDay();
@@ -54,24 +56,16 @@ const Calendar = () => {
     return `${period} ${formattedHour}:${minute.toString().padStart(2, '0')}`;
   });
 
-  const hasFetched = useRef(false);
-
-  useEffect(() => {
-    if (!hasFetched.current) {
-      fetchEvents();  // 컴포넌트 로드 시 이벤트 불러오기
-      hasFetched.current = true;
-    }
-  }, [currentYear, currentMonth]);  // 연/월이 바뀔 때마다 이벤트 불러오기
-
-
-  const fetchEvents = async () => {
-    const token = localStorage.getItem('jwtToken');
+  
+  const fetchEvents = useCallback(async () => {
+    setIsLoading(true); // 로딩 시작
     try {
+      const token = localStorage.getItem('jwtToken');
       const response = await axios.get(`http://localhost:5000/api/events`, {
         headers: {
-          Authorization: `Bearer ${token}`, 
-          'Content-Type': 'application/json'
-        }
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
       });
   
       const fetchedEvents = response.data.events;
@@ -110,7 +104,11 @@ const Calendar = () => {
           end_date: endDateKST
         };
   
-        const dateKey = startDateKST.split(' ')[0]; // KST 형식에서 날짜만 추출
+        const dateParts = startDateKST.split(',')[0].split('/'); // 쉼표와 슬래시로 구분
+        const [month, day, year] = dateParts;
+        
+        const dateKey = `${month.padStart(2, '0')}/${day.padStart(2, '0')}/${year}`;
+        console.log("Extracted dateKey:", dateKey); // 디버깅용 로그
         if (!eventsMap[dateKey]) {
           eventsMap[dateKey] = [];
         }
@@ -120,11 +118,18 @@ const Calendar = () => {
       console.log("이벤트 저장 확인",eventsMap)
       setUserInfo(userId);
       setEvents(eventsMap);
+      setUserInfo({ user_id: response.data.userId });
     } catch (error) {
       console.error('Error fetching events:', error);
+    } finally {
+      setIsLoading(false); // 로딩 종료
     }
-  };
-  
+  }, []);
+
+  useEffect(() => {
+    fetchEvents(); // 이벤트 로드
+  }, [fetchEvents, currentYear, currentMonth]); // 년도/월 변경 시마다 실행
+
   const formatDateToMMDDYYYY = (year, month, day) => {
     // 월은 0부터 시작하므로 1을 더해야 함
     const formattedMonth = (month + 1).toString().padStart(2, '0'); // 두 자리 숫자로 변환
@@ -211,7 +216,7 @@ const Calendar = () => {
       const dateKey = formatDateToMMDDYYYY(selectedDateTime.getFullYear(), selectedDateTime.getMonth(), selectedDateTime.getDate());
   
       const startDateFormatted = formatDateToMySQL(selectedDateTime);
-      const endDateFormatted = formatDateToMySQL(selectedDateTime);
+      const endDateFormatted = formatDateToMySQL(new Date(selectedDateTime.getTime() + 60 * 60 * 1000));
   
       // 로그 추가
       console.log('Formatted start date for MySQL:', startDateFormatted);
@@ -413,25 +418,33 @@ const Calendar = () => {
   };
 
   const filteredAndSortedEvents = moreEvents
-    .sort((a, b) => sortByTime ? a.time.localeCompare(b.time) : 0);
+  .sort((a, b) => {
+    if (a.time && b.time) {
+      return a.time.localeCompare(b.time);
+    }
+    return 0;
+  });
 
   const weeks = Math.ceil((firstDayOfMonth + daysInMonth) / 7);
   const isSixWeeks = weeks === 6;
-
 
   const days = [];
   for (let i = 0; i < firstDayOfMonth; i++) {
     days.push(<div key={`empty-${i}`} className={styles.calendarDayEmpty}></div>);
   }
-
+  
   for (let day = 1; day <= daysInMonth; day++) {
-    const dateKey = formatDateToMMDDYYYY(currentYear, currentMonth, day);
-    const hasEvents = !!events[dateKey];
+    const dateKey = formatDateToMMDDYYYY(currentYear, currentMonth, day)
+  
+    // events[dateKey]가 문자열인지 확인
+    const eventString = events && events[dateKey];
+    const eventList = events[dateKey] || []; // 이벤트가 없으면 빈 배열 할당
+    const hasEvents = eventList.length > 0;
     const dayOfWeek = new Date(currentYear, currentMonth, day).getDay();
     const color = (dayOfWeek === 0) ? dayColors.Sun : (dayOfWeek === 6) ? dayColors.Sat : dayColors.default;
     const currentIconIndex = iconIndexes[dateKey];
     const maxVisibleEvents = 2;
-
+  
     days.push(
       <div
         key={day}
@@ -448,28 +461,24 @@ const Calendar = () => {
             <div className={styles.iconContainer} onClick={(e) => handleIconClick(e, day)}>
               {icons[currentIconIndex]}
             </div>
-            {events[dateKey]
-              .sort((a, b) => a.time.localeCompare(b.time))
-              .slice(0, events[dateKey].length > maxVisibleEvents ? 1 : maxVisibleEvents)
-              .map((event, index) => (
-                <div
-                  key={index}
-                  className={styles.eventTitle}
-                  onClick={(e) => {
-                    e.stopPropagation(); 
-                    handleEventClick(day, event);
-                  }}
-                  style={{
-                   backgroundColor: event.color
-                  }}
-                >
-                  {event.title}
-                </div>
-              ))}
-            {events[dateKey].length > maxVisibleEvents && (
+            {eventList
+            .slice(0, maxVisibleEvents) // 표시할 최대 이벤트 수
+            .map((event, index) => (
+          <div
+            key={index}
+            className={styles.eventTitle}
+            onClick={(e) => {
+            e.stopPropagation();
+            handleEventClick(day, event); // 이벤트 클릭 처리
+          }}
+          style={{ backgroundColor: event.color }}
+        >
+        {event.title}
+      </div>
+      ))}
+            {eventList.length > maxVisibleEvents && (
               <div
                 className={styles.moreEvents}
-                style={{}} 
                 onClick={(e) => {
                   e.stopPropagation();
                   handleMoreClick(day);
@@ -482,6 +491,9 @@ const Calendar = () => {
         )}
       </div>
     );
+  }
+  if (isLoading) {
+    return <div>Loading...</div>;  // 로딩 중 표시
   }
 
   return (
