@@ -12,6 +12,17 @@ package-lock.json
 # production
 /build
 
+# Ignore everything in the root folder except the 'client' folder
+/*
+!/client/
+
+# Ignore everything inside the 'client' folder
+/client/*
+
+# Allow files inside the 'client' folder
+!/client/**/*.*
+
+
 # misc
 .DS_Store
 .env.local
