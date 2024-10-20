@@ -1,0 +1,17 @@
+{
+  "files": {
+    "main.css": "/static/css/main.53958a5d.css",
+    "main.js": "/static/js/main.f443b14c.js",
+    "static/js/453.7fae5a4b.chunk.js": "/static/js/453.7fae5a4b.chunk.js",
+    "static/media/motodo_logo.png": "/static/media/motodo_logo.d6cf4d853488cc6a9b63.png",
+    "static/media/motodo_main.jpg": "/static/media/motodo_main.7fb03b86419f0f485fb0.jpg",
+    "index.html": "/index.html",
+    "main.53958a5d.css.map": "/static/css/main.53958a5d.css.map",
+    "main.f443b14c.js.map": "/static/js/main.f443b14c.js.map",
+    "453.7fae5a4b.chunk.js.map": "/static/js/453.7fae5a4b.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.53958a5d.css",
+    "static/js/main.f443b14c.js"
+  ]
+}

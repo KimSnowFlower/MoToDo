@@ -1,0 +1,13 @@
+name: motodo
+app: node@16
+name: react
+app: web
+options:
+  docbase: /build
+  nodeversion: "16"
+  spa: true
+context:
+  git:
+    url: https://github.com/teamMoToDo/FRONTEND.git
+    branch: main
+  preset: react
