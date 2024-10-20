@@ -34,7 +34,7 @@
   font-weight: 700;
   color: #146C94;
   background-color: transparent; 
-  border-bottom: 3px solid #AFD3E2;
+
 }
 
 .moveMonthButton{
@@ -57,17 +57,20 @@
   grid-template-rows: repeat(6, 1fr);
   width: 100%;
   height: 100%;
-  border: 2px solid #AFD3E2;
+  border: 3px solid #AFD3E2;
+  padding: 4px;
+  gap: 2px;
 }
 
 .calendarDay {
   position: relative;
-  border: 3px solid #AFD3E2; /* outline 대신 border 사용 */
   background-color: transparent;
   cursor: pointer;
   padding: 5px;
   height: 100%;
   box-sizing: border-box;
+  border: 1px solid #AFD3E2;
+
 }
 
 .calendarDay span.date {
@@ -93,8 +96,9 @@
 }
 
 .calendarDayEmpty {
-  outline: 3px solid #AFD3E2;
+  border: 1px solid #AFD3E2;
   background: transparent;
+  gap: 1px;
 }
 
 .calendarDayName {
