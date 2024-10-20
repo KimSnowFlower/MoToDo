@@ -1,29 +1,16 @@
-# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+# Ignore node_modules and build directories
+node_modules/
+build/
 
-# dependencies
-/node_modules
-/.pnp
-.pnp.js
+# Ignore lock files
 package-lock.json
+yarn.lock
 
-# testing
-/coverage
+# Ignore testing-related files
+coverage/
 
-# production
-/build
-
-# Ignore everything in the root folder except the 'client' folder
-/*
-!/client/
-
-# Ignore everything inside the 'client' folder
-/client/*
-
-# Allow files inside the 'client' folder
-!/client/**/*.*
-
-# misc
-.DS_Store 
+# Miscellaneous files
+.DS_Store
 .env.local
 .env.development.local
 .env.test.local
