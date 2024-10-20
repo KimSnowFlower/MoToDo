@@ -22,7 +22,7 @@ const LoginForm = () => {
     }
 
     try {
-      const response = await axios.post('http://localhost:5000/api/login', credentials);
+      const response = await axios.post(`${process.env.REACT_APP_API_URL}/api/login`, credentials);
       if (response.data.message === 'Login successful') {
         localStorage.setItem('jwtToken', response.data.token);
         axios.defaults.headers.common['Authorization'] = `Bearer ${response.data.token}`;

@@ -17,7 +17,7 @@ export default function StickyNotesApp() {
     const fetchStickyNotes = async () => {
         const token = localStorage.getItem('jwtToken');
         try {
-            const response = await axios.get('http://localhost:5000/api/stickys', {
+            const response = await axios.get(`${process.env.REACT_APP_API_URL}/api/stickys`, {
                 headers: {
                     Authorization: `Bearer ${token}`,
                     'Content-Type': 'application/json'
@@ -36,16 +36,16 @@ export default function StickyNotesApp() {
         const token = localStorage.getItem('jwtToken');
 
         const newNote = {
-            content: '', 
+            content: '',
             position_x: 50,
             position_y: 30,
-            width: 100, 
+            width: 100,
             height: 100
         };
 
         try {
-            const response = await axios.post('http://localhost:5000/api/stickys', 
-                newNote, 
+            const response = await axios.post(`${process.env.REACT_APP_API_URL}/api/stickys`,
+                newNote,
                 {
                     headers: {
                         Authorization: `Bearer ${token}`,
@@ -59,20 +59,20 @@ export default function StickyNotesApp() {
         } catch (error) {
             console.error('Error adding sticky note:', error);
         }
-    };    
+    };
 
     const removeStickyNote = async (stickyNoteId) => {
         const token = localStorage.getItem('jwtToken');
 
         try {
-            const response = await axios.delete(`http://localhost:5000/api/stickys/${stickyNoteId}`, {
+            const response = await axios.delete(`${process.env.REACT_APP_API_URL}/api/stickys/${stickyNoteId}`, {
                 headers: {
                     Authorization: `Bearer ${token}`,
                     'Content-Type': 'application/json'
                 },
             });
 
-            if (response.status !== 200) { 
+            if (response.status !== 200) {
                 throw new Error('Failed to delete sticky note');
             }
 
@@ -97,30 +97,30 @@ export default function StickyNotesApp() {
             const containerRect = noteElement.parentElement.getBoundingClientRect();
             const x = e.clientX - dx;
             const y = e.clientY - dy;
-    
+
             // 경계값 계산
             const minX = containerRect.left;
             const minY = containerRect.top;
             const maxX = containerRect.right - noteElement.offsetWidth;
             const maxY = containerRect.bottom - noteElement.offsetHeight;
-    
+
             // 이동 좌표 제한
             noteElement.style.left = `${Math.max(minX, Math.min(x, maxX)) - containerRect.left}px`;
             noteElement.style.top = `${Math.max(minY, Math.min(y, maxY)) - containerRect.top}px`;
         }
     };
-    
+
 
     const updateContent = async (index, content) => {
         const noteId = notes[index]?.id; // Optional chaining 추가
         console.log(noteId);
-    
+
         // noteId가 undefined일 경우 함수 종료
         if (!noteId) {
             console.error('Note ID is undefined');
             return;
         }
-    
+
         const updatedNote = {
             content,
             position_x: parseFloat(stickyNoteRefs.current[index].style.left.replace('px', '')),
@@ -128,11 +128,11 @@ export default function StickyNotesApp() {
             width: 100,
             height: 100
         };
-    
+
         const token = localStorage.getItem('jwtToken');
-    
+
         try {
-            const response = await axios.put(`http://localhost:5000/api/stickys/${noteId}`,
+            const response = await axios.put(`${process.env.REACT_APP_API_URL}/api/stickys/${noteId}`,
                 updatedNote,
                 {
                     headers: {
@@ -141,11 +141,11 @@ export default function StickyNotesApp() {
                     },
                 }
             );
-    
+
             if (response.status !== 200) {
                 throw new Error('Failed to update sticky note');
             }
-    
+
             // 노트 내용 업데이트
             setNotes((prevNotes) => {
                 const newNotes = [...prevNotes];
@@ -155,7 +155,7 @@ export default function StickyNotesApp() {
         } catch (error) {
             console.error('Error updating sticky note:', error);
         }
-    };    
+    };
 
     const handleKeyDown = (e, index) => {
         if (e.key === 'Enter') {
@@ -171,40 +171,42 @@ export default function StickyNotesApp() {
     };
 
     return (
-        <div className={styles.container} onMouseMove={handleMouseMove} onMouseUp={handleMouseUp}>
-            <div className={styles.title}>메모장</div>
-            <MenuBar />
-            <div style={{ marginTop: '10px' }}>
-                <button className={styles['sticky-btn']} onClick={addNote}>
-                    <img
-                        src={require('../Assets/add_button.png')}
-                        className={styles.buttonImage}
-                    />
-                </button>
-            </div>
-
-            {notes.map((item, index) => (
-                <div
-                    className={styles['sticky-note']}
-                    key={item.id}
-                    ref={el => stickyNoteRefs.current[index] = el}
-                    style={{ position: 'absolute', left: item.position_x, top: item.position_y }}
-                >
-                    <div
-                        className={styles['sticky-note-header']}
-                        onMouseDown={(e) => handleMouseDown(e, index)}
-                    >
-                        <div>Sticky Note</div>
-                        <div className={styles.close} onClick={() => removeStickyNote(item.id)}>&times;</div>
-                    </div>
-                    <textarea
-                        cols="30"
-                        rows="10"
-                        defaultValue={item.content}
-                        onKeyDown={(e) => handleKeyDown(e, index)} // 엔터 키 처리
-                    ></textarea>
+        <div className ={styles.stickyPage}>
+            <div className={styles.container} onMouseMove={handleMouseMove} onMouseUp={handleMouseUp}>
+                <div className={styles.title}>메모장</div>
+                <MenuBar />
+                <div style={{ marginTop: '10px' }}>
+                    <button className={styles['sticky-btn']} onClick={addNote}>
+                        <img
+                            src={require('../Assets/add_button.png')}
+                            className={styles.buttonImage}
+                        />
+                    </button>
                 </div>
-            ))}
+
+                {notes.map((item, index) => (
+                    <div
+                        className={styles['sticky-note']}
+                        key={item.id}
+                        ref={el => stickyNoteRefs.current[index] = el}
+                        style={{ position: 'absolute', left: item.position_x, top: item.position_y }}
+                    >
+                        <div
+                            className={styles['sticky-note-header']}
+                            onMouseDown={(e) => handleMouseDown(e, index)}
+                        >
+                            <div>Sticky Note</div>
+                            <div className={styles.close} onClick={() => removeStickyNote(item.id)}>&times;</div>
+                        </div>
+                        <textarea
+                            cols="30"
+                            rows="10"
+                            defaultValue={item.content}
+                            onKeyDown={(e) => handleKeyDown(e, index)} // 엔터 키 처리
+                        ></textarea>
+                    </div>
+                ))}
+            </div>
         </div>
     );
 }

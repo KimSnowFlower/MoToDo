@@ -16,7 +16,7 @@ const Notice = ({ groupName, groupId }) => {
     const fetchNotices = async () => {
         try {
             const token = localStorage.getItem('jwtToken');
-            const response = await axios.get('http://localhost:5000/api/notice', {
+            const response = await axios.get(`${process.env.REACT_APP_API_URL}/api/notice`, {
                 headers: {
                     Authorization: `Bearer ${token}`,
                     'Content-Type': 'application/json',
@@ -38,7 +38,7 @@ const Notice = ({ groupName, groupId }) => {
 
         try {
             const token = localStorage.getItem('jwtToken');
-            const response = await axios.post('http://localhost:5000/api/notice', 
+            const response = await axios.post(`${process.env.REACT_APP_API_URL}/api/notice`, 
                 {
                     groupId: groupId,
                     title: newNotice,
@@ -68,7 +68,7 @@ const Notice = ({ groupName, groupId }) => {
 
         try {
             const token = localStorage.getItem('jwtToken');
-            await axios.delete(`http://localhost:5000/api/notice/${noticeId}`, {
+            await axios.delete(`${process.env.REACT_APP_API_URL}/api/notice/${noticeId}`, {
                 headers: {
                     Authorization: `Bearer ${token}`,
                     'Content-Type': 'application/json',
@@ -92,7 +92,7 @@ const Notice = ({ groupName, groupId }) => {
 
         try {
             const token = localStorage.getItem('jwtToken');
-            await axios.patch(`http://localhost:5000/api/notice/${noticeId}`, 
+            await axios.patch(`${process.env.REACT_APP_API_URL}/api/notice/${noticeId}`, 
                 {
                     content: updatedNotice.content,
                     groupId: groupId,

@@ -15,7 +15,7 @@ const GroupToDo = ({groupName, groupId}) => {
 
         try {
             const token = localStorage.getItem('jwtToken');
-            const response = await axios.get('http://localhost:5000/api/groupTodos', {
+            const response = await axios.get(`${process.env.REACT_APP_API_URL}/api/groupTodos`, {
                 headers: {
                     Authorization: `Bearer ${token}`,
                     'Content-Type': 'application/json'
@@ -43,7 +43,7 @@ const GroupToDo = ({groupName, groupId}) => {
 
         try {
             const token = localStorage.getItem('jwtToken');
-            const response = await axios.post('http://localhost:5000/api/groupTodos',
+            const response = await axios.post(`${process.env.REACT_APP_API_URL}/api/groupTodos`,
                 {
                     groupId: groupId,
                     content: newNote,
@@ -72,7 +72,7 @@ const GroupToDo = ({groupName, groupId}) => {
 
         try {
             const token = localStorage.getItem('jwtToken');
-            await axios.delete(`http://localhost:5000/api/groupTodos/${id}`,{
+            await axios.delete(`${process.env.REACT_APP_API_URL}/api/groupTodos/${id}`,{
                 headers: {
                     Authorization: `Bearer ${token}`,
                     'Content-Type': 'application/json'
@@ -95,7 +95,7 @@ const GroupToDo = ({groupName, groupId}) => {
 
         try {
             const token = localStorage.getItem('jwtToken');
-            await axios.patch(`http://localhost:5000/api/groupTodos/${id}`, { 
+            await axios.patch(`${process.env.REACT_APP_API_URL}/api/groupTodos/${id}`, { 
                 completed: updatedNote.completed 
                 }, { 
                     headers: { 

@@ -13,7 +13,7 @@ const ToDo = () => {
     setLoading(true); // 로딩 시작
     try {
       const token = localStorage.getItem('jwtToken');
-      const response = await axios.get('http://localhost:5000/api/todos', {
+      const response = await axios.get(`${process.env.REACT_APP_API_URL}/api/todos`, {
         headers: {
           Authorization: `Bearer ${token}`,
           'Content-Type': 'application/json'
@@ -40,7 +40,7 @@ const ToDo = () => {
 
     try {
       const token = localStorage.getItem('jwtToken');
-      const response = await axios.post('http://localhost:5000/api/todos', 
+      const response = await axios.post(`${process.env.REACT_APP_API_URL}/api/todos`, 
         {
           content: newNote,
           completed: false,
@@ -68,7 +68,7 @@ const ToDo = () => {
     setNotes((prevNotes) => prevNotes.filter((note) => note.id !== id));
   
     try {
-      await axios.delete(`http://localhost:5000/api/todos/${id}`, {
+      await axios.delete(`${process.env.REACT_APP_API_URL}/api/todos/${id}`, {
         headers: {
           Authorization: `Bearer ${token}`,
           'Content-Type': 'application/json'
@@ -92,7 +92,7 @@ const ToDo = () => {
 
     try {
         const token = localStorage.getItem('jwtToken');
-        await axios.patch(`http://localhost:5000/api/todos/${id}`, { 
+        await axios.patch(`${process.env.REACT_APP_API_URL}/api/todos/${id}`, { 
             completed: updatedNote.completed 
             }, { 
                 headers: { 

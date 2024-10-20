@@ -61,7 +61,7 @@ const Calendar = () => {
     setIsLoading(true); // 로딩 시작
     try {
       const token = localStorage.getItem('jwtToken');
-      const response = await axios.get(`http://localhost:5000/api/events`, {
+      const response = await axios.get(`${process.env.REACT_APP_API_URL}/api/events`, {
         headers: {
           Authorization: `Bearer ${token}`,
           'Content-Type': 'application/json',
@@ -239,7 +239,7 @@ const Calendar = () => {
         const token = localStorage.getItem('jwtToken');
   
         // axios로 POST 요청
-        const response = await axios.post('http://localhost:5000/api/events', eventDetail, {
+        const response = await axios.post(`${process.env.REACT_APP_API_URL}/api/events`, eventDetail, {
           headers: {
             Authorization: `Bearer ${token}`,
             'Content-Type': 'application/json',
@@ -324,7 +324,7 @@ const Calendar = () => {
         console.log('Sending update request with:', updatedEventDetails); // 요청 데이터 확인
 
         await axios.put(
-            `http://localhost:5000/api/events/${selectedEvent.id}`,
+            `${process.env.REACT_APP_API_URL}/api/events/${selectedEvent.id}`,
             updatedEventDetails,
             { headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' } }
         );
@@ -374,7 +374,7 @@ const Calendar = () => {
     try {
       const token = localStorage.getItem('jwtToken');
       const response = await axios.delete(
-        `http://localhost:5000/api/events/${selectedEvent.id}`,
+        `${process.env.REACT_APP_API_URL}/api/events/${selectedEvent.id}`,
         { headers: { Authorization: `Bearer ${token}` } }
       );
   

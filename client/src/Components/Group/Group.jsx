@@ -19,7 +19,7 @@ const Group = () => {
         const token = localStorage.getItem('jwtToken');
 
         try {
-            const response = await axios.get("http://localhost:5000/api/groups", {
+            const response = await axios.get(`${process.env.REACT_APP_API_URL}/api/groups`, {
                 headers: {
                     Authorization: `Bearer ${token}`,
                     'Content-Type': 'application/json'
@@ -47,7 +47,7 @@ const Group = () => {
         }
     
         try {
-            const response = await axios.post('http://localhost:5000/api/createGroup', {
+            const response = await axios.post(`${process.env.REACT_APP_API_URL}/api/createGroup`, {
                 code: groupCode,
                 name: createGroupName
             }, {
@@ -81,7 +81,7 @@ const Group = () => {
         const code = joinGroupCode;
         
         try {
-            const response = await axios.get(`http://localhost:5000/api/checkGroupCode/${code}`, {
+            const response = await axios.get(`${process.env.REACT_APP_API_URL}/api/checkGroupCode/${code}`, {
                 headers: {
                     Authorization: `Bearer ${token}`,
                     'Content-Type': 'application/json'
@@ -93,7 +93,7 @@ const Group = () => {
                 return;
             }
 
-            await axios.post('http://localhost:5000/api/joinGroup', {
+            await axios.post(`${process.env.REACT_APP_API_URL}/api/joinGroup`, {
                 groupId: joinGroupCode,
             }, {
                 headers: {
@@ -124,7 +124,7 @@ const Group = () => {
     
         try {
             // 그룹 ID가 존재하는지 확인
-            const response = await axios.get(`http://localhost:5000/api/checkGroupCode/${code}`, {
+            const response = await axios.get(`${process.env.REACT_APP_API_URL}/api/checkGroupCode/${code}`, {
                 headers: {
                     Authorization: `Bearer ${token}`,
                     'Content-Type': 'application/json'
@@ -136,7 +136,7 @@ const Group = () => {
                 return;
             }
     
-            await axios.delete('http://localhost:5000/api/groups', {
+            await axios.delete(`${process.env.REACT_APP_API_URL}/api/groups`, {
                 headers: {
                     Authorization: `Bearer ${token}`,
                     'Content-Type': 'application/json'
@@ -168,7 +168,7 @@ const Group = () => {
 
             // 그룹 번호의 중복 여부를 확인하기 위한 API 호출
             try {
-                const response = await axios.get(`http://localhost:5000/api/checkGroupCode/${groupCode}`);
+                const response = await axios.get(`${process.env.REACT_APP_API_URL}/api/checkGroupCode/${groupCode}`);
                 if (!response.data.exists) {
                     isUnique = true; // 중복되지 않은 코드라면 루프 종료
                 }

@@ -13,7 +13,7 @@ const Home = () => {
     const fetchData = async () => {
       try {
         const token = localStorage.getItem('jwtToken');
-        const response = await axios.get('http://localhost:5000/api/home', {
+        const response = await axios.get(`${process.env.REACT_APP_API_URL}/api/home`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },

@@ -3,7 +3,7 @@ import styles from './Friends.module.css';
 import MenuBar from '../MenuBar/MenuBar';
 import { io } from 'socket.io-client';
 
-const socket = io('http://localhost:5000');
+const socket = io(`${process.env.REACT_APP_API_URL}`);
 
 const Friends = () => {
     const [friends, setFriends] = useState([]);
@@ -17,7 +17,7 @@ const Friends = () => {
     const fetchUserInfo = async () => {
         const token = localStorage.getItem('jwtToken');
         try {
-            const response = await fetch('http://localhost:5000/api/userInfo', {
+            const response = await fetch(`${process.env.REACT_APP_API_URL}/api/userInfo`, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
@@ -42,7 +42,7 @@ const Friends = () => {
     const fetchFriends = async () => {
         const token = localStorage.getItem('jwtToken');
         try {
-            const response = await fetch('http://localhost:5000/api/friendsList', {
+            const response = await fetch(`${process.env.REACT_APP_API_URL}/api/friendsList`, {
                 method: 'GET',
                 headers: {
                     'Authorization': `Bearer ${token}`,
@@ -66,7 +66,7 @@ const Friends = () => {
     const fetchChatHistory = async (chatRoomId) => {
         const token = localStorage.getItem('jwtToken');
         try {
-            const response = await fetch(`http://localhost:5000/api/chatHistory/${chatRoomId}`, {
+            const response = await fetch(`${process.env.REACT_APP_API_URL}/api/chatHistory/${chatRoomId}`, {
                 method: 'GET',
                 headers: {
                     'Authorization': `Bearer ${token}`,
@@ -109,7 +109,7 @@ const Friends = () => {
 
         try {
             // 사용자가 참여하고 있는 채팅 방 조회
-            const roomsResponse = await fetch('http://localhost:5000/api/chatRooms', {
+            const roomsResponse = await fetch(`${process.env.REACT_APP_API_URL}/api/chatRooms`, {
                 method: 'GET',
                 headers: {
                     'Authorization': `Bearer ${token}`,
@@ -131,7 +131,7 @@ const Friends = () => {
             }
 
             // 채팅 방이 없는 경우 생성
-            const createResponse = await fetch('http://localhost:5000/api/chatRoom', {
+            const createResponse = await fetch(`${process.env.REACT_APP_API_URL}/api/chatRoom`, {
                 method: 'POST',
                 headers: {
                     'Authorization': `Bearer ${token}`,
@@ -188,7 +188,7 @@ const Friends = () => {
     
             // 대화를 저장하는 API 호출
             try {
-                const response = await fetch('http://localhost:5000/api/saveMessage', {
+                const response = await fetch(`${process.env.REACT_APP_API_URL}/api/saveMessage`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',

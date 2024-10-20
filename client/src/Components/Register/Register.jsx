@@ -44,10 +44,10 @@ const Register = () => {
 
     try {
       // 사용자 등록 요청
-      await axios.post('http://localhost:5000/api/register', formData);
+      await axios.post(`${process.env.REACT_APP_API_URL}/api/register`, formData);
 
       // 자동 로그인 요청
-      const loginResponse = await axios.post('http://localhost:5000/api/login', {
+      const loginResponse = await axios.post(`${process.env.REACT_APP_API_URL}/api/login`, {
         username: formData.username,
         password: formData.password
       });

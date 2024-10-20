@@ -1,13 +1,21 @@
+.stickyPage {
+    width: 90%;
+    height: 100%;
+    background: #F5F5F5;
+    margin-left: 10%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
 .container {
     align-items: center;
     border: 4px solid #AFD3E2;
     position: relative;
-    background: transparent;
+    background: white;
     width: 85%;
     height: 85%;
-    left: 100px;
     aspect-ratio: 16 / 9; 
-    /**/
 }
 
 .title {
