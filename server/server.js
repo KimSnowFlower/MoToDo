@@ -6,21 +6,20 @@ const jwt = require('jsonwebtoken');
 const { body, validationResult } = require('express-validator');
 const http = require('http');
 const socketIo = require('socket.io');
-const { group } = require('console');
 require('dotenv').config(); // 환경 변수 설정
 
 const app = express();
 const server = http.createServer(app);
 const io = socketIo(server, {
   cors: {
-    origin: 'http://localhost:3000',
+    origin: 'https://web-modoto-frontend-lyzuq35q9d13710b.sel4.cloudtype.app',
     credentials: true,
   },
 });
 
 app.use(express.json());
 app.use(cors({
-  origin: 'http://localhost:3000',
+  origin: 'https://web-modoto-frontend-lyzuq35q9d13710b.sel4.cloudtype.app',
   credentials: true,
 }));
 
